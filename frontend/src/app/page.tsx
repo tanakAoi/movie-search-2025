@@ -1,15 +1,18 @@
-import { Footer } from "./components/Footer";
-import { Header } from "./components/Header";
-import { Instruction } from "./components/Instruction";
-import { MovieSearch } from "./components/MovieSearch";
+import { Hero } from "@/components/home/Hero";
+import { Container } from "@/components/layout/Container";
+import { Footer } from "@/components/layout/Footer";
+import { Header } from "@/components/layout/Header";
+import { ShowResult } from "@/components/search/ShowResult";
 
 export default function Home() {
   return (
     <>
       <Header />
       <main>
-        <Instruction />
-        <MovieSearch />
+        <Hero />
+        <Container>
+          <ShowResult />
+        </Container>
       </main>
       <Footer />
     </>

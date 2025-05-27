@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export const NotFound = () => {
+export default function NotFound() {
   return (
     <div className="grid min-h-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8">
       <p className="text-base font-semibold text-slate-600">404</p>
@@ -20,4 +20,4 @@ export const NotFound = () => {
       </div>
     </div>
   );
-};
+}

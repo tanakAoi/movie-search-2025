@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Corinthia:wght@400;700&family=Lobster&family=Roboto:ital,wght@0,100..900;1,100..900&family=Rochester&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 @import "tailwindcss";
 
 :root {
@@ -5,15 +6,25 @@
 }
 
 @theme {
+  --color-base-bg: #FFFAF0;
+  --color-base-fg: #222;
+  --color-accent-bg: #800020;
+  --color-accent-fg: #9d8189;
 
+  --font-rochester: "Rochester", cursive;
+  --font-rubik: "Rubik", sans-serif;  /* This one */
+  --font-lobster: "Lobster", sans-serif; /* And this one */
+  --font-corinthia: "Corinthia", cursive;
+  --font-roboto: "Roboto", sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
   }
 }
 
 body {
+  background-color: var(--color-base-bg);
+  color: var(--color-base-fg);
+  font-family: var(--font-rubik);
 }
