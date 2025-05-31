@@ -1,12 +1,11 @@
 import { IMovie } from "@/models/Tmdb";
 import { getMoviesByKeyword } from "@/services/movieService";
 
-export default async function Search({
-  searchParams,
-}: {
-  searchParams?: { query?: string };
-}) {
-  const query = searchParams?.query?.trim() || "";
+type SearchParams = Promise<{ query?: string }>;
+
+export default async function Search(props: { searchParams: SearchParams }) {
+  const searchParams = await props.searchParams;
+  const query = searchParams.query;
 
   if (!query) {
     return <p>Please enter a search query.</p>;
