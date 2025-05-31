@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { siteConfig } from "../lib/config";
-import { SearchProvider } from "../contexts/SearchContext";
+import { siteConfig } from "../lib/config/config";
 
 export const metadata: Metadata = {
   title: siteConfig.siteName,
@@ -15,9 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased">
-        <SearchProvider>{children}</SearchProvider>
-      </body>
+      <body className="antialiased">{children}</body>
     </html>
   );
 }

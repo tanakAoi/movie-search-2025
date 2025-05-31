@@ -1,11 +1,11 @@
 "use client";
 
-import { useSearchContext } from "@/contexts/SearchContext";
-import { getMoviesByWord } from "@/services/movieService";
-import { ChangeEvent, FormEvent } from "react";
+import { useRouter } from "next/navigation";
+import { ChangeEvent, FormEvent, useState } from "react";
 
 export const SearchForm = () => {
-  const { searchWord, setSearchWord, movies, setMovies } = useSearchContext();
+  const router = useRouter();
+  const [searchWord, setSearchWord] = useState("");
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchWord(e.target.value);
@@ -13,11 +13,10 @@ export const SearchForm = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-
-    setSearchWord(searchWord);
-
-    const moviesData = await getMoviesByWord(searchWord);
-    setMovies(moviesData);
+    if (!searchWord.trim()) {
+      return;
+    }
+    router.push(`/search?query=${encodeURIComponent(searchWord)}`);
   };
 
   return (
@@ -27,7 +26,6 @@ export const SearchForm = () => {
     >
       <input
         type="text"
-        value={movies.length > 0 ? "" : searchWord}
         placeholder="Type here"
         className="w-full bg-base-bg text-base-fg px-6 focus:outline-none focus:border-accent-fg py-4 rounded-full"
         onChange={handleChange}

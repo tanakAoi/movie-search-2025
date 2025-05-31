@@ -1,4 +1,4 @@
-import { siteConfig } from "@/lib/config";
+import { siteConfig } from "@/lib/config/config";
 import Link from "next/link";
 
 export const Header = () => {
