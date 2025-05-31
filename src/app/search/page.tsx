@@ -1,12 +1,12 @@
 import { IMovie } from "@/models/Tmdb";
 import { getMoviesByKeyword } from "@/services/movieService";
 
-type SearchProps = {
+export default async function Search({
+  searchParams,
+}: {
   searchParams?: { query?: string };
-};
-
-export default async function Search({ searchParams }: SearchProps) {
-  const query = searchParams?.query?.trim() ?? "";
+}) {
+  const query = searchParams?.query?.trim() || "";
 
   if (!query) {
     return <p>Please enter a search query.</p>;
@@ -21,12 +21,9 @@ export default async function Search({ searchParams }: SearchProps) {
           Result for: <i>{query}</i>
         </h1>
       )}
-      <div className="movies flex flex-wrap justify-center gap-8 before:max-w-72 before:w-full before:order-1 after:max-w-72 after:w-full">
+      <div className="movies flex flex-wrap justify-center gap-8">
         {movies.map((movie) => (
-          <div
-            key={movie.id}
-            className="max-w-72 flex flex-col items-center justify-between gap-5 pt-8 cursor-pointer"
-          >
+          <div key={movie.id} className="max-w-72">
             <img
               src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
               alt={movie.title}
