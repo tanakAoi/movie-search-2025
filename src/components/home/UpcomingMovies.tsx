@@ -5,11 +5,11 @@ import "keen-slider/keen-slider.min.css";
 import { IMovie } from "@/types/tmdb";
 import { ChevronLeft } from "../icons/MaterialSymbols";
 
-interface PopularMoviesProps {
+interface UpcomingMoviesProps {
   movies: IMovie[];
 }
 
-export const PopularMovies = ({ movies }: PopularMoviesProps) => {
+export const UpcomingMovies = ({ movies }: UpcomingMoviesProps) => {
   const [sliderRef, instanceRef] = useKeenSlider(
     {
       loop: true,
@@ -31,11 +31,11 @@ export const PopularMovies = ({ movies }: PopularMoviesProps) => {
     },
     []
   );
-
+  
   return (
     <div className="flex flex-col items-center gap-5 w-full py-10 px-auto">
-      <h2 className="text-3xl font-bold">Popular Movies</h2>
-      <p className="text-md">Check out the latest popular movies!</p>
+      <h2 className="text-3xl font-bold">Upcoming Movies</h2>
+      <p className="text-md">Check out the latest upcoming movies!</p>
       <div ref={sliderRef} className="keen-slider relative">
         {movies.map((movie) => (
           <div

@@ -1,4 +1,4 @@
-import { IMovie } from "@/models/Tmdb";
+import { IMovie } from "@/types/tmdb";
 import { getMoviesByKeyword } from "@/services/movieService";
 
 type SearchParams = Promise<{ query?: string }>;
