@@ -32,6 +32,20 @@ export const getUpcomingMovies = async () => {
   }
 };
 
+export const getMovieDetails = async (id: string) => {
+  try {
+    const movieDetails = await moviedb.movieInfo({ id });
+    if (movieDetails) {
+      return movieDetails;
+    } else {
+      throw new Error("No movie details found for the given id");
+    }
+  } catch (error) {
+    console.error("Error fetching movie details:", error);
+    throw error;
+  }
+};
+
 export const getMoviesByKeyword = async (query: string) => {
   try {
     const movies = await moviedb.searchMovie({ query });

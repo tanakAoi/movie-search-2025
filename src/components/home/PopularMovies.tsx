@@ -4,6 +4,7 @@ import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 import { IMovie } from "@/types/tmdb";
 import { ChevronLeft } from "../icons/MaterialSymbols";
+import Link from "next/link";
 
 interface PopularMoviesProps {
   movies: IMovie[];
@@ -38,20 +39,19 @@ export const PopularMovies = ({ movies }: PopularMoviesProps) => {
       <p className="text-md">Check out the latest popular movies!</p>
       <div ref={sliderRef} className="keen-slider relative">
         {movies.map((movie) => (
-          <div
-            key={movie.id}
-            className="keen-slider__slide flex flex-col items-center justify-between bg-base-bg p-4 rounded-lg shadow-lg"
-          >
-            <img
-              src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-              alt={movie.title}
-              className="w-full h-auto rounded-lg mb-3"
-            />
-            <h3 className="text-lg font-semibold">{movie.title}</h3>
-            <p className="text-sm text-gray-600">
-              Release: {movie.release_date}
-            </p>
-          </div>
+          <Link key={movie.id} href={`/movie/${movie.id}`}>
+            <div className="keen-slider__slide flex flex-col items-center justify-between bg-base-bg p-4 rounded-lg shadow-lg">
+              <img
+                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                alt={movie.title}
+                className="w-full h-auto rounded-lg mb-3"
+              />
+              <h3 className="text-lg font-semibold">{movie.title}</h3>
+              <p className="text-sm text-gray-600">
+                Release: {movie.release_date}
+              </p>
+            </div>
+          </Link>
         ))}
 
         <div className="w-full flex justify-between absolute top-1/2 -translate-y-1/2 z-10">

@@ -14,6 +14,13 @@ export const getUpcomingMovies = async () => {
   return response.json();
 };
 
+export const getMovieDetails = async (id: string) => {
+  const response = await fetch(`${BASE_URL}/movie/${id}`, {
+    next: { revalidate: 300 },
+  });
+  return response.json();
+};
+
 export const getMoviesByKeyword = async (query: string) => {
   const response = await fetch(`${BASE_URL}/movie/search?q=${query}`, {
     next: { revalidate: 300 },
