@@ -1,6 +1,7 @@
 import { IMovie } from "@/types/tmdb";
 import { getMoviesByKeyword } from "@/services/movieService";
 import Link from "next/link";
+import Image from "next/image";
 
 type SearchParams = Promise<{ query?: string }>;
 
@@ -37,7 +38,9 @@ export default async function Search(props: { searchParams: SearchParams }) {
             key={movie.id}
           >
             {movie.poster_path ? (
-              <img
+              <Image
+                width={300}
+                height={400}
                 src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                 alt={movie.title}
                 className="rounded-xl"
