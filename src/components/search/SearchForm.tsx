@@ -21,7 +21,7 @@ export const SearchForm = () => {
 
   return (
     <form
-      className="relative flex flex-col items-center gap-5 w-full bg-base-fg px-30 pb-10"
+      className="relative flex flex-col items-center gap-5 w-full bg-transparent px-30 pb-10"
       onSubmit={handleSubmit}
     >
       <input

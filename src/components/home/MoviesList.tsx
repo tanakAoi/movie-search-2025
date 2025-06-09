@@ -1,16 +1,29 @@
 "use client";
 
+import { IMovie } from "@/types/tmdb";
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
-import { IMovie } from "@/types/tmdb";
-import { ChevronLeft } from "../icons/MaterialSymbols";
+import { ChevronLeft } from "../ui/icons/MaterialSymbols";
 import Link from "next/link";
+import Image from "next/image";
 
-interface UpcomingMoviesProps {
+interface MoviesListProps {
   movies: IMovie[];
+  type: "popular" | "upcoming";
 }
 
-export const UpcomingMovies = ({ movies }: UpcomingMoviesProps) => {
+export const MoviesList = ({ movies, type }: MoviesListProps) => {
+  const contentMap = {
+    popular: {
+      title: "Popular Movies",
+      description: "Check out the latest popular movies!",
+    },
+    upcoming: {
+      title: "Upcoming Movies",
+      description: "Check out the latest upcoming movies!",
+    },
+  };
+
   const [sliderRef, instanceRef] = useKeenSlider(
     {
       loop: true,
@@ -34,26 +47,24 @@ export const UpcomingMovies = ({ movies }: UpcomingMoviesProps) => {
   );
 
   return (
-    <div className="flex flex-col items-center gap-5 w-full py-10 px-auto">
-      <h2 className="text-3xl font-bold">Upcoming Movies</h2>
-      <p className="text-md">Check out the latest upcoming movies!</p>
+    <div className="flex flex-col items-center gap-5 w-full py-10 px-auto text-base-bg">
+      <h2 className="text-3xl font-bold">{contentMap[type].title}</h2>
+      <p className="text-md">{contentMap[type].description}</p>
       <div ref={sliderRef} className="keen-slider relative">
         {movies.map((movie) => (
           <Link key={movie.id} href={`/movie/${movie.id}`}>
-            <div className="keen-slider__slide flex flex-col items-center justify-between bg-base-bg p-4 rounded-lg shadow-lg">
-              <img
+            <div className="keen-slider__slide flex flex-col items-center bg-accent-bg/90 p-4 rounded-lg">
+              <Image
                 src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                 alt={movie.title}
-                className="w-full h-auto rounded-lg mb-3"
+                className="rounded-lg"
+                width={300}
+                height={600}
               />
-              <h3 className="text-lg font-semibold">{movie.title}</h3>
-              <p className="text-sm text-gray-600">
-                Release: {movie.release_date}
-              </p>
+              <h3 className="text-xl font-semibold text-center mt-4">{movie.title}</h3>
             </div>
           </Link>
         ))}
-
         <div className="w-full flex justify-between absolute top-1/2 -translate-y-1/2 z-10">
           <button
             onClick={() => instanceRef.current?.prev()}
