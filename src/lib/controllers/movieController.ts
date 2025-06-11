@@ -46,6 +46,23 @@ export const getMovieDetails = async (id: string) => {
   }
 };
 
+export const getTrailer = async (id: string) => {
+  try {
+    const videos = await moviedb.movieVideos({ id });
+    if (videos && videos.results) {
+      const trailer = videos.results.find(
+        (video) => video.type === "Trailer" && video.site === "YouTube"
+      );
+      return trailer || null;
+    } else {
+      throw new Error("No videos found for the given movie id");
+    }
+  } catch (error) {
+    console.error("Error fetching movie trailer:", error);
+    throw error;
+  }
+};
+
 export const getMoviesByKeyword = async (query: string) => {
   try {
     const movies = await moviedb.searchMovie({ query });
