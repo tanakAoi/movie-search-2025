@@ -10,7 +10,7 @@ export const MovieTitle = ({ title, tagline }: MovieTitleProps) => {
   return (
     <div className="py-18 md:py-24 relative w-full flex flex-col items-center justify-center gap-4 text-base-bg z-10">
       <StarryBackground />
-      <h1 className="text-5xl font-bold ">{title}</h1>
+      <h1 className="text-5xl font-bold text-center">{title}</h1>
       {tagline && <Quote tagline={tagline} />}
     </div>
   );
