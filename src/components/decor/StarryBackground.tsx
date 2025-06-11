@@ -2,8 +2,8 @@ export default function StarryBackground() {
   const dots = Array.from({ length: 1000 });
 
   return (
-    <div className="fixed inset-0 -z-10 bg-black overflow-hidden">
-      <div className="w-full h-full grid grid-cols-[repeat(auto-fill,_30px)] auto-rows-[30px] gap-8">
+    <div className="absolute inset-0 h-full -z-10 bg-black overflow-hidden">
+      <div className="w-full grid grid-cols-[repeat(auto-fill,_30px)] auto-rows-[30px] gap-8">
         {dots.map((_, i) => (
           <div
             key={i}

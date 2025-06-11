@@ -4,4 +4,5 @@ export const siteConfig = {
   email: "aoitanaka.0523@gmail.com",
   github: "https://github.com/tanakAoi",
   linkedin: "https://www.linkedin.com/in/aoitanaka0523",
+  portfolio: "https://www.aoitanaka.dev",
 };

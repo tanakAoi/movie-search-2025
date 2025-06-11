@@ -21,7 +21,7 @@ export const SearchForm = () => {
 
   return (
     <form
-      className="relative flex flex-col items-center gap-5 w-full bg-transparent px-30 pb-10"
+      className="relative flex flex-col items-center gap-5 max-w-2xl w-full bg-transparent"
       onSubmit={handleSubmit}
     >
       <input
@@ -30,7 +30,7 @@ export const SearchForm = () => {
         className="w-full bg-base-bg text-base-fg px-6 focus:outline-none focus:border-accent-fg py-4 rounded-full"
         onChange={handleChange}
       />
-      <button className="uppercase cursor-pointer py-4 px-8 text-base-bg bg-accent-bg absolute top-0 right-0 rounded-r-full mr-30 font-bold">
+      <button className="uppercase cursor-pointer  px-4 py-4 md:px-8 text-base-bg bg-accent-bg absolute top-0 right-0 rounded-r-full font-bold">
         Search
       </button>
     </form>

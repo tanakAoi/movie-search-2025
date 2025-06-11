@@ -5,7 +5,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Header />
-      <main>
+      <main className="min-h-screen">
         {children}
       </main>
       <Footer />

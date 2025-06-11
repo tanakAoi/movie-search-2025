@@ -12,16 +12,17 @@ export const CircularRating = ({ rating, size }: CircularRatingProps) => {
     percentage >= 75 ? "#4caf50" : percentage >= 50 ? "#ff9800" : "#f44336"; // Color based on percentage
 
   return (
-    <div className="flex flex-col items-center gap-2">
-      <span>Rating</span>
+    <div className="flex flex-col gap-4">
+      <span className="text-base-bg font-bold">Rating</span>
       <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
         <circle
           cx={size / 2}
           cy={size / 2}
           r={r}
-          stroke="#eee"
+          stroke={stroke}
           strokeWidth={strokeWidth}
-          fill="none"
+          fill="var(--color-base-fg)"
+          opacity={0.4}
         />
         <circle
           cx={size / 2}
@@ -41,7 +42,7 @@ export const CircularRating = ({ rating, size }: CircularRatingProps) => {
           textAnchor="middle"
           fontSize={size / 5}
           fontWeight="bold"
-          fill="var(--color-base-fg)"
+          fill="var(--color-base-bg)"
         >
           {percentage.toFixed(1)}%
         </text>

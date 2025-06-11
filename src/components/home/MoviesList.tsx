@@ -47,7 +47,7 @@ export const MoviesList = ({ movies, type }: MoviesListProps) => {
   );
 
   return (
-    <div className="flex flex-col items-center gap-5 w-full py-10 px-auto text-base-bg">
+    <div className="flex flex-col items-center gap-5 w-full px-auto text-base-bg">
       <h2 className="text-3xl font-bold">{contentMap[type].title}</h2>
       <p className="text-md">{contentMap[type].description}</p>
       <div ref={sliderRef} className="keen-slider relative">
@@ -59,7 +59,7 @@ export const MoviesList = ({ movies, type }: MoviesListProps) => {
                 alt={movie.title}
                 className="rounded-lg"
                 width={300}
-                height={600}
+                height={400}
               />
               <h3 className="text-xl font-semibold text-center mt-4">{movie.title}</h3>
             </div>
