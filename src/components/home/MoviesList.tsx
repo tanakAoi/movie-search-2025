@@ -32,14 +32,14 @@ export const MoviesList = ({ movies, type }: MoviesListProps) => {
         spacing: 15,
       },
       breakpoints: {
-        "(max-width: 1200px)": {
-          slides: { perView: 3, spacing: 10 },
+        "(max-width: 1280px)": {
+          slides: { perView: 4, spacing: 10 },
         },
-        "(max-width: 900px)": {
+        "(max-width: 1024px)": {
+          slides: { perView: 3, spacing: 5 },
+        },
+        "(max-width: 768px)": {
           slides: { perView: 2, spacing: 5 },
-        },
-        "(max-width: 600px)": {
-          slides: { perView: 1, spacing: 5 },
         },
       },
     },

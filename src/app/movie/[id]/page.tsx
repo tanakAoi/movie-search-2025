@@ -1,11 +1,12 @@
 import { Container } from "@/components/layout/Container";
 import { CircularRating } from "@/components/ui/MovieDetails/CircularRating";
-import { getMovieDetails } from "@/services/movieService";
+import { getMovieDetails, getTrailer } from "@/services/movieService";
 import { IMovieDetails } from "@/types/tmdb";
 import Image from "next/image";
 import { BasicInfo } from "@/components/ui/MovieDetails/BasicInfo";
 import { MovieTitle } from "@/components/ui/MovieDetails/MovieTitle";
 import { ReleaseDateBar } from "@/components/ui/MovieDetails/ReleaseDateBar";
+import { TrailerModal } from "@/components/ui/MovieDetails/TrailerModal";
 
 interface MoviePageProps {
   params: Promise<{ id: string }>;
@@ -14,9 +15,8 @@ interface MoviePageProps {
 export default async function MoviePage({ params }: MoviePageProps) {
   const { id } = await params;
   const movie: IMovieDetails = await getMovieDetails(id);
-  if (!movie) {
-    return <div className="text-center">Movie not found</div>;
-  }
+  const trailer = await getTrailer(movie.id);
+
   const isMovieReleased =
     movie.status === "Released" || new Date(movie.release_date) <= new Date();
 
@@ -59,11 +59,12 @@ export default async function MoviePage({ params }: MoviePageProps) {
                   countries={movie.production_countries}
                   type="mobile"
                 />
-                {isMovieReleased && (
-                  <div className="grid-cols-1 md:hidden block">
+                <div className="grid-cols-1 md:hidden w-full flex items-end justify-between gap-4">
+                  {isMovieReleased && (
                     <CircularRating rating={movie.vote_average} size={100} />
-                  </div>
-                )}
+                  )}
+                  {trailer?.key && <TrailerModal trailerKey={trailer.key} />}
+                </div>
               </div>
             </div>
             <BasicInfo
@@ -73,12 +74,12 @@ export default async function MoviePage({ params }: MoviePageProps) {
               type="desktop"
             />
             <div className="flex flex-col gap-10 col-span-1">
-              {isMovieReleased && (
-                <div className="md:flex hidden">
+              <div className="hidden md:flex md:items-end md:justify-between gap-4">
+                {isMovieReleased && (
                   <CircularRating rating={movie.vote_average} size={100} />
-                  {movie.video && <></>}
-                </div>
-              )}
+                )}
+                {trailer?.key && <TrailerModal trailerKey={trailer.key} />}
+              </div>
               <div className="text-base-bg flex flex-col gap-2">
                 <span className="font-bold">Movie info</span>
                 <div className="flex flex-col gap-1">
