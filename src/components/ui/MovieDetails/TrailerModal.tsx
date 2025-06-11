@@ -17,6 +17,7 @@ export const TrailerModal = ({ trailerKey }: { trailerKey: string }) => {
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.95 }}
           transition={{ duration: 0.3 }}
+          onClick={() => setIsModalOpen(false)}
         >
           <div className="relative w-full max-w-3xl aspect-video">
             <iframe
