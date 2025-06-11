@@ -36,10 +36,13 @@ export const MoviesList = ({ movies, type }: MoviesListProps) => {
           slides: { perView: 4, spacing: 10 },
         },
         "(max-width: 1024px)": {
-          slides: { perView: 3, spacing: 5 },
+          slides: { perView: 3, spacing: 8 },
         },
         "(max-width: 768px)": {
           slides: { perView: 2, spacing: 5 },
+        },
+        "(max-width: 640px)": {
+          slides: { perView: 1, spacing: 0 },
         },
       },
     },
@@ -61,7 +64,9 @@ export const MoviesList = ({ movies, type }: MoviesListProps) => {
                 width={300}
                 height={400}
               />
-              <h3 className="text-xl font-semibold text-center mt-4">{movie.title}</h3>
+              <h3 className="text-xl font-semibold text-center mt-4">
+                {movie.title}
+              </h3>
             </div>
           </Link>
         ))}

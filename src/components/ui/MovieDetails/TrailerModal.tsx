@@ -17,8 +17,6 @@ export const TrailerModal = ({ trailerKey }: { trailerKey: string }) => {
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.95 }}
           transition={{ duration: 0.3 }}
-          onClick={() => setIsModalOpen(false)}
-          aria-label="Close trailer modal"
         >
           <div className="relative w-full max-w-3xl aspect-video">
             <iframe
@@ -26,6 +24,7 @@ export const TrailerModal = ({ trailerKey }: { trailerKey: string }) => {
               src={`https://www.youtube.com/embed/${trailerKey}?autoplay=1&mute=1`}
               title="YouTube trailer"
               allow="autoplay; encrypted-media"
+              allowFullScreen
             ></iframe>
           </div>
           <motion.button
