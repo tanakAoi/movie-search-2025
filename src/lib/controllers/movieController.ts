@@ -84,6 +84,20 @@ export const getTrailer = async (id: string) => {
   }
 };
 
+export const getCredits = async (id: string) => {
+  try {
+    const credits = await moviedb.movieCredits({ id });
+    if (credits) {
+      return credits;
+    } else {
+      throw new Error("No credits found for the given movie id");
+    }
+  } catch (error) {
+    console.error("Error fetching movie credits:", error);
+    throw error;
+  }
+};
+
 export const getMoviesByKeyword = async (query: string) => {
   try {
     const movies = await moviedb.searchMovie({ query });

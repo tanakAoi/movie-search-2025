@@ -1,0 +1,43 @@
+import { Container } from "@/components/layout/Container";
+import { CreditMembers } from "@/components/movie-details/credits/CreditMembers";
+import { getCredits } from "@/services/movieService";
+import { ICredit } from "@/types/tmdb";
+
+export default async function CastPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const credits: ICredit = await getCredits(Number(id));
+
+  const uniqueCrew = [];
+  const seenIds = new Set<number>();
+
+  for (const crewMember of credits.crew) {
+    if (!seenIds.has(crewMember.id)) {
+      seenIds.add(crewMember.id);
+
+      const allJobs = credits.crew
+        .filter((c) => c.id === crewMember.id)
+        .map((c) => c.job);
+
+      const uniqueJobs = Array.from(new Set(allJobs));
+
+      uniqueCrew.push({
+        ...crewMember,
+        job: uniqueJobs.join(" / "),
+      });
+    }
+  }
+
+  return (
+    <Container className="flex flex-col gap-16 items-center justify-center">
+      <h1 className="text-5xl md:text-6xl font-lobster">Cast & Crew</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 **:[h2]:text-xl **:[h2]:font-semibold **:[h2]:mb-4 w-full">
+        <CreditMembers type="cast" members={credits.cast} />
+        <CreditMembers type="crew" members={uniqueCrew} />
+      </div>
+    </Container>
+  );
+}

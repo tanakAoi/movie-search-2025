@@ -39,3 +39,8 @@ body {
   color: var(--color-base-fg);
   font-family: var(--font-rubik);
 }
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  padding: 0;
+}
