@@ -51,4 +51,8 @@ export interface IMovieDetails extends IMovie {
       type: string;
     }[];
   };
+  scores: {
+    source: string;
+    value: string;
+  }[];
 }

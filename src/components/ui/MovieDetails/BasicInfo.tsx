@@ -28,7 +28,9 @@ export const BasicInfo = ({
     >
       <p>
         <span>Runtime</span>
-        {(runtime / 60).toFixed(0)} h {runtime % 60} min
+        {runtime === 0
+          ? "-"
+          : `${(runtime / 60).toFixed(0)} h ${runtime % 60} min`}
       </p>
       <p>
         <span>Language</span>

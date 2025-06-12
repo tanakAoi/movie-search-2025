@@ -42,7 +42,7 @@ export const TrailerModal = ({ trailerKey }: { trailerKey: string }) => {
       ) : (
         <motion.button
           onClick={() => setIsModalOpen(true)}
-          className="cursor-pointer"
+          className="cursor-pointer w-fit"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           transition={{ type: "spring", stiffness: 300, damping: 20 }}

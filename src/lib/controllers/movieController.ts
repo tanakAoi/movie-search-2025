@@ -32,9 +32,30 @@ export const getUpcomingMovies = async () => {
   }
 };
 
-export const getMovieDetails = async (id: string) => {
+export const getMovieDetailsFromTmdb = async (id: string) => {
   try {
     const movieDetails = await moviedb.movieInfo({ id });
+    if (movieDetails) {
+      return movieDetails;
+    } else {
+      throw new Error("No movie details found for the given id");
+    }
+  } catch (error) {
+    console.error("Error fetching movie details:", error);
+    throw error;
+  }
+};
+
+export const getMovieDetailsFromOmdb = async (id: string) => {
+  try {
+    const movieDetails = await fetch(
+      `https://www.omdbapi.com/?i=${id}&apikey=${process.env.OMDB_API_KEY}`
+    ).then((response) => {
+      if (!response.ok) {
+        throw new Error("Failed to fetch movie details from OMDB");
+      }
+      return response.json();
+    });
     if (movieDetails) {
       return movieDetails;
     } else {

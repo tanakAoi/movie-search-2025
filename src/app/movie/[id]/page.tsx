@@ -61,9 +61,20 @@ export default async function MoviePage({ params }: MoviePageProps) {
                 />
                 <div className="grid-cols-1 md:hidden w-full flex items-end justify-between gap-4">
                   {isMovieReleased && (
-                    <CircularRating rating={movie.vote_average} size={100} />
+                    <div className="flex flex-col gap-2 w-full">
+                      <span className="text-base-bg font-bold">Rating</span>
+                      <div className="grid grid-cols-2 gap-4">
+                        {movie.scores.map((score) => (
+                          <CircularRating
+                            key={score.source}
+                            source={score.source}
+                            value={score.value}
+                            size={80}
+                          />
+                        ))}
+                      </div>
+                    </div>
                   )}
-                  {trailer?.key && <TrailerModal trailerKey={trailer.key} />}
                 </div>
               </div>
             </div>
@@ -76,10 +87,22 @@ export default async function MoviePage({ params }: MoviePageProps) {
             <div className="flex flex-col gap-10 col-span-1">
               <div className="hidden md:flex md:items-end md:justify-between gap-4">
                 {isMovieReleased && (
-                  <CircularRating rating={movie.vote_average} size={100} />
+                  <div className="flex flex-col gap-2 w-full">
+                    <span className="text-base-bg font-bold">Rating</span>
+                    <div className="grid grid-cols-2 lg:flex lg:items-center gap-4 xl:gap-10">
+                      {movie.scores.map((score) => (
+                        <CircularRating
+                          key={score.source}
+                          source={score.source}
+                          value={score.value}
+                          size={100}
+                        />
+                      ))}
+                    </div>
+                  </div>
                 )}
-                {trailer?.key && <TrailerModal trailerKey={trailer.key} />}
               </div>
+              {trailer?.key && <TrailerModal trailerKey={trailer.key} />}
               <div className="text-base-bg flex flex-col gap-2">
                 <span className="font-bold">Movie info</span>
                 <div className="flex flex-col gap-1">

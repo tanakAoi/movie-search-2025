@@ -1,10 +1,15 @@
 interface CircularRatingProps {
-  rating: number;
+  source: string;
+  value: string;
   size: number;
 }
 
-export const CircularRating = ({ rating, size }: CircularRatingProps) => {
-  const percentage = (rating / 10) * 100;
+export const CircularRating = ({
+  source,
+  value,
+  size,
+}: CircularRatingProps) => {
+  const percentage = (parseFloat(value) / 10) * 100;
   const strokeWidth = size / 10; // Adjust stroke width based on size
   const r = size / 2 - strokeWidth / 2; // Radius of the circle
   const circumference = 2 * Math.PI * r; // Circumference of the circle
@@ -12,8 +17,7 @@ export const CircularRating = ({ rating, size }: CircularRatingProps) => {
     percentage >= 75 ? "#4caf50" : percentage >= 50 ? "#ff9800" : "#f44336"; // Color based on percentage
 
   return (
-    <div className="flex flex-col gap-4">
-      <span className="text-base-bg font-bold">Rating</span>
+    <div className="flex flex-col items-center gap-2">
       <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
         <circle
           cx={size / 2}
@@ -47,6 +51,7 @@ export const CircularRating = ({ rating, size }: CircularRatingProps) => {
           {percentage.toFixed(1)}%
         </text>
       </svg>
+      <span className="text-base-bg font-base text-sm">{source}</span>
     </div>
   );
 };
