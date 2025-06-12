@@ -1,12 +1,12 @@
 import { Container } from "@/components/layout/Container";
-import { CircularRating } from "@/components/ui/MovieDetails/CircularRating";
+import { CircularRating } from "@/components/movie-details/CircularRating";
 import { getMovieDetails, getTrailer } from "@/services/movieService";
 import { IMovieDetails } from "@/types/tmdb";
 import Image from "next/image";
-import { BasicInfo } from "@/components/ui/MovieDetails/BasicInfo";
-import { MovieTitle } from "@/components/ui/MovieDetails/MovieTitle";
-import { ReleaseDateBar } from "@/components/ui/MovieDetails/ReleaseDateBar";
-import { TrailerModal } from "@/components/ui/MovieDetails/TrailerModal";
+import { BasicInfo } from "@/components/movie-details/BasicInfo";
+import { MovieTitle } from "@/components/movie-details/MovieTitle";
+import { ReleaseDateBar } from "@/components/movie-details/ReleaseDateBar";
+import { TrailerModal } from "@/components/movie-details/TrailerModal";
 
 interface MoviePageProps {
   params: Promise<{ id: string }>;

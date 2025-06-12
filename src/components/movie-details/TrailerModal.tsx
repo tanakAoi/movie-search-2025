@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Close, Video } from "../icons/MaterialSymbols";
+import { Close, Video } from "../ui/icons/MaterialSymbols";
 import { AnimatePresence, motion } from "motion/react";
 
 export const TrailerModal = ({ trailerKey }: { trailerKey: string }) => {

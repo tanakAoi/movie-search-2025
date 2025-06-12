@@ -1,4 +1,4 @@
-import { Quote } from "@/components/ui/MovieDetails/Quote";
+import { Quote } from "@/components/movie-details/Quote";
 import StarryBackground from "@/components/decor/StarryBackground";
 
 interface MovieTitleProps {
