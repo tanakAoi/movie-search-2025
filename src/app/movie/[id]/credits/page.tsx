@@ -33,8 +33,8 @@ export default async function CastPage({
 
   return (
     <Container className="flex flex-col gap-16 items-center justify-center">
-      <h1 className="text-5xl md:text-6xl font-lobster">Cast & Crew</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 **:[h2]:text-xl **:[h2]:font-semibold **:[h2]:mb-4 w-full">
+      <h1 className="text-5xl md:text-6xl font-lobster mt-4">Cast & Crew</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 w-full">
         <CreditMembers type="cast" members={credits.cast} />
         <CreditMembers type="crew" members={uniqueCrew} />
       </div>

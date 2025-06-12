@@ -17,7 +17,7 @@ export const CreditMembers = ({ type, members }: CreditMembersProps) => {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h2>
+        <h2 className="text-xl font-semibold">
           {type === "cast" ? "Cast" : "Crew"} ({members.length})
         </h2>
         <div className="block sm:hidden">
