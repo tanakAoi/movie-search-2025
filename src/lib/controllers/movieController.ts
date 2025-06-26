@@ -98,11 +98,11 @@ export const getCredits = async (id: string) => {
   }
 };
 
-export const getMoviesByKeyword = async (query: string) => {
+export const getMoviesByKeyword = async (query: string, page: number) => {
   try {
-    const movies = await moviedb.searchMovie({ query });
+    const movies = await moviedb.searchMovie({ query, page });
     if (movies && movies.results) {
-      return movies.results;
+      return movies;
     } else {
       throw new Error("No results found in the response");
     }
