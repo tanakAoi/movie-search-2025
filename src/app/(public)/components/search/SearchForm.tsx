@@ -27,7 +27,7 @@ export const SearchForm = ({ isHeader }: SearchFormProps) => {
   return (
     <form
       className={`relative flex flex-col items-center gap-5 w-full bg-transparent ${
-        isHeader ? "max-w-lg" : "max-w-2xl"
+        isHeader ? "max-w-xl" : "max-w-2xl"
       }`}
       onSubmit={handleSubmit}
     >

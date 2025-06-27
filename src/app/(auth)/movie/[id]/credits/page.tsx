@@ -1,5 +1,5 @@
-import { Container } from "@/components/layout/Container";
-import { CreditMembers } from "@/components/movie-details/credits/CreditMembers";
+import { Container } from "@/app/(public)/components/layout/Container";
+import { CreditMembers } from "@/app/(public)/components/movie-details/credits/CreditMembers";
 import { getCredits } from "@/services/movieService";
 import { ICredit } from "@/types/tmdb";
 

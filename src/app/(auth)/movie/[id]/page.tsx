@@ -1,5 +1,5 @@
-import { Container } from "@/components/layout/Container";
-import { CircularRating } from "@/components/movie-details/CircularRating";
+import { Container } from "@/app/(public)/components/layout/Container";
+import { CircularRating } from "@/app/(public)/components/movie-details/CircularRating";
 import {
   getCredits,
   getMovieDetails,
@@ -7,17 +7,19 @@ import {
 } from "@/services/movieService";
 import { IMovieDetails } from "@/types/tmdb";
 import Image from "next/image";
-import { BasicInfo } from "@/components/movie-details/BasicInfo";
-import { MovieTitle } from "@/components/movie-details/MovieTitle";
-import { ReleaseDateBar } from "@/components/movie-details/ReleaseDateBar";
-import { TrailerModal } from "@/components/movie-details/TrailerModal";
-import { CastsList } from "@/components/movie-details/CastsList";
+import { BasicInfo } from "@/app/(public)/components/movie-details/BasicInfo";
+import { MovieTitle } from "@/app/(public)/components/movie-details/MovieTitle";
+import { ReleaseDateBar } from "@/app/(public)/components/movie-details/ReleaseDateBar";
+import { TrailerModal } from "@/app/(public)/components/movie-details/TrailerModal";
+import { CastsList } from "@/app/(public)/components/movie-details/CastsList";
 
 interface MovieDetailPageProps {
   params: Promise<{ id: string }>;
 }
 
-export default async function MovieDetailPage({ params }: MovieDetailPageProps) {
+export default async function MovieDetailPage({
+  params,
+}: MovieDetailPageProps) {
   const { id } = await params;
   const movie: IMovieDetails = await getMovieDetails(id);
   const trailer = await getTrailer(movie.id);

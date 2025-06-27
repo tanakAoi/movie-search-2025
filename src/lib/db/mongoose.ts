@@ -9,9 +9,9 @@ export const connectDB = async () => {
   }
 
   try {
-    const uri = process.env.MONGO_URI;
+    const uri = process.env.MONGODB_URI;
     if (!uri) {
-      throw new Error("MONGO_URI is not defined in .env file");
+      throw new Error("MONGODB_URI is not defined in .env file");
     }
 
     await mongoose.connect(uri, {

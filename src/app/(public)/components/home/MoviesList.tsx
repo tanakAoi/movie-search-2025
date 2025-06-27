@@ -64,7 +64,7 @@ export const MoviesList = ({ movies, type }: MoviesListProps) => {
                 width={300}
                 height={400}
               />
-              <h3 className="text-xl font-semibold text-center mt-4">
+              <h3 className="text-xl font-semibold text-center mt-4 line-clamp-2">
                 {movie.title}
               </h3>
             </div>

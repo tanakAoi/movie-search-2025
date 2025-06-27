@@ -1,7 +1,7 @@
-import StarryBackground from "@/components/decor/StarryBackground";
-import { Hero } from "@/components/home/Hero";
-import { MoviesList } from "@/components/home/MoviesList";
-import { Container } from "@/components/layout/Container";
+import StarryBackground from "@/app/(public)/components/decor/StarryBackground";
+import { Hero } from "@/app/(public)/components/home/Hero";
+import { MoviesList } from "@/app/(public)/components/home/MoviesList";
+import { Container } from "@/app/(public)/components/layout/Container";
 import { getPopularMovies, getUpcomingMovies } from "@/services/movieService";
 
 export default async function Home() {

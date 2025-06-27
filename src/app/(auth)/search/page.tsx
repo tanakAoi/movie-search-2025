@@ -1,15 +1,15 @@
 import { getMoviesByKeyword } from "@/services/movieService";
-import StarryBackground from "@/components/decor/StarryBackground";
-import { ResultMovies } from "@/components/search/ResultMovies";
+import StarryBackground from "@/app/(public)/components/decor/StarryBackground";
+import { ResultMovies } from "@/app/(public)/components/search/ResultMovies";
 
 export default async function SearchPage({
-  searchPageParams: searchPageParamsPromise,
+  searchParams: searchParamsPromise,
 }: {
-  searchPageParams: Promise<{ query?: string; page?: string }>;
+  searchParams: Promise<{ query?: string; page?: string }>;
 }) {
-  const searchPageParams = await searchPageParamsPromise;
-  const query = searchPageParams.query ?? "";
-  const page = parseInt(searchPageParams.page ?? "1", 10);
+  const searchParams = await searchParamsPromise;
+  const query = searchParams.query ?? "";
+  const page = parseInt(searchParams.page ?? "1", 10);
 
   if (!query) {
     return <p>Please enter a search query.</p>;
