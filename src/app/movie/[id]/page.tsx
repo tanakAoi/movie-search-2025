@@ -13,11 +13,11 @@ import { ReleaseDateBar } from "@/components/movie-details/ReleaseDateBar";
 import { TrailerModal } from "@/components/movie-details/TrailerModal";
 import { CastsList } from "@/components/movie-details/CastsList";
 
-interface MoviePageProps {
+interface MovieDetailPageProps {
   params: Promise<{ id: string }>;
 }
 
-export default async function MoviePage({ params }: MoviePageProps) {
+export default async function MovieDetailPage({ params }: MovieDetailPageProps) {
   const { id } = await params;
   const movie: IMovieDetails = await getMovieDetails(id);
   const trailer = await getTrailer(movie.id);
