@@ -3,10 +3,14 @@ import { Hero } from "@/app/(public)/components/home/Hero";
 import { MoviesList } from "@/app/(public)/components/home/MoviesList";
 import { Container } from "@/app/(public)/components/layout/Container";
 import { getPopularMovies, getUpcomingMovies } from "@/services/movieService";
+import { cookies } from "next/headers";
 
 export default async function Home() {
-  const popularMovies = await getPopularMovies();
-  const upcomingMovies = await getUpcomingMovies();
+  const cookieStore = await cookies();
+  const country = cookieStore.get("userCountry")?.value || "US";
+
+  const popularMovies = await getPopularMovies(country);
+  const upcomingMovies = await getUpcomingMovies(country);
 
   return (
     <div className="relative">

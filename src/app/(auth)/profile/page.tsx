@@ -3,10 +3,8 @@ import AuthButton from "../components/ui/AuthButton";
 
 export default function ProfilePage() {
   return (
-    <div className="flex flex-col items-center h-screen">
-      <Container>
-        <AuthButton />
-      </Container>
-    </div>
+    <Container className="flex flex-col items-center h-screen">
+      <AuthButton />
+    </Container>
   );
 }

@@ -1,8 +1,12 @@
 import { moviedb } from "../tmdb/tmdb";
 
-export const getPopularMovies = async () => {
+export const getPopularMovies = async (country: string | null) => {
   try {
-    const movies = await moviedb.moviePopular();
+    const movies = await moviedb.moviePopular({
+      language: "en-US",
+      page: 1,
+      region: country || "US",
+    });
     if (movies && movies.results) {
       return movies.results;
     } else {
@@ -14,12 +18,12 @@ export const getPopularMovies = async () => {
   }
 };
 
-export const getUpcomingMovies = async () => {
+export const getUpcomingMovies = async (country: string | null) => {
   try {
     const movies = await moviedb.upcomingMovies({
       language: "en-US",
       page: 1,
-      region: "US",
+      region: country || "US",
     });
     if (movies && movies.results) {
       return movies.results;

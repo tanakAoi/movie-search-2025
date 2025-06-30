@@ -1,9 +1,10 @@
 import { getUpcomingMovies } from "@/lib/controllers/movieController";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    const movies = await getUpcomingMovies();
+    const country = request.headers.get("X-country");
+    const movies = await getUpcomingMovies(country);
     return NextResponse.json(movies);
   } catch (error) {
     console.error(error);

@@ -1,9 +1,13 @@
-const BASE_URL = process.env.API_BASE_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-export const getPopularMovies = async () => {
+export const getPopularMovies = async (country: string | null) => {
   try {
     const response = await fetch(`${BASE_URL}/movie/popular`, {
       next: { revalidate: 300 },
+      headers: {
+        "Content-Type": "application/json",
+        ...(country && { "X-Country": country }),
+      },
     });
     return await response.json();
   } catch (error) {
@@ -12,10 +16,14 @@ export const getPopularMovies = async () => {
   }
 };
 
-export const getUpcomingMovies = async () => {
+export const getUpcomingMovies = async (country: string | null) => {
   try {
     const response = await fetch(`${BASE_URL}/movie/upcoming`, {
       next: { revalidate: 300 },
+      headers: {
+        "Content-Type": "application/json",
+        ...(country && { "X-Country": country }),
+      },
     });
     return await response.json();
   } catch (error) {
@@ -62,9 +70,12 @@ export const getCredits = async (id: number) => {
 
 export const getMoviesByKeyword = async (query: string, page: number) => {
   try {
-    const response = await fetch(`${BASE_URL}/movie/search?q=${query}&page=${page}`, {
-      next: { revalidate: 300 },
-    });
+    const response = await fetch(
+      `${BASE_URL}/movie/search?q=${query}&page=${page}`,
+      {
+        next: { revalidate: 300 },
+      }
+    );
     return await response.json();
   } catch (error) {
     console.error(`Error searching movies with query "${query}":`, error);
