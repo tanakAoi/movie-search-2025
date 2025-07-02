@@ -10,6 +10,17 @@ const options = {
     serverSelectionTimeoutMS: 3000,
     autoSelectFamily: false,
   },
+  cookies: {
+    state: {
+      name: "next-auth.state",
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+      },
+    },
+  },
 };
 
 let client;
