@@ -30,7 +30,7 @@ export function SessionInitializer() {
         .catch(console.error);
       ranOnce.current = true;
     }
-  }, [session, country, language]);
+  }, [session, country, language, update]);
 
   return null;
 }
