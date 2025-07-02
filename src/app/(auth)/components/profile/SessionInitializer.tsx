@@ -6,7 +6,7 @@ import { updateProfile } from "@/services/profileService";
 import { useEffect, useRef } from "react";
 
 export function SessionInitializer() {
-  const { data: session } = useSession();
+  const { data: session, update } = useSession();
   const { country, language } = useRegion();
   const ranOnce = useRef(false);
 
@@ -16,12 +16,18 @@ export function SessionInitializer() {
       session?.user &&
       (!session.user.country || !session.user.language)
     ) {
-      if (session.user.id) {
-        updateProfile(session.user.id, {
-          country: country ?? undefined,
-          language: language ?? undefined,
-        }).catch(console.error);
+      if (!session.user.id) {
+        console.error("User ID is undefined");
+        return;
       }
+      updateProfile(session.user.id, {
+        country: country ?? undefined,
+        language: language ?? undefined,
+      })
+        .then(() => {
+          update();
+        })
+        .catch(console.error);
       ranOnce.current = true;
     }
   }, [session, country, language]);

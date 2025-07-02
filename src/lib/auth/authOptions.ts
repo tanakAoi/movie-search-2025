@@ -1,9 +1,7 @@
 import GoogleProvider from "next-auth/providers/google";
 import type { NextAuthOptions } from "next-auth";
-
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import clientPromise from "../db/mongodb";
-import { ObjectId } from "mongodb";
 
 export const authOptions: NextAuthOptions = {
   adapter: MongoDBAdapter(clientPromise),
@@ -15,19 +13,22 @@ export const authOptions: NextAuthOptions = {
   ],
   events: {
     async createUser({ user }) {
-      const client = await clientPromise;
-      const db = client.db();
-      await db.collection("users").updateOne(
-        { _id: new ObjectId(user.id) },
-        {
-          $set: {
-            username: user.name,
-            country: "",
-            avatar: user.image ?? "",
-            language: "",
-          },
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_EXTERNAL_API_BASE_URL}/user-register`,
+          {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id: user.id, name: user.name }),
+          }
+        );
+        if (!res.ok) {
+          const text = await res.text();
+          console.error("API error:", res.status, text);
         }
-      );
+      } catch (err) {
+        console.error("Failed to call external API:", err);
+      }
     },
   },
   callbacks: {
