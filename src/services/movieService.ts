@@ -9,6 +9,7 @@ export const getPopularMovies = async (country: string | null) => {
         ...(country && { "X-Country": country }),
       },
     });
+    console.log("[FETCH URL]", `${BASE_URL}/movie/popular`);
     return await response.json();
   } catch (error) {
     console.error("Error fetching popular movies:", error);
