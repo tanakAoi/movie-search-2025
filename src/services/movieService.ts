@@ -9,7 +9,12 @@ export const getPopularMovies = async (country: string | null) => {
         ...(country && { "X-Country": country }),
       },
     });
-    console.log("[FETCH URL]", `${BASE_URL}/movie/popular`);
+
+    if (!response.ok) {
+      const text = await response.text();
+      console.error("Failed to fetch popular movies:", response.status, text);
+      throw new Error("Failed to fetch popular movies");
+    }
     return await response.json();
   } catch (error) {
     console.error("Error fetching popular movies:", error);
@@ -26,6 +31,11 @@ export const getUpcomingMovies = async (country: string | null) => {
         ...(country && { "X-Country": country }),
       },
     });
+    if (!response.ok) {
+      const text = await response.text();
+      console.error("Failed to fetch upcoming movies:", response.status, text);
+      throw new Error("Failed to fetch upcoming movies");
+    }
     return await response.json();
   } catch (error) {
     console.error("Error fetching upcoming movies:", error);
