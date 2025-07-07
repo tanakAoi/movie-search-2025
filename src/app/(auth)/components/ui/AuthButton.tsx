@@ -6,8 +6,8 @@ import { UserSettings } from "../profile/UserSettings";
 export default function AuthButton() {
   const { data: session } = useSession();
 
-  if (session) {
-    return <UserSettings user={session.user} />;
+  if (session && session.user.id) {
+    return <UserSettings userId={session.user.id} />;
   }
 
   return (

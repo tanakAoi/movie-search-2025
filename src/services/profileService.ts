@@ -2,6 +2,23 @@ import { ProfileData } from "@/types/profile";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
+export const getProfile = async (profileId: string) => {
+  try {
+    const response = await fetch(`${BASE_URL}/profile/${profileId}`, {
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error fetching profile: ${response.statusText}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error(`Error fetching profile with id ${profileId}:`, error);
+    throw error;
+  }
+};
+
 export const updateProfile = async (
   profileId: string,
   profileData: ProfileData

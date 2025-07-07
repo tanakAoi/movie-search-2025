@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { siteConfig } from "../lib/config/config";
 import { RegionProvider } from "@/context/RegionContext";
+import { ProfileInitProvider } from "@/context/ProfileInitContext";
 
 export const dynamic = "force-dynamic";
 
@@ -18,7 +19,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased">
-        <RegionProvider>{children}</RegionProvider>
+        <RegionProvider>
+          <ProfileInitProvider>{children}</ProfileInitProvider>
+        </RegionProvider>
       </body>
     </html>
   );
