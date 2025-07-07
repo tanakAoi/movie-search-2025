@@ -1,26 +1,17 @@
 import { NextRequest } from "next/server";
-import clientPromise from "@/lib/db/mongodb";
-import { ObjectId } from "mongodb";
+import { prisma } from "../db/prisma";
 
-export async function updateProfile(
-  req: NextRequest,
-  userId: string
-) {
+export async function updateProfile(req: NextRequest, userId: string) {
   const { country, language, username } = (await req.json()) as {
     country?: string;
     language?: string;
     username?: string;
   };
 
-  const client = await clientPromise;
-  const db = client.db();
-
-  const result = await db
-    .collection("users")
-    .updateOne(
-      { _id: new ObjectId(userId) },
-      { $set: { country, language, username } }
-    );
+  const result = await prisma.user.update({
+    where: { id: userId },
+    data: { country, language, username },
+  });
 
   return result;
 }

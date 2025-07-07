@@ -9,17 +9,17 @@ export async function PUT(
 ) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.email) {
-    return new NextResponse("Unauthorized", { status: 401 });
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   try {
     const result = await updateProfile(req, (await params).id);
-    if (result.modifiedCount === 0) {
-      return new NextResponse("No changes made", { status: 200 });
+    if (!result) {
+      return NextResponse.json({ message: "No changes made" }, { status: 200 });
     }
-    return new NextResponse("Profile updated", { status: 200 });
+    return NextResponse.json({ message: "Profile updated" }, { status: 200 });
   } catch (err) {
     console.error(err);
-    return new NextResponse("Internal Error", { status: 500 });
+    return NextResponse.json({ error: "Internal Error" }, { status: 500 });
   }
 }

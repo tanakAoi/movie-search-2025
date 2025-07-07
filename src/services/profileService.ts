@@ -2,7 +2,10 @@ import { ProfileData } from "@/types/profile";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-export const updateProfile = async (profileId: string, profileData: ProfileData) => {
+export const updateProfile = async (
+  profileId: string,
+  profileData: ProfileData
+) => {
   try {
     const options = {
       method: "PUT",

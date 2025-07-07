@@ -1,12 +1,10 @@
 import GoogleProvider from "next-auth/providers/google";
 import type { NextAuthOptions } from "next-auth";
-
-import { MongoDBAdapter } from "@auth/mongodb-adapter";
-import clientPromise from "../db/mongodb";
-import { ObjectId } from "mongodb";
+import { PrismaAdapter } from "@auth/prisma-adapter";
+import { prisma } from "../db/prisma";
 
 export const authOptions: NextAuthOptions = {
-  adapter: MongoDBAdapter(clientPromise),
+  adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -15,19 +13,12 @@ export const authOptions: NextAuthOptions = {
   ],
   events: {
     async createUser({ user }) {
-      const client = await clientPromise;
-      const db = client.db();
-      await db.collection("users").updateOne(
-        { _id: new ObjectId(user.id) },
-        {
-          $set: {
-            username: user.name,
-            country: "",
-            avatar: user.image ?? "",
-            language: "",
-          },
-        }
-      );
+      await prisma.user.update({
+        where: { id: user.id },
+        data: {
+          username: user.name ?? null,
+        },
+      });
     },
   },
   callbacks: {
