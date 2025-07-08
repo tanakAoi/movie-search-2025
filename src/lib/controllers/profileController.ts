@@ -10,21 +10,23 @@ export async function getProfile(userId: string) {
       email: true,
       country: true,
       language: true,
+      avatar: true,
     },
   });
   return profile;
 }
 
 export async function updateProfile(req: NextRequest, userId: string) {
-  const { country, language, username } = (await req.json()) as {
+  const { country, language, username, avatar } = (await req.json()) as {
     country?: string;
     language?: string;
     username?: string;
+    avatar?: string;
   };
 
   const result = await prisma.user.update({
     where: { id: userId },
-    data: { country, language, username },
+    data: { country, language, username, avatar },
   });
 
   return result;

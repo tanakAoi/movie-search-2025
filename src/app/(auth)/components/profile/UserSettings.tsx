@@ -1,21 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
 import { signOut } from "next-auth/react";
 import { getProfile } from "@/services/profileService";
 import { useProfileInit } from "@/context/ProfileInitContext";
-
-type User = {
-  id: string;
-  username: string;
-  email: string;
-  country?: string;
-  language?: string;
-};
+import { UserProfile } from "@/types/profile";
+import Loading from "../../loading";
+import { DefaultButton } from "../ui/DefaultButton";
+import { Avatar } from "../ui/Avatar";
 
 export const UserSettings = ({ userId }: { userId: string }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const { profileReady } = useProfileInit();
 
@@ -32,6 +27,7 @@ export const UserSettings = ({ userId }: { userId: string }) => {
             email: profile.email ?? "",
             country: profile.country ?? "",
             language: profile.language ?? "",
+            avatar: profile.avatar ?? "",
           });
         } else {
           setUser(null);
@@ -46,7 +42,7 @@ export const UserSettings = ({ userId }: { userId: string }) => {
   }, [userId, profileReady]);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <Loading />;
   }
 
   if (!user) {
@@ -54,30 +50,40 @@ export const UserSettings = ({ userId }: { userId: string }) => {
   }
 
   return (
-    <div className="flex flex-col">
-      <h1 className="text-2xl font-bold mb-4">User Settings</h1>
-      <div>
-        <h3 className="text-lg font-semibold mt-4">Username</h3>
-        <p className="text-gray-800">{user.username}</p>
+    <div className="flex flex-col w-fit h-full justify-center gap-12">
+      <h1 className="text-4xl font-lobster">User Settings</h1>
+      <div className="flex flex-col md:flex-row items-start justify-between gap-12">
+        <Avatar name={user.username} image={user.avatar} size={96} />
+        <div className="flex flex-col gap-6 **:[h3]:text-lg **:[h3]:font-semibold">
+          <div>
+            <h3>Username</h3>
+            <p>{user.username}</p>
+          </div>
+          <div>
+            <h3>Email</h3>
+            <p>{user.email}</p>
+          </div>
+          <div>
+            <h3>Country</h3>
+            <p>{user.country}</p>
+          </div>
+          <div>
+            <h3>Language</h3>
+            <p>
+              {new Intl.DisplayNames(["en"], { type: "language" }).of(
+                user.language ?? ""
+              ) || user.language}
+            </p>
+          </div>
+        </div>
       </div>
-      <div>
-        <h3 className="text-lg font-semibold mt-4">Email</h3>
-        <p className="text-gray-800">{user.email}</p>
+      <div className="flex flex-col gap-2">
+        <DefaultButton
+          text="Edit Profile"
+          onClick={() => console.log("Update Profile")}
+        />
+        <DefaultButton text="Logout" onClick={() => signOut()} />
       </div>
-      <div>
-        <h3 className="text-lg font-semibold mt-4">Country</h3>
-        <p className="text-gray-800">{user.country}</p>
-      </div>
-      <div>
-        <h3 className="text-lg font-semibold mt-4">Language</h3>
-        <p className="text-gray-800">{user.language}</p>
-      </div>
-      <button
-        className="mt-2 px-4 py-2 bg-base-fg text-base-bg rounded cursor-pointer"
-        onClick={() => signOut()}
-      >
-        Logout
-      </button>
     </div>
   );
 };

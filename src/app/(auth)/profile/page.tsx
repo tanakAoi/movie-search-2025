@@ -1,10 +1,10 @@
 import { Container } from "@/app/(public)/components/layout/Container";
-import AuthButton from "../components/ui/AuthButton";
+import AuthGate from "../components/auth/AuthGate";
 
 export default function ProfilePage() {
   return (
-    <Container className="flex flex-col items-center h-screen">
-      <AuthButton />
+    <Container className="flex flex-col items-center">
+      <AuthGate />
     </Container>
   );
 }

@@ -2,8 +2,9 @@
 
 import { signIn, useSession } from "next-auth/react";
 import { UserSettings } from "../profile/UserSettings";
+import { DefaultButton } from "../ui/DefaultButton";
 
-export default function AuthButton() {
+export default function AuthGate() {
   const { data: session } = useSession();
 
   if (session && session.user.id) {
@@ -20,12 +21,11 @@ export default function AuthButton() {
         <li>Profile Settings</li>
         <li>Your Watchlist</li>
       </ul>
-      <button
-        className="mt-4 px-4 py-2 bg-accent-bg text-base-bg hover:bg-base-bg hover:text-accent-bg rounded cursor-pointer"
+      <DefaultButton
+        text="Login with Google"
         onClick={() => signIn("google")}
-      >
-        Login with Google
-      </button>
+        className="mt-4"
+      />
     </div>
   );
 }

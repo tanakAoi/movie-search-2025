@@ -17,6 +17,7 @@ export const authOptions: NextAuthOptions = {
         where: { id: user.id },
         data: {
           username: user.name ?? null,
+          avatar: user.image ?? null,
         },
       });
     },
