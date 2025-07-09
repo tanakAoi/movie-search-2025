@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { prisma } from "../db/prisma";
-import { moviedb } from "../tmdb/tmdb";
-import { tr } from "motion/react-client";
+import { tmdbFetch } from "../tmdbFetcher";
+import { ICountry, ILanguage } from "@/types/tmdb";
 
 export async function getProfile(userId: string) {
   const profile = await prisma.user.findUnique({
@@ -20,44 +20,41 @@ export async function getProfile(userId: string) {
 
 export async function updateProfile(req: NextRequest, userId: string) {
   const { country, language, username, avatar } = (await req.json()) as {
-    country?: string;
-    language?: string;
+    country?: ICountry;
+    language?: ILanguage;
     username?: string;
     avatar?: string;
   };
 
   const result = await prisma.user.update({
     where: { id: userId },
-    data: { country, language, username, avatar },
+    data: {
+      country: {
+        iso_639_1: country?.iso_3166_1,
+        english_name: country?.english_name,
+        name: country?.native_name,
+      },
+      language: {
+        iso_639_1: language?.iso_639_1,
+        english_name: language?.english_name,
+        name: language?.name,
+      },
+      username,
+      avatar,
+    },
   });
 
   return result;
 }
 
-export async function fetchCountries() {
+export async function fetchCountries(lang: string) {
   try {
-    const countries = await moviedb.countries();
-    if (!countries) {
-      throw new Error("No countries found");
-    }
-
+    const countries = await tmdbFetch("/configuration/countries", {
+      language: lang,
+    });
     return countries;
   } catch (error) {
     console.error("Error fetching countries:", error);
-    throw error;
-  }
-}
-
-export async function fetchLanguages() {
-  try {
-    const languages = await moviedb.languages();
-    if (!languages) {
-      throw new Error("No languages found");
-    }
-
-    return languages;
-  } catch (error) {
-    console.error("Error fetching languages:", error);
     throw error;
   }
 }

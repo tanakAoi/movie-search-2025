@@ -1,20 +1,25 @@
 "use client";
 
-import { siteConfig } from "@/lib/config/config";
+import { siteConfig } from "@/lib/config";
 import Link from "next/link";
 import { AccountCircle, Close, Search } from "../ui/icons/MaterialSymbols";
 import { useState } from "react";
 import { SearchForm } from "../search/SearchForm";
+import { useRegion } from "@/context/RegionContext";
 
 export const Header = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-
+  const { country, language } = useRegion(); 
   return (
     <header>
       <div className="bg-accent-bg text-base-bg h-16 flex items-center justify-between px-4">
         <Link className="font-lobster text-3xl" href={"/"}>
           <span>{siteConfig.siteName}</span>
         </Link>
+        <div>
+          <p>Current country: {country?.native_name || "Unknown"}</p>
+          <p>Current language: {language?.name || "Unknown"}</p>
+        </div>
         <div className="flex items-center gap-4">
           {isSearchOpen ? (
             <div className="flex items-center justify-end gap-4 w-full">
@@ -39,7 +44,11 @@ export const Header = () => {
           )}
           <Link className=" text-base-bg" href={"/profile"}>
             <span className="sr-only">Profile</span>
-            <AccountCircle width={24} height={24} fill={"var(--color-base-bg)"} />
+            <AccountCircle
+              width={24}
+              height={24}
+              fill={"var(--color-base-bg)"}
+            />
           </Link>
         </div>
       </div>

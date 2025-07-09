@@ -45,7 +45,8 @@ export const getMovieDetailsFromTmdb = async (id: string, lang: string) => {
 
     const trailer =
       movieDetails.videos?.results?.find(
-        (video: any) => video.type === "Trailer" && video.site === "YouTube"
+        (video: { type: string; site: string }) =>
+          video.type === "Trailer" && video.site === "YouTube"
       ) || null;
 
     return {

@@ -33,7 +33,7 @@ export default function MovieDetailPage({ params }: MovieDetailPageProps) {
       setMovie(movie);
     };
     fetchMovieDetails();
-  }, [language]);
+  }, [language, params]);
 
   if (!movie) {
     return <Loading />;

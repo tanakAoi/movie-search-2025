@@ -22,10 +22,10 @@ model User {
   image          String?
   accounts       Account[]
   sessions       Session[]
-  country        String?
+  country        Json?
   username       String?
   avatar         String?
-  language       String?
+  language       Json?
 }
 
 model Account {

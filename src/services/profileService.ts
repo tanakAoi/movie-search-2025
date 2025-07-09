@@ -45,9 +45,9 @@ export const updateProfile = async (
   }
 };
 
-export const fetchCountries = async () => {
+export const fetchCountries = async (lang: string) => {
   try {
-    const response = await fetch(`${BASE_URL}/countries`);
+    const response = await fetch(`${BASE_URL}/countries?lang=${lang}`);
 
     if (!response.ok) {
       throw new Error(`Error fetching countries: ${response.statusText}`);
@@ -56,21 +56,6 @@ export const fetchCountries = async () => {
     return await response.json();
   } catch (error) {
     console.error("Error fetching countries:", error);
-    throw error;
-  }
-};
-
-export const fetchLanguages = async () => {
-  try {
-    const response = await fetch(`${BASE_URL}/languages`);
-
-    if (!response.ok) {
-      throw new Error(`Error fetching languages: ${response.statusText}`);
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error("Error fetching languages:", error);
     throw error;
   }
 };

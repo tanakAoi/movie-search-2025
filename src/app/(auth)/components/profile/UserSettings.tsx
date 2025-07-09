@@ -71,14 +71,18 @@ export const UserSettings = ({ userId }: { userId: string }) => {
             </div>
             <div>
               <h3>Country</h3>
-              <p>{user.country}</p>
+              <p>
+                {user.country?.native_name
+                  ? user.country.native_name
+                  : user.country?.english_name}
+              </p>
             </div>
             <div>
               <h3>Language</h3>
               <p>
-                {new Intl.DisplayNames(["en"], { type: "language" }).of(
-                  user.language ?? ""
-                ) || user.language}
+                {user.language?.name
+                  ? user.language.name
+                  : user.language?.english_name}
               </p>
             </div>
           </div>

@@ -1,10 +1,8 @@
 import { UserProfile } from "@/types/profile";
 import { DefaultButton } from "../ui/DefaultButton";
-import { useEffect, useState } from "react";
-import { fetchCountries, fetchLanguages } from "@/services/profileService";
-import { ICountry, ILanguage } from "@/types/tmdb";
 import { Close } from "@/app/(public)/components/ui/icons/MaterialSymbols";
 import { Avatar } from "../ui/Avatar";
+import { useRegion } from "@/context/RegionContext";
 
 export const ModalEditor = ({
   userData,
@@ -13,23 +11,8 @@ export const ModalEditor = ({
   userData: UserProfile;
   onClose: () => void;
 }) => {
-  const [countries, setCountries] = useState<ICountry[]>([]);
-  const [languages, setLanguages] = useState<ILanguage[]>([]);
+  const { countriesList, languagesList } = useRegion();
 
-  useEffect(() => {
-    const fetchRegions = async () => {
-      const [fetchedLanguages, fetchedCountries] = await Promise.all([
-        fetchLanguages(),
-        fetchCountries(),
-      ]);
-      setLanguages(fetchedLanguages);
-      setCountries(fetchedCountries);
-    };
-    fetchRegions();
-  }, [userData.country, userData.language]);
-  
-  console.log("ModalEditor userData:", userData);
-  
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
       <div className="bg-base-bg rounded-lg px-10 py-12 shadow-lg max-w-2xl w-full max-h-[90vh] overflow-auto relative">
@@ -76,11 +59,15 @@ export const ModalEditor = ({
             <select
               id="country"
               name="country"
-              defaultValue={userData.country}
+              defaultValue={
+                userData?.country?.native_name
+                  ? userData.country.native_name
+                  : userData.country?.english_name
+              }
               className="w-full p-2 rounded-md text-base-fg/80"
             >
               <option value="">Select country</option>
-              {countries.map((country) => (
+              {countriesList?.map((country) => (
                 <option key={country.iso_3166_1} value={country.english_name}>
                   {country.english_name}
                 </option>
@@ -92,11 +79,15 @@ export const ModalEditor = ({
             <select
               id="language"
               name="language"
-              defaultValue={userData.language}
+              defaultValue={
+                userData?.language?.name
+                  ? userData.language.name
+                  : userData?.language?.english_name
+              }
               className="w-full p-2 rounded-md text-base-fg/80"
             >
               <option value="">Select language</option>
-              {languages.map((language) => (
+              {languagesList?.map((language) => (
                 <option key={language.iso_639_1} value={language.english_name}>
                   {language.english_name}
                 </option>
