@@ -86,3 +86,15 @@ export interface ICredit {
     profile_path: string | null;
   }[];
 }
+
+export interface ICountry {
+  iso_3166_1: string;
+  english_name: string;
+  native_name: string;
+}
+
+export interface ILanguage {
+  iso_639_1: string;
+  english_name: string;
+  name: string;
+}

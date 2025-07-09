@@ -44,3 +44,33 @@ export const updateProfile = async (
     throw error;
   }
 };
+
+export const fetchCountries = async () => {
+  try {
+    const response = await fetch(`${BASE_URL}/countries`);
+
+    if (!response.ok) {
+      throw new Error(`Error fetching countries: ${response.statusText}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching countries:", error);
+    throw error;
+  }
+};
+
+export const fetchLanguages = async () => {
+  try {
+    const response = await fetch(`${BASE_URL}/languages`);
+
+    if (!response.ok) {
+      throw new Error(`Error fetching languages: ${response.statusText}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching languages:", error);
+    throw error;
+  }
+};
