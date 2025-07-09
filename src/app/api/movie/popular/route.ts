@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getPopularMovies } from "@/lib/controllers/movieController";
 
-export async function GET(request: NextRequest) {
+export async function GET(req: NextRequest) {
   try {
-    const country = request.headers.get("X-country");
-    const movies = await getPopularMovies(country);
+    const { searchParams } = new URL(req.url);
+    const lang = searchParams.get("lang") || "";
+    const country = searchParams.get("country") || "";
+
+    const movies = await getPopularMovies(lang, country);
     return NextResponse.json(movies);
   } catch (error) {
     console.error(error);

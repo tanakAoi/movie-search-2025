@@ -3,8 +3,10 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   try {
-    const country = request.headers.get("X-country");
-    const movies = await getUpcomingMovies(country);
+    const { searchParams } = new URL(request.url);
+    const lang = searchParams.get("lang") || "";
+    const country = searchParams.get("country") || "";
+    const movies = await getUpcomingMovies(lang, country);
     return NextResponse.json(movies);
   } catch (error) {
     console.error(error);

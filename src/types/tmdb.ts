@@ -39,22 +39,12 @@ export interface IMovieDetails extends IMovie {
   spoken_languages: { iso_639_1: string; name: string }[];
   status: string;
   tagline: string;
-  videos: {
-    results: {
-      id: string;
-      iso_639_1: string;
-      iso_3166_1: string;
-      key: string;
-      name: string;
-      site: string;
-      size: number;
-      type: string;
-    }[];
-  };
   scores: {
     source: string;
     value: string;
   }[];
+  trailer: IVideo;
+  credits: ICredit;
 }
 
 export interface ICredit {
@@ -85,6 +75,19 @@ export interface ICredit {
     popularity: number;
     profile_path: string | null;
   }[];
+}
+
+export interface IVideo {
+  id: string;
+  iso_639_1: string;
+  iso_3166_1: string;
+  key: string;
+  name: string;
+  official: boolean;
+  published_at: string;
+  site: string;
+  size: number;
+  type: string;
 }
 
 export interface ICountry {

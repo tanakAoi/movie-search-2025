@@ -9,7 +9,9 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const id = (await params).id;
-  const tmdb = await getMovieDetailsFromTmdb(id);
+  const { searchParams } = new URL(req.url);
+  const lang = searchParams.get("lang") || "en-US";
+  const tmdb = await getMovieDetailsFromTmdb(id, lang);
   if (!tmdb || !tmdb.imdb_id) {
     return NextResponse.json(
       { error: "Movie details not found or IMDb ID is missing" },

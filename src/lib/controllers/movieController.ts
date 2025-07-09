@@ -1,29 +1,25 @@
-import { moviedb } from "../tmdb/tmdb";
+import { tmdbFetch } from "../tmdbFetcher";
 
-export const getPopularMovies = async (country: string | null) => {
+export const getPopularMovies = async (lang: string, country: string) => {
   try {
-    const movies = await moviedb.moviePopular({
-      language: "en-US",
+    const movies = await tmdbFetch("/movie/popular", {
+      language: lang,
       page: 1,
-      region: country || "US",
+      region: country,
     });
-    if (movies && movies.results) {
-      return movies.results;
-    } else {
-      throw new Error("No results found in the response");
-    }
+    return movies.results;
   } catch (error) {
     console.error("Error fetching popular movies:", error);
     throw error;
   }
 };
 
-export const getUpcomingMovies = async (country: string | null) => {
+export const getUpcomingMovies = async (lang: string, country: string) => {
   try {
-    const movies = await moviedb.upcomingMovies({
-      language: "en-US",
+    const movies = await tmdbFetch("/movie/upcoming", {
+      language: lang,
       page: 1,
-      region: country || "US",
+      region: country,
     });
     if (movies && movies.results) {
       return movies.results;
@@ -36,14 +32,26 @@ export const getUpcomingMovies = async (country: string | null) => {
   }
 };
 
-export const getMovieDetailsFromTmdb = async (id: string) => {
+export const getMovieDetailsFromTmdb = async (id: string, lang: string) => {
   try {
-    const movieDetails = await moviedb.movieInfo({ id });
-    if (movieDetails) {
-      return movieDetails;
-    } else {
+    const movieDetails = await tmdbFetch(`/movie/${id}`, {
+      append_to_response: "videos,credits",
+      language: lang,
+    });
+
+    if (!movieDetails) {
       throw new Error("No movie details found for the given id");
     }
+
+    const trailer =
+      movieDetails.videos?.results?.find(
+        (video: any) => video.type === "Trailer" && video.site === "YouTube"
+      ) || null;
+
+    return {
+      ...movieDetails,
+      trailer,
+    };
   } catch (error) {
     console.error("Error fetching movie details:", error);
     throw error;
@@ -71,40 +79,12 @@ export const getMovieDetailsFromOmdb = async (id: string) => {
   }
 };
 
-export const getTrailer = async (id: string) => {
-  try {
-    const videos = await moviedb.movieVideos({ id });
-    if (videos && videos.results) {
-      const trailer = videos.results.find(
-        (video) => video.type === "Trailer" && video.site === "YouTube"
-      );
-      return trailer || null;
-    } else {
-      throw new Error("No videos found for the given movie id");
-    }
-  } catch (error) {
-    console.error("Error fetching movie trailer:", error);
-    throw error;
-  }
-};
-
-export const getCredits = async (id: string) => {
-  try {
-    const credits = await moviedb.movieCredits({ id });
-    if (credits) {
-      return credits;
-    } else {
-      throw new Error("No credits found for the given movie id");
-    }
-  } catch (error) {
-    console.error("Error fetching movie credits:", error);
-    throw error;
-  }
-};
-
 export const getMoviesByKeyword = async (query: string, page: number) => {
   try {
-    const movies = await moviedb.searchMovie({ query, page });
+    const movies = await tmdbFetch("/search/movie", {
+      query,
+      page,
+    });
     if (movies && movies.results) {
       return movies;
     } else {

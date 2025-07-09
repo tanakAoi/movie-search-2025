@@ -1,14 +1,13 @@
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-export const getPopularMovies = async (country: string | null) => {
+export const getPopularMovies = async (lang: string, country: string) => {
   try {
-    const response = await fetch(`${BASE_URL}/movie/popular`, {
-      next: { revalidate: 300 },
-      headers: {
-        "Content-Type": "application/json",
-        ...(country && { "X-Country": country }),
-      },
-    });
+    const response = await fetch(
+      `${BASE_URL}/movie/popular?language=${lang}&region=${country}`,
+      {
+        next: { revalidate: 300 },
+      }
+    );
 
     if (!response.ok) {
       const text = await response.text();
@@ -22,15 +21,14 @@ export const getPopularMovies = async (country: string | null) => {
   }
 };
 
-export const getUpcomingMovies = async (country: string | null) => {
+export const getUpcomingMovies = async (lang: string, country: string) => {
   try {
-    const response = await fetch(`${BASE_URL}/movie/upcoming`, {
-      next: { revalidate: 300 },
-      headers: {
-        "Content-Type": "application/json",
-        ...(country && { "X-Country": country }),
-      },
-    });
+    const response = await fetch(
+      `${BASE_URL}/movie/upcoming?language=${lang}&region=${country}`,
+      {
+        next: { revalidate: 300 },
+      }
+    );
     if (!response.ok) {
       const text = await response.text();
       console.error("Failed to fetch upcoming movies:", response.status, text);
@@ -43,9 +41,9 @@ export const getUpcomingMovies = async (country: string | null) => {
   }
 };
 
-export const getMovieDetails = async (id: string) => {
+export const getMovieDetails = async (id: string, lang: string) => {
   try {
-    const response = await fetch(`${BASE_URL}/movie/${id}`, {
+    const response = await fetch(`${BASE_URL}/movie/${id}?language=${lang}`, {
       next: { revalidate: 300 },
     });
     return await response.json();

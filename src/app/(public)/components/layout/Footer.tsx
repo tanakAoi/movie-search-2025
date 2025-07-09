@@ -1,4 +1,4 @@
-import { siteConfig } from "@/lib/config/config";
+import { siteConfig } from "@/lib/config";
 
 export const Footer = () => {
   return (

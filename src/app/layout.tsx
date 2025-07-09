@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { siteConfig } from "../lib/config/config";
+import { siteConfig } from "../lib/config";
 import { RegionProvider } from "@/context/RegionContext";
 import { ProfileInitProvider } from "@/context/ProfileInitContext";
 

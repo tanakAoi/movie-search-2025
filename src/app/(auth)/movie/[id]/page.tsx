@@ -1,10 +1,8 @@
+"use client";
+
 import { Container } from "@/app/(public)/components/layout/Container";
 import { CircularRating } from "@/app/(public)/components/movie-details/CircularRating";
-import {
-  getCredits,
-  getMovieDetails,
-  getTrailer,
-} from "@/services/movieService";
+import { getMovieDetails } from "@/services/movieService";
 import { IMovieDetails } from "@/types/tmdb";
 import Image from "next/image";
 import { BasicInfo } from "@/app/(public)/components/movie-details/BasicInfo";
@@ -12,19 +10,34 @@ import { MovieTitle } from "@/app/(public)/components/movie-details/MovieTitle";
 import { ReleaseDateBar } from "@/app/(public)/components/movie-details/ReleaseDateBar";
 import { TrailerModal } from "@/app/(public)/components/movie-details/TrailerModal";
 import { CastsList } from "@/app/(public)/components/movie-details/CastsList";
+import { useRegion } from "@/context/RegionContext";
+import { useEffect, useState } from "react";
+import Loading from "../../loading";
 
 interface MovieDetailPageProps {
   params: Promise<{ id: string }>;
 }
 
-export default async function MovieDetailPage({
-  params,
-}: MovieDetailPageProps) {
-  const { id } = await params;
-  const movie: IMovieDetails = await getMovieDetails(id);
-  const trailer = await getTrailer(movie.id);
-  const credits = await getCredits(movie.id);
+export default function MovieDetailPage({ params }: MovieDetailPageProps) {
+  const { language } = useRegion();
+  const [movie, setMovie] = useState<IMovieDetails>();
 
+  useEffect(() => {
+    const fetchMovieDetails = async () => {
+      const { id } = await params;
+
+      const movie: IMovieDetails = await getMovieDetails(
+        id,
+        language.iso_639_1
+      );
+      setMovie(movie);
+    };
+    fetchMovieDetails();
+  }, [language]);
+
+  if (!movie) {
+    return <Loading />;
+  }
   const isMovieReleased =
     movie.status === "Released" || new Date(movie.release_date) <= new Date();
 
@@ -111,7 +124,9 @@ export default async function MovieDetailPage({
                     </div>
                   )}
                 </div>
-                {trailer?.key && <TrailerModal trailerKey={trailer.key} />}
+                {movie.trailer?.key && (
+                  <TrailerModal trailerKey={movie.trailer.key} />
+                )}
                 <div className="text-base-bg flex flex-col gap-2">
                   <span className="font-bold">Movie info</span>
                   <div className="flex flex-col gap-1">
@@ -131,7 +146,7 @@ export default async function MovieDetailPage({
               </div>
             </div>
           </div>
-          <CastsList cast={credits.cast} />
+          <CastsList cast={movie.credits.cast} />
         </Container>
       </div>
     </div>

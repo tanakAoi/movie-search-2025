@@ -1,9 +1,12 @@
 import { fetchCountries } from "@/lib/controllers/profileController";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
-    const countries = await fetchCountries();
+    const { searchParams } = new URL(req.url);
+    const lang = searchParams.get("lang") || "";
+
+    const countries = await fetchCountries(lang);
     if (!countries) {
       return NextResponse.json(
         { error: "Countries not found" },
