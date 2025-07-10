@@ -4,8 +4,6 @@ import { siteConfig } from "../lib/config";
 import { RegionProvider } from "@/context/RegionContext";
 import { ProfileInitProvider } from "@/context/ProfileInitContext";
 
-export const dynamic = "force-dynamic";
-
 export const metadata: Metadata = {
   title: siteConfig.siteName,
   description: siteConfig.siteDescription,

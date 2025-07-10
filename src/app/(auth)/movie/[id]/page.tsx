@@ -1,5 +1,3 @@
-"use client";
-
 import { Container } from "@/app/(public)/components/layout/Container";
 import { CircularRating } from "@/app/(public)/components/movie-details/CircularRating";
 import { getMovieDetails } from "@/services/movieService";
@@ -10,34 +8,20 @@ import { MovieTitle } from "@/app/(public)/components/movie-details/MovieTitle";
 import { ReleaseDateBar } from "@/app/(public)/components/movie-details/ReleaseDateBar";
 import { TrailerModal } from "@/app/(public)/components/movie-details/TrailerModal";
 import { CastsList } from "@/app/(public)/components/movie-details/CastsList";
-import { useRegion } from "@/context/RegionContext";
-import { useEffect, useState } from "react";
-import Loading from "../../loading";
+import { getRegionFromCookies } from "@/lib/getRegionFromCookies";
 
 interface MovieDetailPageProps {
   params: Promise<{ id: string }>;
 }
 
-export default function MovieDetailPage({ params }: MovieDetailPageProps) {
-  const { currentLanguage } = useRegion();
-  const [movie, setMovie] = useState<IMovieDetails>();
+export default async function MovieDetailPage({
+  params,
+}: MovieDetailPageProps) {
+  const { language } = await getRegionFromCookies();
+  const { id } = await params;
 
-  useEffect(() => {
-    const fetchMovieDetails = async () => {
-      const { id } = await params;
+  const movie: IMovieDetails = await getMovieDetails(id, language);
 
-      const movie: IMovieDetails = await getMovieDetails(
-        id,
-        currentLanguage.tmdb_code || ""
-      );
-      setMovie(movie);
-    };
-    fetchMovieDetails();
-  }, [currentLanguage, params]);
-
-  if (!movie) {
-    return <Loading />;
-  }
   const isMovieReleased =
     movie.status === "Released" || new Date(movie.release_date) <= new Date();
 

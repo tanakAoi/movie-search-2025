@@ -1,39 +1,18 @@
-"use client";
-
-import Loading from "@/app/(auth)/loading";
 import { Container } from "@/app/(public)/components/layout/Container";
 import { CreditMembers } from "@/app/(public)/components/movie-details/credits/CreditMembers";
-import { useRegion } from "@/context/RegionContext";
+import { getRegionFromCookies } from "@/lib/getRegionFromCookies";
 import { getMovieCredits } from "@/services/movieService";
 import { ICredit } from "@/types/tmdb";
-import { useEffect, useState } from "react";
 
-export default function CastPage({
+export default async function CastPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const { currentLanguage } = useRegion();
-  const [credits, setCredits] = useState<ICredit>({
-    id: 0,
-    cast: [],
-    crew: [],
-  });
-  const [loading, setLoading] = useState(true);
+  const { language } = await getRegionFromCookies();
+  const { id } = await params;
 
-  useEffect(() => {
-    const fetchCredits = async () => {
-      setLoading(true);
-      const { id } = await params;
-      const credits: ICredit = await getMovieCredits(
-        Number(id),
-        currentLanguage.tmdb_code || ""
-      );
-      setCredits(credits);
-    };
-    fetchCredits();
-    setLoading(false);
-  }, [currentLanguage.tmdb_code, params]);
+  const credits: ICredit = await getMovieCredits(Number(id), language);
 
   const uniqueCrew = [];
   const seenIds = new Set<number>();
@@ -55,10 +34,6 @@ export default function CastPage({
         });
       }
     }
-  }
-
-  if (loading) {
-    return <Loading />;
   }
 
   return (

@@ -2,13 +2,11 @@ import StarryBackground from "@/app/(public)/components/decor/StarryBackground";
 import { Hero } from "@/app/(public)/components/home/Hero";
 import { MoviesList } from "@/app/(public)/components/home/MoviesList";
 import { Container } from "@/app/(public)/components/layout/Container";
+import { getRegionFromCookies } from "@/lib/getRegionFromCookies";
 import { getPopularMovies, getUpcomingMovies } from "@/services/movieService";
-import { cookies } from "next/headers";
 
 export default async function Home() {
-  const cookieStore = await cookies();
-  const country = cookieStore.get("userCountry")?.value || "";
-  const language = cookieStore.get("userLanguage")?.value || "";
+  const { country, language } = await getRegionFromCookies();
 
   const popularMovies = await getPopularMovies(language, country);
   const upcomingMovies = await getUpcomingMovies(language, country);

@@ -1,4 +1,3 @@
-// src/lib/tmdb/fetcher.ts
 const BASE_URL = "https://api.themoviedb.org/3";
 
 const TMDB_HEADERS = {
