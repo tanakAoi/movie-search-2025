@@ -123,10 +123,12 @@ export default async function MovieDetailPage({
                     </p>
                   </div>
                 </div>
-                <div className="text-base-bg flex flex-col gap-2">
-                  <span className="font-bold">Overview</span>
-                  <p className="">{movie.overview}</p>
-                </div>
+                {movie.overview && (
+                  <div className="text-base-bg flex flex-col gap-2">
+                    <span className="font-bold">Overview</span>
+                    <p className="">{movie.overview}</p>
+                  </div>
+                )}
               </div>
             </div>
           </div>

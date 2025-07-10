@@ -70,7 +70,7 @@ export const MoviesList = ({ movies, type }: MoviesListProps) => {
             </div>
           </Link>
         ))}
-        <div className="w-full flex justify-between absolute top-1/2 -translate-y-1/2 z-10">
+        <div className="w-full flex justify-between absolute top-1/2 -translate-y-1/2 z-99">
           <button
             onClick={() => instanceRef.current?.prev()}
             className="bg-base-bg/75 rounded-full p-4 relative"

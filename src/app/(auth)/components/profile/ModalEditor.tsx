@@ -3,6 +3,7 @@ import { DefaultButton } from "../ui/DefaultButton";
 import { Close } from "@/app/(public)/components/ui/icons/MaterialSymbols";
 import { Avatar } from "../ui/Avatar";
 import { useRegion } from "@/context/RegionContext";
+import { ICountry, ILanguage } from "@/types/tmdb";
 
 export const ModalEditor = ({
   userData,
@@ -67,9 +68,18 @@ export const ModalEditor = ({
               className="w-full p-2 rounded-md text-base-fg/80"
             >
               <option value="">Select country</option>
-              {countriesList?.map((country) => (
-                <option key={country.iso_3166_1} value={country.english_name}>
-                  {country.english_name}
+              {countriesList?.map((country: ICountry) => (
+                <option
+                  key={country.iso_3166_1}
+                  value={
+                    country.native_name
+                      ? country.native_name
+                      : country.english_name
+                  }
+                >
+                  {country.native_name
+                    ? country.native_name
+                    : country.english_name}
                 </option>
               ))}
             </select>
@@ -87,9 +97,12 @@ export const ModalEditor = ({
               className="w-full p-2 rounded-md text-base-fg/80"
             >
               <option value="">Select language</option>
-              {languagesList?.map((language) => (
-                <option key={language.iso_639_1} value={language.english_name}>
-                  {language.english_name}
+              {languagesList?.map((language: ILanguage) => (
+                <option
+                  key={language.iso_639_1}
+                  value={language.name ? language.name : language.english_name}
+                >
+                  {language.name ? language.name : language.english_name}
                 </option>
               ))}
             </select>

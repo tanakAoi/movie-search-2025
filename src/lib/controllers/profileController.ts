@@ -32,7 +32,7 @@ export async function updateProfile(req: NextRequest, userId: string) {
       country: {
         iso_639_1: country?.iso_3166_1,
         english_name: country?.english_name,
-        name: country?.native_name,
+        native_name: country?.native_name,
       },
       language: {
         iso_639_1: language?.iso_639_1,
