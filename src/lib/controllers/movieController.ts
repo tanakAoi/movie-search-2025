@@ -80,6 +80,18 @@ export const getMovieDetailsFromOmdb = async (id: string) => {
   }
 };
 
+export const getMovieCredits = async (id: number, lang: string) => {
+  try {
+    const credits = await tmdbFetch(`/movie/${id}/credits`, {
+      language: lang,
+    });
+    return credits;
+  } catch (error) {
+    console.error("Error fetching movie credits:", error);
+    throw error;
+  }
+};
+
 export const getMoviesByKeyword = async (query: string, page: number) => {
   try {
     const movies = await tmdbFetch("/search/movie", {

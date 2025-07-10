@@ -9,7 +9,8 @@ import { useRegion } from "@/context/RegionContext";
 
 export const Header = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const { country, language } = useRegion(); 
+  const { currentCountry, currentLanguage } = useRegion();
+
   return (
     <header>
       <div className="bg-accent-bg text-base-bg h-16 flex items-center justify-between px-4">
@@ -17,8 +18,8 @@ export const Header = () => {
           <span>{siteConfig.siteName}</span>
         </Link>
         <div>
-          <p>Current country: {country?.native_name || "Unknown"}</p>
-          <p>Current language: {language?.name || "Unknown"}</p>
+          <p>Current country: {currentCountry?.native_name || "Unknown"}</p>
+          <p>Current language: {currentLanguage?.name || "Unknown"}</p>
         </div>
         <div className="flex items-center gap-4">
           {isSearchOpen ? (

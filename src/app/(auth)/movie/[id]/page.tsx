@@ -19,7 +19,7 @@ interface MovieDetailPageProps {
 }
 
 export default function MovieDetailPage({ params }: MovieDetailPageProps) {
-  const { language } = useRegion();
+  const { currentLanguage } = useRegion();
   const [movie, setMovie] = useState<IMovieDetails>();
 
   useEffect(() => {
@@ -28,12 +28,12 @@ export default function MovieDetailPage({ params }: MovieDetailPageProps) {
 
       const movie: IMovieDetails = await getMovieDetails(
         id,
-        language.iso_639_1
+        currentLanguage.tmdb_code || ""
       );
       setMovie(movie);
     };
     fetchMovieDetails();
-  }, [language, params]);
+  }, [currentLanguage, params]);
 
   if (!movie) {
     return <Loading />;

@@ -13,38 +13,39 @@ import { ICountry, ILanguage } from "@/types/tmdb";
 import { fetchCountries } from "@/services/profileService";
 
 type RegionContextType = {
-  country: ICountry;
-  setCountry: (code: ICountry) => void;
+  currentCountry: ICountry;
+  setCurrentCountry: (code: ICountry) => void;
   countriesList?: ICountry[];
-  language: ILanguage;
-  setLanguage: (lang: ILanguage) => void;
+  currentLanguage: ILanguage;
+  setCurrentLanguage: (lang: ILanguage) => void;
   languagesList?: ILanguage[];
 };
 
 const RegionContext = createContext<RegionContextType>({
-  country: {
+  currentCountry: {
     iso_3166_1: "",
     english_name: "",
     native_name: "",
   },
-  setCountry: () => {},
+  setCurrentCountry: () => {},
   countriesList: [],
-  language: {
+  currentLanguage: {
     iso_639_1: "",
     english_name: "",
     name: "",
+    tmdb_code: "",
   },
-  setLanguage: () => {},
+  setCurrentLanguage: () => {},
   languagesList: [],
 });
 
 export const RegionProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const [country, setCountry] = useState<ICountry>({
+  const [currentCountry, setCurrentCountry] = useState<ICountry>({
     iso_3166_1: "",
     english_name: "",
     native_name: "",
   });
-  const [language, setLanguage] = useState<ILanguage>({
+  const [currentLanguage, setCurrentLanguage] = useState<ILanguage>({
     iso_639_1: "",
     english_name: "",
     name: "",
@@ -54,12 +55,12 @@ export const RegionProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
   useEffect(() => {
     const langCookie = Cookies.get("userLanguage");
-    const countryCookie = Cookies.get("userCountry") || "US";
+    const countryCookie = Cookies.get("userCountry");
 
     // Fetch languages data from the public directory
     const fetchAndSetLanguages = async () => {
       try {
-        fetch("data/lang.json")
+        fetch("/data/lang.json")
           .then((res) => {
             if (!res.ok) throw new Error("Failed to fetch lang.json");
             return res.json();
@@ -67,17 +68,22 @@ export const RegionProvider: FC<{ children: ReactNode }> = ({ children }) => {
           .then((data: ILanguage[]) => {
             setLanguagesList(data);
 
-            // Set the language based on the user's cookie
+            // Set the currentLanguage based on the user's cookie
             const langCode = langCookie?.split("-")[0];
+
             const lang = data.find((l) =>
               langCode ? l.iso_639_1 === langCode.toLowerCase() : false
             );
-            setLanguage(
-              lang || {
-                iso_639_1: "",
-                english_name: "",
-                name: "",
-              }
+
+            setCurrentLanguage(
+              lang
+                ? { ...lang, tmdb_code: langCookie }
+                : {
+                    iso_639_1: "",
+                    english_name: "",
+                    name: "",
+                    tmdb_code: langCookie,
+                  }
             );
           })
           .catch((error) => {
@@ -96,12 +102,16 @@ export const RegionProvider: FC<{ children: ReactNode }> = ({ children }) => {
         if (!countries || countries.length === 0) {
           throw new Error("No countries found");
         }
-        // Set the country based on the user's cookie
+        setCountriesList(countries);
+
+        // Save country list to local storage
+        localStorage.setItem("countriesList", JSON.stringify(countries));
+
+        // Set the currentCountry based on the user's cookie
         const countryData = countries.find(
           (c: ICountry) => c.iso_3166_1 === countryCookie
         );
-        setCountry(countryData || null);
-        setCountriesList(countries);
+        setCurrentCountry(countryData || null);
       } catch (error) {
         console.error("Error fetching countries:", error);
       }
@@ -112,10 +122,10 @@ export const RegionProvider: FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <RegionContext.Provider
       value={{
-        country,
-        setCountry,
-        language,
-        setLanguage,
+        currentCountry,
+        setCurrentCountry,
+        currentLanguage,
+        setCurrentLanguage,
         languagesList,
         countriesList,
       }}

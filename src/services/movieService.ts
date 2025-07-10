@@ -3,7 +3,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 export const getPopularMovies = async (lang: string, country: string) => {
   try {
     const response = await fetch(
-      `${BASE_URL}/movie/popular?language=${lang}&region=${country}`,
+      `${BASE_URL}/movie/popular?lang=${lang}&country=${country}`,
       {
         next: { revalidate: 300 },
       }
@@ -24,7 +24,7 @@ export const getPopularMovies = async (lang: string, country: string) => {
 export const getUpcomingMovies = async (lang: string, country: string) => {
   try {
     const response = await fetch(
-      `${BASE_URL}/movie/upcoming?language=${lang}&region=${country}`,
+      `${BASE_URL}/movie/upcoming?lang=${lang}&country=${country}`,
       {
         next: { revalidate: 300 },
       }
@@ -43,7 +43,7 @@ export const getUpcomingMovies = async (lang: string, country: string) => {
 
 export const getMovieDetails = async (id: string, lang: string) => {
   try {
-    const response = await fetch(`${BASE_URL}/movie/${id}?language=${lang}`, {
+    const response = await fetch(`${BASE_URL}/movie/${id}?lang=${lang}`, {
       next: { revalidate: 300 },
     });
     return await response.json();
@@ -53,26 +53,14 @@ export const getMovieDetails = async (id: string, lang: string) => {
   }
 };
 
-export const getTrailer = async (id: number) => {
+export const getMovieCredits = async (id: number, lang: string) => {
   try {
-    const response = await fetch(`${BASE_URL}/movie/${id}/trailer`, {
+    const response = await fetch(`${BASE_URL}/movie/${id}/credits?lang=${lang}`, {
       next: { revalidate: 300 },
     });
     return await response.json();
   } catch (error) {
-    console.error(`Error fetching trailer for id ${id}:`, error);
-    throw error;
-  }
-};
-
-export const getCredits = async (id: number) => {
-  try {
-    const response = await fetch(`${BASE_URL}/movie/${id}/credits`, {
-      next: { revalidate: 300 },
-    });
-    return await response.json();
-  } catch (error) {
-    console.error(`Error fetching credits for id ${id}:`, error);
+    console.error(`Error fetching movie credits for id ${id}:`, error);
     throw error;
   }
 };

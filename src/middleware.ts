@@ -1,33 +1,21 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-export default async function middleware(request: NextRequest) {
-  const response = NextResponse.next();
+export default function middleware(req: NextRequest) {
+  const res = NextResponse.next();
 
-  const isVercel = process.env.VERCEL === "1";
+  let country = "SE";
+  let language = "sv";
 
-  let country = "US";
-  let language = "en-US";
-
-  if (isVercel) {
-    country = request.headers.get("x-vercel-ip-country") || country;
-    language = request.headers.get("x-vercel-ip-language") || language;
-  } else {
-    try {
-      const ipapiRes = await fetch("https://ipapi.co/json");
-      
-      if (ipapiRes.ok) {
-        const data = await ipapiRes.json();
-        country = data.country_code || country;
-        language = data.languages[0] || language;
-      }
-    } catch {
-      console.error("Failed to fetch country from ipapi");
-    }
+  if (process.env.VERCEL === "1") {
+    country = req.headers.get("x-vercel-ip-country") || country;
+    language = req.headers.get("x-vercel-ip-language") || language;
   }
 
-  response.cookies.set("userCountry", country);
-  response.cookies.set("userLanguage", language);
+  const bcp47 = `${language.toLowerCase()}-${country.toUpperCase()}`;
 
-  return response;
+  res.cookies.set("userCountry", country);
+  res.cookies.set("userLanguage", bcp47);
+
+  return res;
 }

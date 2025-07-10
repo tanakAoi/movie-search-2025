@@ -7,8 +7,8 @@ import { cookies } from "next/headers";
 
 export default async function Home() {
   const cookieStore = await cookies();
-  const country = cookieStore.get("userCountry")?.value || "US";
-  const language = cookieStore.get("userLanguage")?.value || "en";
+  const country = cookieStore.get("userCountry")?.value || "";
+  const language = cookieStore.get("userLanguage")?.value || "";
 
   const popularMovies = await getPopularMovies(language, country);
   const upcomingMovies = await getUpcomingMovies(language, country);
