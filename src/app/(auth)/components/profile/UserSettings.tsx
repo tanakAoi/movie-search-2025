@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { getProfile } from "@/services/profileService";
 import { useProfileInit } from "@/context/ProfileInitContext";
 import { UserProfile } from "@/types/profile";
@@ -9,12 +9,14 @@ import Loading from "../../loading";
 import { DefaultButton } from "../ui/DefaultButton";
 import { Avatar } from "../ui/Avatar";
 import { ModalEditor } from "./ModalEditor";
+import Cookies from "js-cookie";
 
 export const UserSettings = ({ userId }: { userId: string }) => {
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const { profileReady } = useProfileInit();
+  const { status: sessionStatus } = useSession();
 
   useEffect(() => {
     if (!profileReady) return;
@@ -31,6 +33,8 @@ export const UserSettings = ({ userId }: { userId: string }) => {
             language: profile.language ?? "",
             avatar: profile.avatar ?? "",
           });
+          Cookies.set("userLanguage", profile.language?.iso_639_1 || "");
+          Cookies.set("userCountry", profile.country?.iso_3166_1 || "");
         } else {
           setUser(null);
         }
@@ -41,7 +45,7 @@ export const UserSettings = ({ userId }: { userId: string }) => {
       }
     };
     fetchProfile();
-  }, [userId, profileReady]);
+  }, [userId, profileReady, sessionStatus]);
 
   if (loading) {
     return <Loading />;

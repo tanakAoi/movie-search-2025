@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { siteConfig } from "../lib/config";
-import { RegionProvider } from "@/context/RegionContext";
-import { ProfileInitProvider } from "@/context/ProfileInitContext";
 
 export const metadata: Metadata = {
   title: siteConfig.siteName,
@@ -16,11 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased">
-        <RegionProvider>
-          <ProfileInitProvider>{children}</ProfileInitProvider>
-        </RegionProvider>
-      </body>
+      <body className="antialiased">{children}</body>
     </html>
   );
 }
