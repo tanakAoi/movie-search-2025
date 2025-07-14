@@ -2,25 +2,28 @@
 
 import { siteConfig } from "@/lib/config";
 import Link from "next/link";
-import { AccountCircle, Close, Search } from "../ui/icons/MaterialSymbols";
+import {
+  AccountCircle,
+  Close,
+  Globe,
+  Search,
+} from "../ui/icons/MaterialSymbols";
 import { useState } from "react";
 import { SearchForm } from "../search/SearchForm";
 import { useRegion } from "@/context/RegionContext";
+import { DefaultButton } from "@/app/(auth)/components/ui/DefaultButton";
 
 export const Header = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isRegionSettingsOpen, setIsRegionSettingsOpen] = useState(false);
   const { currentCountry, currentLanguage } = useRegion();
 
   return (
     <header>
-      <div className="bg-accent-bg text-base-bg h-16 flex items-center justify-between px-4">
+      <div className="bg-accent-bg text-base-bg h-16 flex items-center justify-between px-4 relative">
         <Link className="font-lobster text-3xl" href={"/"}>
           <span>{siteConfig.siteName}</span>
         </Link>
-        <div>
-          <p>Current country: {currentCountry?.native_name || "Unknown"}</p>
-          <p>Current language: {currentLanguage?.name || "Unknown"}</p>
-        </div>
         <div className="flex items-center gap-4">
           {isSearchOpen ? (
             <div className="flex items-center justify-end gap-4 w-full">
@@ -42,6 +45,35 @@ export const Header = () => {
               <span className="sr-only">Search</span>
               <Search width={24} height={24} fill={"var(--color-base-bg)"} />
             </button>
+          )}
+          <button
+            onClick={() => setIsRegionSettingsOpen(!isRegionSettingsOpen)}
+            aria-label="Region settings"
+            className="cursor-pointer"
+          >
+            <Globe width={24} height={24} fill={"var(--color-base-bg)"} />
+          </button>
+          {isRegionSettingsOpen && (
+            <div className="absolute top-16 right-4 bg-base-bg/90 text-base-fg px-8 py-6 rounded shadow-lg z-99 flex flex-col gap-3">
+              <p>
+                Country:{" "}
+                <span className="font-semibold">
+                  {currentCountry?.native_name || "Unknown"}
+                </span>
+              </p>
+              <p>
+                Language:{" "}
+                <span className="font-semibold">
+                  {currentLanguage?.name || "Unknown"}
+                </span>
+              </p>
+              <DefaultButton
+                text="Change Settings"
+                isLink
+                href="/profile"
+                size="sm"
+              />
+            </div>
           )}
           <Link className=" text-base-bg" href={"/profile"}>
             <span className="sr-only">Profile</span>
