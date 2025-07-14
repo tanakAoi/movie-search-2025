@@ -17,6 +17,7 @@ type RegionContextType = {
   currentCountry: ICountry;
   setCurrentCountry: (code: ICountry) => void;
   countriesList?: ICountry[];
+  setCountriesList: (countries: ICountry[]) => void;
   currentLanguage: ILanguage;
   setCurrentLanguage: (lang: ILanguage) => void;
   languagesList?: ILanguage[];
@@ -30,6 +31,7 @@ const RegionContext = createContext<RegionContextType>({
   },
   setCurrentCountry: () => {},
   countriesList: [],
+  setCountriesList: () => {},
   currentLanguage: {
     iso_639_1: "",
     english_name: "",
@@ -116,6 +118,7 @@ export const RegionProvider: FC<{ children: ReactNode }> = ({ children }) => {
         setCurrentLanguage,
         languagesList,
         countriesList,
+        setCountriesList,
       }}
     >
       {children}
