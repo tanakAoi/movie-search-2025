@@ -9,7 +9,10 @@ export default function middleware(req: NextRequest) {
 
   if (process.env.VERCEL === "1") {
     country = req.headers.get("x-vercel-ip-country") || country;
-    language = req.headers.get("x-vercel-ip-language") || language;
+    const ipLanguage = req.headers.get("x-vercel-ip-language");
+    if (ipLanguage) {
+      language = ipLanguage.split("-")[0];
+    }
   }
 
   if (!req.cookies.get("userCountry")) {
