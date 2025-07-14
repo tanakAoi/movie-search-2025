@@ -54,7 +54,12 @@ export const UserSettings = ({ userId }: { userId: string }) => {
   return (
     <>
       {showModal && (
-        <ModalEditor userData={user} onClose={() => setShowModal(false)} />
+        <ModalEditor
+          userData={user}
+          setUserData={setUser}
+          setLoading={setLoading}
+          onClose={() => setShowModal(false)}
+        />
       )}
       <div className="flex flex-col w-fit h-full justify-center gap-12">
         <h1 className="text-4xl font-lobster">User Settings</h1>

@@ -12,10 +12,12 @@ export default function middleware(req: NextRequest) {
     language = req.headers.get("x-vercel-ip-language") || language;
   }
 
-  const bcp47 = `${language.toLowerCase()}-${country.toUpperCase()}`;
-
-  res.cookies.set("userCountry", country);
-  res.cookies.set("userLanguage", bcp47);
+  if (!req.cookies.get("userCountry")) {
+    res.cookies.set("userCountry", country);
+  }
+  if (!req.cookies.get("userLanguage")) {
+    res.cookies.set("userLanguage", language);
+  }
 
   return res;
 }

@@ -30,7 +30,7 @@ export async function updateProfile(req: NextRequest, userId: string) {
     where: { id: userId },
     data: {
       country: {
-        iso_639_1: country?.iso_3166_1,
+        iso_3166_1: country?.iso_3166_1,
         english_name: country?.english_name,
         native_name: country?.native_name,
       },
@@ -45,6 +45,16 @@ export async function updateProfile(req: NextRequest, userId: string) {
   });
 
   return result;
+}
+
+export async function fetchLanguages() {
+  try {
+    const response = await tmdbFetch("/configuration/languages");
+    return response;
+  } catch (error) {
+    console.error("Error fetching languages:", error);
+    throw error;
+  }
 }
 
 export async function fetchCountries(lang: string) {

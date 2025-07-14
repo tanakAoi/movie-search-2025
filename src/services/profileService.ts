@@ -38,9 +38,26 @@ export const updateProfile = async (
       throw new Error(`Error updating profile: ${response.statusText}`);
     }
 
-    return await response.json();
+    const data = await response.json();
+
+    return { status: response.status, ...data };
   } catch (error) {
     console.error(`Error updating profile with id ${profileId}:`, error);
+    throw error;
+  }
+};
+
+export const fetchLanguages = async () => {
+  try {
+    const response = await fetch(`${BASE_URL}/languages`);
+
+    if (!response.ok) {
+      throw new Error(`Error fetching languages: ${response.statusText}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching languages:", error);
     throw error;
   }
 };

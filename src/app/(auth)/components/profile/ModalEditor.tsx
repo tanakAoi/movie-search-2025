@@ -4,15 +4,96 @@ import { Close } from "@/app/(public)/components/ui/icons/MaterialSymbols";
 import { Avatar } from "../ui/Avatar";
 import { useRegion } from "@/context/RegionContext";
 import { ICountry, ILanguage } from "@/types/tmdb";
+import { useState } from "react";
+import { fetchCountries, updateProfile } from "@/services/profileService";
+import Cookies from "js-cookie";
 
 export const ModalEditor = ({
   userData,
+  setUserData,
+  setLoading,
   onClose,
 }: {
   userData: UserProfile;
+  setUserData: React.Dispatch<React.SetStateAction<UserProfile | null>>;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   onClose: () => void;
 }) => {
-  const { countriesList, languagesList } = useRegion();
+  const {
+    countriesList,
+    languagesList,
+    setCurrentCountry,
+    setCurrentLanguage,
+  } = useRegion();
+  const [newUserData, setNewUserData] = useState<UserProfile>(userData);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+
+    if (name === "username") {
+      setNewUserData((prev) => ({ ...prev, username: value }));
+    } else if (name === "language") {
+      const selectedLang = languagesList?.find(
+        (lang) => lang.name === value || lang.english_name === value
+      );
+      setNewUserData((prev) => ({ ...prev, language: selectedLang }));
+    } else if (name === "country") {
+      const selectedCountry = countriesList?.find(
+        (c) => c.native_name === value || c.english_name === value
+      );
+      setNewUserData((prev) => ({ ...prev, country: selectedCountry }));
+    }
+  };
+
+  const handleSubmit = async () => {
+    try {
+      setLoading(true);
+
+      // Get new countryList before saving data in DB
+      if (newUserData.language?.iso_639_1) {
+        const newCountriesList = await fetchCountries(
+          newUserData.language?.iso_639_1
+        );
+        newUserData.country = newCountriesList.find(
+          (c: ICountry) => c.iso_3166_1 === newUserData.country?.iso_3166_1
+        );
+      }
+
+      // Update profile in DB
+      const res = await updateProfile(userData.id, newUserData);
+
+      if (res.status === 200) {
+        // Update cookie & context
+        Cookies.set("userLanguage", newUserData.language?.iso_639_1 || "");
+        Cookies.set("userCountry", newUserData.country?.iso_3166_1 || "");
+        if (newUserData.country) {
+          setCurrentCountry(newUserData.country);
+        }
+        if (newUserData.language) {
+          setCurrentLanguage(newUserData.language);
+        }
+
+        // Update user data in state
+        setUserData((prev) =>
+          prev
+            ? {
+                ...prev,
+                username: newUserData.username,
+                country: newUserData.country,
+                language: newUserData.language,
+              }
+            : null
+        );
+      }
+    } catch (error) {
+      console.error("Failed to update profile:", error);
+    } finally {
+      setLoading(false);
+    }
+    onClose();
+  };
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
@@ -42,6 +123,7 @@ export const ModalEditor = ({
               id="username"
               name="username"
               defaultValue={userData.username}
+              onChange={(e) => handleChange(e)}
             />
           </div>
           <div>
@@ -53,6 +135,7 @@ export const ModalEditor = ({
               disabled
               defaultValue={userData.email}
               className="outline-none text-base-fg/80"
+              onChange={(e) => handleChange(e)}
             />
           </div>
           <div>
@@ -66,6 +149,7 @@ export const ModalEditor = ({
                   : userData.country?.english_name
               }
               className="w-full p-2 rounded-md text-base-fg/80"
+              onChange={(e) => handleChange(e)}
             >
               <option value="">Select country</option>
               {countriesList?.map((country: ICountry) => (
@@ -95,6 +179,7 @@ export const ModalEditor = ({
                   : userData?.language?.english_name
               }
               className="w-full p-2 rounded-md text-base-fg/80"
+              onChange={(e) => handleChange(e)}
             >
               <option value="">Select language</option>
               {languagesList?.map((language: ILanguage) => (
@@ -107,7 +192,11 @@ export const ModalEditor = ({
               ))}
             </select>
           </div>
-          <DefaultButton text="Save" onClick={() => {}} />
+          <DefaultButton
+            text="Save"
+            onClick={() => handleSubmit()}
+            type="button"
+          />
         </form>
       </div>
     </div>

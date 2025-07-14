@@ -10,7 +10,7 @@ import React, {
 } from "react";
 import Cookies from "js-cookie";
 import { ICountry, ILanguage } from "@/types/tmdb";
-import { fetchCountries } from "@/services/profileService";
+import { fetchCountries, fetchLanguages } from "@/services/profileService";
 
 type RegionContextType = {
   currentCountry: ICountry;
@@ -33,7 +33,6 @@ const RegionContext = createContext<RegionContextType>({
     iso_639_1: "",
     english_name: "",
     name: "",
-    tmdb_code: "",
   },
   setCurrentLanguage: () => {},
   languagesList: [],
@@ -59,39 +58,33 @@ export const RegionProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
     const fetchAndSetLanguages = async () => {
       try {
-        // Fetch and set languages list from the public directory
-        const res = await fetch("/data/lang.json");
-        if (!res.ok) throw new Error("Failed to fetch lang.json");
-        const data: ILanguage[] = await res.json();
+        // Fetch languages from API
+        const languages = await fetchLanguages();
 
-        setLanguagesList(data);
+        if (!languages || languages.length === 0) {
+          throw new Error("Failed to fetch languages");
+        }
+        setLanguagesList(languages);
+
+        // Save language list to local storage
+        localStorage.setItem("languagesList", JSON.stringify(languages));
 
         // Find the current user language based on the cookie
-        const langCode = langCookie?.split("-")[0];
-        const lang = data.find((l) =>
-          langCode ? l.iso_639_1 === langCode.toLowerCase() : false
+        const currentLang = languages.find(
+          (l: ILanguage) => l.iso_639_1 === langCookie
         );
 
-        setCurrentLanguage(
-          lang
-            ? { ...lang, tmdb_code: langCookie }
-            : {
-                iso_639_1: "",
-                english_name: "",
-                name: "",
-                tmdb_code: langCookie,
-              }
-        );
+        setCurrentLanguage(currentLang || null);
       } catch (error) {
         console.error("Failed to load languages data", error);
       }
     };
     fetchAndSetLanguages();
 
-    // Fetch countries data from API
     const fetchAndSetCountries = async () => {
       try {
-        const countries = await fetchCountries(langCookie || "en-US");
+        // Fetch countries data from API
+        const countries = await fetchCountries(langCookie || "en");
         if (!countries || countries.length === 0) {
           throw new Error("No countries found");
         }

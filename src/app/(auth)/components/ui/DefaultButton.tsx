@@ -3,16 +3,19 @@ export const DefaultButton = ({
   onClick,
   disabled = false,
   className = "",
+  type = "button",
 }: {
   text: string;
   onClick: () => void;
   disabled?: boolean;
   className?: string;
+  type?: "button" | "submit";
 }) => {
   return (
     <button
       onClick={onClick}
       disabled={disabled}
+      type={type}
       className={`px-4 py-2 bg-accent-bg text-base-bg hover:bg-base-bg hover:text-accent-bg border-2 border-transparent hover:border-accent-bg rounded cursor-pointer ${className}`}
     >
       {text}
