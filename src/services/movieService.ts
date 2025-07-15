@@ -68,10 +68,10 @@ export const getMovieCredits = async (id: number, lang: string) => {
   }
 };
 
-export const getMoviesByKeyword = async (query: string, page: number) => {
+export const getMoviesByKeyword = async (query: string, page: number, lang: string) => {
   try {
     const response = await fetch(
-      `${BASE_URL}/movie/search?q=${query}&page=${page}`,
+      `${BASE_URL}/movie/search?q=${query}&page=${page}&lang=${lang}`,
       {
         next: { revalidate: 300 },
       }

@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { Close, Search } from "../ui/icons/MaterialSymbols";
+import { useRegion } from "@/context/RegionContext";
 
 interface SearchFormProps {
   isHeader?: boolean;
@@ -12,6 +13,7 @@ export const SearchForm = ({ isHeader }: SearchFormProps) => {
   const router = useRouter();
   const [searchWord, setSearchWord] = useState("");
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const { currentLanguage } = useRegion();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchWord(e.target.value);
@@ -22,7 +24,9 @@ export const SearchForm = ({ isHeader }: SearchFormProps) => {
     if (!searchWord.trim()) {
       return;
     }
-    router.push(`/search?query=${encodeURIComponent(searchWord)}`);
+    router.push(
+      `/search?query=${encodeURIComponent(searchWord)}&lang=${currentLanguage.iso_639_1}`
+    );
   };
 
   return isHeader ? (

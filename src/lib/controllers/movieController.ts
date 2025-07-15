@@ -92,11 +92,12 @@ export const getMovieCredits = async (id: number, lang: string) => {
   }
 };
 
-export const getMoviesByKeyword = async (query: string, page: number) => {
+export const getMoviesByKeyword = async (query: string, page: number, language: string) => {
   try {
     const movies = await tmdbFetch("/search/movie", {
       query,
       page,
+      language
     });
     if (movies && movies.results) {
       return movies;

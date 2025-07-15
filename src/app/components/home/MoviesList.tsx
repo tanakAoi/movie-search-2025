@@ -73,20 +73,20 @@ export const MoviesList = ({ movies, type }: MoviesListProps) => {
         <div className="w-full flex justify-between absolute top-1/2 -translate-y-1/2 z-99">
           <button
             onClick={() => instanceRef.current?.prev()}
-            className="bg-base-bg/75 rounded-full p-4 relative"
+            className="bg-base-bg/75 rounded-full p-2.5 relative"
           >
-            <ChevronLeft
-              width={20}
-              height={20}
-              fill={"var(--color-base-fg)"}
-              className="rotate-180"
-            />
+            <ChevronLeft width={32} height={32} fill={"var(--color-base-fg)"} />
           </button>
           <button
             onClick={() => instanceRef.current?.next()}
-            className="bg-base-bg/75 rounded-full p-4 relative"
+            className="bg-base-bg/75 rounded-full p-2.5 relative"
           >
-            <ChevronLeft width={20} height={20} fill={"var(--color-base-fg)"} />
+            <ChevronLeft
+              width={32}
+              height={32}
+              fill={"var(--color-base-fg)"}
+              className="rotate-180"
+            />
           </button>
         </div>
       </div>

@@ -8,6 +8,7 @@ export async function GET(req: NextRequest) {
     const page = searchParams.get("page")
       ? parseInt(searchParams.get("page") as string, 10)
       : 1;
+    const language = searchParams.get("lang") || "";
 
     if (!query) {
       return NextResponse.json(
@@ -16,7 +17,7 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    const movies = await getMoviesByKeyword(query, page);
+    const movies = await getMoviesByKeyword(query, page, language);
     return NextResponse.json(movies);
   } catch (error) {
     console.error(error);
