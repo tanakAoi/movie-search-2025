@@ -19,13 +19,9 @@ export const ResultMovies = ({
   totalPages,
 }: ResultMoviesProps) => {
   const router = useRouter();
-
   const handlePageChange = (newPage: number) => {
     router.push(`/search?query=${query}&page=${newPage}`);
   };
-
-  console.log(movies);
-  
 
   return (
     <>

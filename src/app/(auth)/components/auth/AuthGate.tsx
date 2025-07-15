@@ -2,7 +2,7 @@
 
 import { signIn, useSession } from "next-auth/react";
 import { UserSettings } from "../profile/UserSettings";
-import { DefaultButton } from "../ui/DefaultButton";
+import { DefaultButton } from "../../../components/ui/DefaultButton";
 
 export default function AuthGate() {
   const { data: session } = useSession();

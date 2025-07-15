@@ -3,7 +3,7 @@
 import { ICredit } from "@/types/tmdb";
 import { PersonCard } from "./PersonCard";
 import { useState } from "react";
-import { ChevronLeft } from "@/app/(public)/components/ui/icons/MaterialSymbols";
+import { ChevronLeft } from "@/app/components/ui/icons/MaterialSymbols";
 import { motion } from "motion/react";
 
 interface CreditMembersProps {

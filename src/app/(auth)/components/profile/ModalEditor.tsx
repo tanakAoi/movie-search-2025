@@ -1,6 +1,6 @@
 import { UserProfile } from "@/types/profile";
-import { DefaultButton } from "../ui/DefaultButton";
-import { Close } from "@/app/(public)/components/ui/icons/MaterialSymbols";
+import { DefaultButton } from "../../../components/ui/DefaultButton";
+import { Close } from "@/app/components/ui/icons/MaterialSymbols";
 import { Avatar } from "../ui/Avatar";
 import { useRegion } from "@/context/RegionContext";
 import { ICountry, ILanguage } from "@/types/tmdb";

@@ -11,7 +11,6 @@ import React, {
 import Cookies from "js-cookie";
 import { ICountry, ILanguage } from "@/types/tmdb";
 import { fetchCountries, fetchLanguages } from "@/services/profileService";
-import { useSession } from "next-auth/react";
 
 type RegionContextType = {
   currentCountry: ICountry;
@@ -54,7 +53,6 @@ export const RegionProvider: FC<{ children: ReactNode }> = ({ children }) => {
   });
   const [languagesList, setLanguagesList] = useState<ILanguage[]>([]);
   const [countriesList, setCountriesList] = useState<ICountry[]>([]);
-  const { status: sessionStatus } = useSession();
 
   useEffect(() => {
     const langCookie = Cookies.get("userLanguage");
@@ -107,7 +105,7 @@ export const RegionProvider: FC<{ children: ReactNode }> = ({ children }) => {
       }
     };
     fetchAndSetCountries();
-  }, [sessionStatus]);
+  }, []);
 
   return (
     <RegionContext.Provider

@@ -55,9 +55,12 @@ export const getMovieDetails = async (id: string, lang: string) => {
 
 export const getMovieCredits = async (id: number, lang: string) => {
   try {
-    const response = await fetch(`${BASE_URL}/movie/${id}/credits?lang=${lang}`, {
-      next: { revalidate: 300 },
-    });
+    const response = await fetch(
+      `${BASE_URL}/movie/${id}/credits?lang=${lang}`,
+      {
+        next: { revalidate: 300 },
+      }
+    );
     return await response.json();
   } catch (error) {
     console.error(`Error fetching movie credits for id ${id}:`, error);

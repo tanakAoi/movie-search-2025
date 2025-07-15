@@ -1,7 +1,7 @@
-import StarryBackground from "@/app/(public)/components/decor/StarryBackground";
-import { Hero } from "@/app/(public)/components/home/Hero";
-import { MoviesList } from "@/app/(public)/components/home/MoviesList";
-import { Container } from "@/app/(public)/components/layout/Container";
+import StarryBackground from "@/app/components/decor/StarryBackground";
+import { Hero } from "@/app/components/home/Hero";
+import { MoviesList } from "@/app/components/home/MoviesList";
+import { Container } from "@/app/components/layout/Container";
 import { getRegionFromCookies } from "@/lib/getRegionFromCookies";
 import { getPopularMovies, getUpcomingMovies } from "@/services/movieService";
 
