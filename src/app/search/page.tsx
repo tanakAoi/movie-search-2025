@@ -16,16 +16,9 @@ export default async function SearchPage({
   }
 
   const { results, total_pages } = query
-    ? await getMoviesByKeyword(query, page, lang)
-    : [];
+    ? await getMoviesByKeyword(query, page, lang) : [];
 
-  if (results.length === 0) {
-    return (
-      <p>
-        No results found for: <i>{query}</i>
-      </p>
-    );
-  }
+    
 
   return (
     <ResultMovies

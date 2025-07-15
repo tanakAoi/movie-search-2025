@@ -91,21 +91,3 @@ export const getMovieCredits = async (id: number, lang: string) => {
     throw error;
   }
 };
-
-export const getMoviesByKeyword = async (query: string, page: number, language: string) => {
-  try {
-    const movies = await tmdbFetch("/search/movie", {
-      query,
-      page,
-      language
-    });
-    if (movies && movies.results) {
-      return movies;
-    } else {
-      throw new Error("No results found in the response");
-    }
-  } catch (error) {
-    console.error("Error fetching movies by keyword:", error);
-    throw error;
-  }
-};

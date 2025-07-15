@@ -16,7 +16,7 @@ export const Pagination = ({ page, totalPages, query }: PaginationProps) => {
 
   const getPageButtonClass = (i: number) => {
     const baseClass =
-      "w-12 h-12 flex items-center justify-center rounded-full text-sm border-2 transition-colors duration-200 cursor-pointer";
+      "w-11 h-11 flex items-center justify-center rounded-full text-sm border-2 transition-colors duration-200 cursor-pointer";
     const activeClass = "bg-accent-bg text-base-bg font-bold border-accent-bg";
     const inactiveClass =
       "bg-base-bg text-accent-bg border-accent-bg hover:bg-accent-bg hover:text-base-bg hover:border-accent-bg";
@@ -114,9 +114,7 @@ export const Pagination = ({ page, totalPages, query }: PaginationProps) => {
         >
           <ChevronLeft width={20} height={20} fill={"var(--color-accent-bg)"} />
         </button>
-
-        <div className="flex items-center gap-2">{renderPageNumbers()}</div>
-
+        <div className="flex items-center gap-3">{renderPageNumbers()}</div>
         <button
           onClick={() => handlePageChange(page + 1)}
           disabled={page >= totalPages}

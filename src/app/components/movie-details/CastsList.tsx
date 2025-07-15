@@ -46,7 +46,7 @@ export const CastsList = ({ cast }: { cast: ICredit["cast"] }) => {
         whileHover={{ scale: 1.05 }}
       >
         See all cast & crew
-        <ChevronLeft width={12} height={12} fill={"var(--color-base-bg)"} />
+        <ChevronLeft width={16} height={16} fill={"var(--color-base-bg)"} className="rotate-180" />
       </motion.a>
     </div>
   );
