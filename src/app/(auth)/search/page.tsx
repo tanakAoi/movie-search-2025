@@ -1,6 +1,6 @@
 import { getMoviesByKeyword } from "@/services/movieService";
-import StarryBackground from "@/app/(public)/components/decor/StarryBackground";
-import { ResultMovies } from "@/app/(public)/components/search/ResultMovies";
+import StarryBackground from "@/app/components/decor/StarryBackground";
+import { ResultMovies } from "@/app/components/search/ResultMovies";
 
 export default async function SearchPage({
   searchParams: searchParamsPromise,

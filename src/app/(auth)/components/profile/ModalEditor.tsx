@@ -1,6 +1,6 @@
 import { UserProfile } from "@/types/profile";
-import { DefaultButton } from "../ui/DefaultButton";
-import { Close } from "@/app/(public)/components/ui/icons/MaterialSymbols";
+import { DefaultButton } from "../../../components/ui/DefaultButton";
+import { Close } from "@/app/components/ui/icons/MaterialSymbols";
 import { Avatar } from "../ui/Avatar";
 import { useRegion } from "@/context/RegionContext";
 import { ICountry, ILanguage } from "@/types/tmdb";
@@ -26,6 +26,7 @@ export const ModalEditor = ({
     setCurrentLanguage,
   } = useRegion();
   const [newUserData, setNewUserData] = useState<UserProfile>(userData);
+  const { setCountriesList } = useRegion();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -56,6 +57,7 @@ export const ModalEditor = ({
         const newCountriesList = await fetchCountries(
           newUserData.language?.iso_639_1
         );
+        setCountriesList(newCountriesList);
         newUserData.country = newCountriesList.find(
           (c: ICountry) => c.iso_3166_1 === newUserData.country?.iso_3166_1
         );

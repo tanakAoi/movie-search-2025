@@ -1,13 +1,13 @@
-import { Container } from "@/app/(public)/components/layout/Container";
-import { CircularRating } from "@/app/(public)/components/movie-details/CircularRating";
+import { Container } from "@/app/components/layout/Container";
+import { CircularRating } from "@/app/components/movie-details/CircularRating";
 import { getMovieDetails } from "@/services/movieService";
 import { IMovieDetails } from "@/types/tmdb";
 import Image from "next/image";
-import { BasicInfo } from "@/app/(public)/components/movie-details/BasicInfo";
-import { MovieTitle } from "@/app/(public)/components/movie-details/MovieTitle";
-import { ReleaseDateBar } from "@/app/(public)/components/movie-details/ReleaseDateBar";
-import { TrailerModal } from "@/app/(public)/components/movie-details/TrailerModal";
-import { CastsList } from "@/app/(public)/components/movie-details/CastsList";
+import { BasicInfo } from "@/app/components/movie-details/BasicInfo";
+import { MovieTitle } from "@/app/components/movie-details/MovieTitle";
+import { ReleaseDateBar } from "@/app/components/movie-details/ReleaseDateBar";
+import { TrailerModal } from "@/app/components/movie-details/TrailerModal";
+import { CastsList } from "@/app/components/movie-details/CastsList";
 import { getRegionFromCookies } from "@/lib/getRegionFromCookies";
 
 interface MovieDetailPageProps {

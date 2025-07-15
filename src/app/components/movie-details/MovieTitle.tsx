@@ -1,5 +1,5 @@
-import { Quote } from "@/app/(public)/components/movie-details/Quote";
-import StarryBackground from "@/app/(public)/components/decor/StarryBackground";
+import { Quote } from "@/app/components/movie-details/Quote";
+import StarryBackground from "@/app/components/decor/StarryBackground";
 
 interface MovieTitleProps {
   title: string;

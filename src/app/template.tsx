@@ -1,5 +1,5 @@
-import { Footer } from "@/app/(public)/components/layout/Footer";
-import { Header } from "@/app/(public)/components/layout/Header";
+import { Footer } from "@/app/components/layout/Footer";
+import { Header } from "@/app/components/layout/Header";
 
 export default function Template({ children }: { children: React.ReactNode }) {
   return (
