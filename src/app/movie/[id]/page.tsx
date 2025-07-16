@@ -4,13 +4,13 @@ import { getMovieDetails } from "@/services/movieService";
 import { IMovieDetails } from "@/types/tmdb";
 import Image from "next/image";
 import { BasicInfo } from "@/app/components/movie-details/BasicInfo";
-import { MovieTitle } from "@/app/components/movie-details/MovieTitle";
 import { ReleaseDateBar } from "@/app/components/movie-details/ReleaseDateBar";
 import { TrailerModal } from "@/app/components/movie-details/TrailerModal";
 import { CastsList } from "@/app/components/movie-details/CastsList";
 import { getRegionFromCookies } from "@/lib/getRegionFromCookies";
 import Link from "next/link";
 import { MovieNotFound } from "@/app/components/ui/MovieNotFound";
+import { PageHeading } from "@/app/components/movie-details/PageHeading";
 
 interface MovieDetailPageProps {
   params: Promise<{ id: string }>;
@@ -31,9 +31,11 @@ export default async function MovieDetailPage({
   const isMovieReleased =
     movie.status === "Released" || new Date(movie.release_date) <= new Date();
 
+  console.log(`Movie details for ID ${id}:`, movie.scores);
+
   return (
     <div>
-      <MovieTitle title={movie.title} tagline={movie.tagline} />
+      <PageHeading type="movie" title={movie.title} tagline={movie.tagline} />
       {!isMovieReleased && <ReleaseDateBar date={movie.release_date} />}
       <div className="relative">
         <div
@@ -85,8 +87,8 @@ export default async function MovieDetailPage({
                     )}
                     type="mobile"
                   />
-                  <div className="grid-cols-1 md:hidden w-full flex items-end justify-between gap-4">
-                    {isMovieReleased && (
+                  {isMovieReleased && movie.scores?.length > 0 && (
+                    <div className="grid-cols-1 md:hidden w-full flex items-end justify-between gap-4">
                       <div className="flex flex-col gap-2 w-full">
                         <span className="text-base-bg font-bold">Rating</span>
                         <div className="grid grid-cols-2 gap-4">
@@ -100,8 +102,8 @@ export default async function MovieDetailPage({
                           ))}
                         </div>
                       </div>
-                    )}
-                  </div>
+                    </div>
+                  )}
                 </div>
               </div>
               <BasicInfo
@@ -111,7 +113,7 @@ export default async function MovieDetailPage({
                 type="desktop"
               />
               <div className="flex flex-col gap-10 col-span-1">
-                {isMovieReleased && movie.scores.length > 0 && (
+                {isMovieReleased && movie.scores?.length > 0 && (
                   <div className="hidden md:flex md:items-end md:justify-between gap-4">
                     <div className="flex flex-col gap-2 w-full">
                       <span className="text-base-bg font-bold">Rating</span>

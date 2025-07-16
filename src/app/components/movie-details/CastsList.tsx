@@ -12,7 +12,7 @@ export const CastsList = ({ cast }: { cast: ICredit["cast"] }) => {
       <h3 className="text-3xl font-semibold text-base-bg">Cast</h3>
       <div
         className="grid gap-3 sm:gap-4"
-        style={{ gridTemplateColumns: "repeat(auto-fit, minmax(114px, 1fr))" }}
+        style={{ gridTemplateColumns: "repeat(auto-fill, minmax(136px, 1fr))" }}
       >
         {cast.slice(0, 8).map((cast) => (
           <div key={cast.id} className="text-center text-base-bg">
@@ -46,7 +46,12 @@ export const CastsList = ({ cast }: { cast: ICredit["cast"] }) => {
         whileHover={{ scale: 1.05 }}
       >
         See all cast & crew
-        <ChevronLeft width={16} height={16} fill={"var(--color-base-bg)"} className="rotate-180" />
+        <ChevronLeft
+          width={16}
+          height={16}
+          fill={"var(--color-base-bg)"}
+          className="rotate-180"
+        />
       </motion.a>
     </div>
   );

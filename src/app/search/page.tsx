@@ -4,6 +4,7 @@ import { Container } from "../components/layout/Container";
 import { MovieGrid } from "../components/ui/MovieGrid";
 import { Pagination } from "../components/ui/Pagination";
 import { getRegionFromCookies } from "@/lib/getRegionFromCookies";
+import { PageHeading } from "../components/movie-details/PageHeading";
 
 interface SearchPageProps {
   searchParams: Promise<{ query?: string; page?: string }>;
@@ -25,23 +26,20 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
   return (
     <>
       {results.length < 1 ? (
-        <div className="py-18 md:py-24 relative w-full flex flex-col items-center justify-center gap-4 text-base-bg z-10 min-h-screen">
-          <StarryBackground />
-          <span className="text-xl">No results found for:</span>
-          <h1 className="font-bold text-5xl">&quot;{query}&quot;</h1>
-          <p>Please try a different search term or check your spelling.</p>
-        </div>
+        <PageHeading
+          type="no-results"
+          title={query}
+          subtitle="No results found for:"
+          description="Please try a different search term or check your spelling."
+        />
       ) : (
         <>
-          <div className="py-18 md:py-24 relative w-full flex flex-col items-center justify-center gap-2 text-base-bg z-10">
-            <StarryBackground />
-            <span className="text-xl">Result for:</span>
-            <h1 className="font-bold text-5xl">&quot;{query}&quot;</h1>
-            <p className="text-lg">
-              {" "}
-              (page {page} of {totalPages})
-            </p>
-          </div>
+          <PageHeading
+            type="search"
+            title={query}
+            subtitle="Results for:"
+            pageInfo={{ page, totalPages }}
+          />
           <Container>
             <Pagination
               page={page}
