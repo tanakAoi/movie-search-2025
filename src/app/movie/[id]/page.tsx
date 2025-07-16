@@ -31,8 +31,6 @@ export default async function MovieDetailPage({
   const isMovieReleased =
     movie.status === "Released" || new Date(movie.release_date) <= new Date();
 
-  console.log(`Movie details for ID ${id}:`, movie.scores);
-
   return (
     <div>
       <PageHeading type="movie" title={movie.title} tagline={movie.tagline} />
