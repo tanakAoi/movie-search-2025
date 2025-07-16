@@ -87,7 +87,11 @@ export const getMoviesByKeyword = async (
   }
 };
 
-export const getDiscoverMovies = async (id: string, lang: string, page: number) => {
+export const getDiscoverMovies = async (
+  id: string,
+  lang: string,
+  page: number
+) => {
   try {
     const response = await fetch(
       `${BASE_URL}/movie/discover?genre=${id}&lang=${lang}&page=${page}`,
@@ -120,6 +124,26 @@ export const getGenres = async (lang: string) => {
     return await response.json();
   } catch (error) {
     console.error("Error fetching genres:", error);
+    throw error;
+  }
+};
+
+export const getSimilarMovies = async (id: number, lang: string) => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/movie/${id}/similar?lang=${lang}`,
+      {
+        next: { revalidate: 300 },
+      }
+    );
+    if (!response.ok) {
+      const text = await response.text();
+      console.error("Failed to fetch similar movies:", response.status, text);
+      throw new Error("Failed to fetch similar movies");
+    }
+    return await response.json();
+  } catch (error) {
+    console.error(`Error fetching similar movies for id ${id}:`, error);
     throw error;
   }
 };

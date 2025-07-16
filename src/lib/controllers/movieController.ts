@@ -118,3 +118,15 @@ export const getGenres = async (lang: string) => {
     throw error;
   }
 };
+
+export const getSimilarMovies = async (id: number, lang: string) => {
+  try {
+    const similarMovies = await tmdbFetch(`/movie/${id}/similar`, {
+      language: lang,
+    });
+    return similarMovies.results;
+  } catch (error) {
+    console.error("Error fetching similar movies:", error);
+    throw error;
+  }
+};

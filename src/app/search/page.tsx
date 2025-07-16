@@ -1,5 +1,4 @@
 import { getMoviesByKeyword } from "@/services/movieService";
-import StarryBackground from "../components/decor/StarryBackground";
 import { Container } from "../components/layout/Container";
 import { MovieGrid } from "../components/ui/MovieGrid";
 import { Pagination } from "../components/ui/Pagination";

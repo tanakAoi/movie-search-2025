@@ -11,6 +11,7 @@ import { getRegionFromCookies } from "@/lib/getRegionFromCookies";
 import Link from "next/link";
 import { MovieNotFound } from "@/app/components/ui/MovieNotFound";
 import { PageHeading } from "@/app/components/movie-details/PageHeading";
+import { SimilarMovies } from "@/app/components/movie-details/SimilarMovies";
 
 interface MovieDetailPageProps {
   params: Promise<{ id: string }>;
@@ -167,6 +168,7 @@ export default async function MovieDetailPage({
           {movie.credits.cast.length > 0 && (
             <CastsList cast={movie.credits.cast} />
           )}
+          <SimilarMovies movieId={movie.id} />
         </Container>
       </div>
     </div>

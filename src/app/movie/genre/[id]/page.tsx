@@ -1,4 +1,3 @@
-import StarryBackground from "@/app/components/decor/StarryBackground";
 import { Container } from "@/app/components/layout/Container";
 import { Pagination } from "@/app/components/ui/Pagination";
 import { getRegionFromCookies } from "@/lib/getRegionFromCookies";
