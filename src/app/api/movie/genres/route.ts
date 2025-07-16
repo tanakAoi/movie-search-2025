@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getGenres, getPopularMovies } from "@/lib/controllers/movieController";
+import { getGenres } from "@/lib/controllers/movieController";
 
 export async function GET(req: NextRequest) {
   try {

@@ -1,9 +1,10 @@
-import ISO6391 from "iso-639-1";
+"use client";
+import { useRegion } from "@/context/RegionContext";
 
 interface BasicInfoProps {
   runtime: number;
   language: string;
-  countries: { iso_3166_1: string; name: string }[];
+  countries: string[];
   type: "mobile" | "desktop";
 }
 
@@ -13,10 +14,7 @@ export const BasicInfo = ({
   countries,
   type,
 }: BasicInfoProps) => {
-  const countryShortNames: Record<string, string> = {
-    US: "USA",
-    GB: "UK",
-  };
+  const { languagesList, countriesList } = useRegion();
 
   return (
     <div
@@ -28,20 +26,31 @@ export const BasicInfo = ({
     >
       <p>
         <span>Runtime</span>
-        {runtime === 0 ? "-" : `${Math.floor(runtime / 60)} h ${runtime % 60} min`}
+        {runtime === 0
+          ? "-"
+          : `${Math.floor(runtime / 60)} h ${runtime % 60} min`}
       </p>
       <p>
         <span>Language</span>
-        {ISO6391.getName(language)}
+        {language
+          ? languagesList?.find((lang) => lang.iso_639_1 === language)?.name
+          : "-"}
       </p>
       <div>
         <span>Country</span>
         <ul className="flex flex-col items-center gap-2">
-          {countries.map((country) => (
-            <li key={country.iso_3166_1}>
-              {countryShortNames[country.iso_3166_1] || country.name}
-            </li>
-          ))}
+          {countries.length > 0 ? (
+            countries.map((country) => (
+              <li key={country}>
+                {countriesList?.find((c) => c.iso_3166_1 === country)
+                  ?.english_name ||
+                  countriesList?.find((c) => c.iso_3166_1 === country)
+                    ?.native_name}
+              </li>
+            ))
+          ) : (
+            <span>-</span>
+          )}
         </ul>
       </div>
     </div>

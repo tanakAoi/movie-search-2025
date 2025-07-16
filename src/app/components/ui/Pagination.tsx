@@ -1,25 +1,32 @@
 "use client";
 
-import { useRegion } from "@/context/RegionContext";
 import { useRouter } from "next/navigation";
 import { ChevronLeft, ChevronLeftDouble } from "./icons/MaterialSymbols";
 
 interface PaginationProps {
   page: number;
   totalPages: number;
-  query: string;
+  query?: string;
+  type?: "search" | "discover";
+  genreId?: string;
 }
 
-export const Pagination = ({ page, totalPages, query }: PaginationProps) => {
-  const { currentLanguage } = useRegion();
+export const Pagination = ({
+  page,
+  totalPages,
+  query,
+  type,
+  genreId,
+}: PaginationProps) => {
   const router = useRouter();
 
   const getPageButtonClass = (i: number) => {
     const baseClass =
       "w-11 h-11 flex items-center justify-center rounded-full text-sm border-2 transition-colors duration-200 cursor-pointer";
-    const activeClass = "bg-accent-bg text-base-bg font-bold border-accent-bg";
+    const activeClass =
+      "sm:bg-accent-bg text-accent-bg sm:text-base-bg font-bold border-accent-bg";
     const inactiveClass =
-      "bg-base-bg text-accent-bg border-accent-bg hover:bg-accent-bg hover:text-base-bg hover:border-accent-bg";
+      "bg-base-bg text-accent-bg border-accent-bg hover:bg-accent-bg hover:text-base-bg hover:border-accent-bg hidden sm:block";
 
     return `${baseClass} ${i === page ? activeClass : inactiveClass}`;
   };
@@ -28,9 +35,12 @@ export const Pagination = ({ page, totalPages, query }: PaginationProps) => {
 
   const handlePageChange = (newPage: number) => {
     if (newPage >= 1 && newPage <= totalPages) {
-      router.push(
-        `/search?query=${query}&page=${newPage}&lang=${currentLanguage.iso_639_1}`
-      );
+      if (type === "search") {
+        router.push(`/search?query=${query}&page=${newPage}`);
+      }
+      if (type === "discover") {
+        router.push(`/movie/genre/${genreId}?page=${newPage}`);
+      }
     }
   };
 
@@ -50,9 +60,13 @@ export const Pagination = ({ page, totalPages, query }: PaginationProps) => {
           1
         </button>
       );
+
       if (startPage > 2) {
         pages.push(
-          <span key="start-ellipsis" className="px-2 text-accent-bg">
+          <span
+            key="start-ellipsis"
+            className="px-2 text-accent-bg hidden sm:inline"
+          >
             ...
           </span>
         );
@@ -74,7 +88,10 @@ export const Pagination = ({ page, totalPages, query }: PaginationProps) => {
     if (endPage < totalPages) {
       if (endPage < totalPages - 1) {
         pages.push(
-          <span key="end-ellipsis" className="px-2 text-accent-bg">
+          <span
+            key="end-ellipsis"
+            className="px-2 text-accent-bg hidden sm:inline"
+          >
             ...
           </span>
         );
