@@ -1,4 +1,3 @@
-import StarryBackground from "@/app/components/decor/StarryBackground";
 import { Container } from "@/app/components/layout/Container";
 import { Pagination } from "@/app/components/ui/Pagination";
 import { getRegionFromCookies } from "@/lib/getRegionFromCookies";
@@ -6,6 +5,7 @@ import { getDiscoverMovies, getGenres } from "@/services/movieService";
 import { IGenre } from "@/types/tmdb";
 import notFound from "@/app/not-found";
 import { MovieGrid } from "@/app/components/ui/MovieGrid";
+import { PageHeading } from "@/app/components/movie-details/PageHeading";
 
 interface MovieGenrePageProps {
   params: Promise<{ id: string }>;
@@ -38,10 +38,7 @@ export default async function MovieGenrePage({
 
   return (
     <div>
-      <div className="py-18 md:py-24 relative w-full flex flex-col items-center justify-center gap-2 text-base-bg z-10">
-        <StarryBackground />
-        <h1 className="font-bold text-5xl">{currentGenre?.name || id}</h1>
-      </div>
+      <PageHeading type="genre" title={currentGenre?.name || id} />
       <Container>
         <MovieGrid movies={results} />
         <Pagination

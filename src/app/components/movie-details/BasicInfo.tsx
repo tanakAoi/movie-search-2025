@@ -42,10 +42,14 @@ export const BasicInfo = ({
           {countries.length > 0 ? (
             countries.map((country) => (
               <li key={country}>
-                {countriesList?.find((c) => c.iso_3166_1 === country)
-                  ?.english_name ||
-                  countriesList?.find((c) => c.iso_3166_1 === country)
-                    ?.native_name}
+                {country === "US"
+                  ? "USA"
+                  : country === "GB"
+                  ? "UK"
+                  : countriesList?.find((c) => c.iso_3166_1 === country)
+                      ?.english_name ||
+                    countriesList?.find((c) => c.iso_3166_1 === country)
+                      ?.native_name}
               </li>
             ))
           ) : (
