@@ -9,6 +9,8 @@ import { ReleaseDateBar } from "@/app/components/movie-details/ReleaseDateBar";
 import { TrailerModal } from "@/app/components/movie-details/TrailerModal";
 import { CastsList } from "@/app/components/movie-details/CastsList";
 import { getRegionFromCookies } from "@/lib/getRegionFromCookies";
+import Link from "next/link";
+import { MovieNotFound } from "@/app/components/ui/MovieNotFound";
 
 interface MovieDetailPageProps {
   params: Promise<{ id: string }>;
@@ -22,6 +24,10 @@ export default async function MovieDetailPage({
 
   const movie: IMovieDetails = await getMovieDetails(id, language);
 
+  if (movie.error) {
+    return <MovieNotFound />;
+  }
+
   const isMovieReleased =
     movie.status === "Released" || new Date(movie.release_date) <= new Date();
 
@@ -34,35 +40,49 @@ export default async function MovieDetailPage({
           style={{
             backgroundImage: `url(https://image.tmdb.org/t/p/w1280${movie.backdrop_path})`,
           }}
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat saturate-50 brightness-40 -z-10"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat saturate-50 brightness-40 -z-10 bg-base-fg/75"
         />
         <Container className="min-h-screen flex flex-col gap-10">
           <div className="grid md:grid-cols-2 gap-10 lg:gap-0 ">
             <figure className="hidden md:block">
-              <Image
-                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                alt={movie.title}
-                className="rounded-lg"
-                width={400}
-                height={600}
-              />
+              {movie.poster_path ? (
+                <Image
+                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                  alt={movie.title || "Movie Poster"}
+                  className="rounded-lg"
+                  width={400}
+                  height={600}
+                />
+              ) : (
+                <div className="bg-accent-bg text-base-bg w-full h-full flex items-center justify-center rounded-xl max-w-[300px] max-h-[400px]">
+                  No Image Available
+                </div>
+              )}
             </figure>
             <div className="flex flex-col gap-10">
               <div className="md:hidden sm:grid sm:grid-cols-3 flex flex-col gap-4 sm:gap-8">
                 <figure className="sm:col-span-2">
-                  <Image
-                    src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                    alt={movie.title}
-                    className="rounded-lg"
-                    width={400}
-                    height={600}
-                  />
+                  {movie.poster_path ? (
+                    <Image
+                      src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                      alt={movie.title || "Movie Poster"}
+                      className="rounded-lg"
+                      width={400}
+                      height={600}
+                    />
+                  ) : (
+                    <div className="bg-accent-bg text-base-bg w-full h-full flex items-center justify-center rounded-xl max-w-[300px] max-h-[400px]">
+                      No Image Available
+                    </div>
+                  )}
                 </figure>
                 <div className="sm:grid-cols-1 flex flex-col justify-between items-center gap-6">
                   <BasicInfo
                     runtime={movie.runtime}
                     language={movie.original_language}
-                    countries={movie.production_countries}
+                    countries={movie.production_countries.map(
+                      (c) => c.iso_3166_1
+                    )}
                     type="mobile"
                   />
                   <div className="grid-cols-1 md:hidden w-full flex items-end justify-between gap-4">
@@ -87,12 +107,12 @@ export default async function MovieDetailPage({
               <BasicInfo
                 runtime={movie.runtime}
                 language={movie.original_language}
-                countries={movie.production_countries}
+                countries={movie.production_countries.map((c) => c.iso_3166_1)}
                 type="desktop"
               />
               <div className="flex flex-col gap-10 col-span-1">
-                <div className="hidden md:flex md:items-end md:justify-between gap-4">
-                  {isMovieReleased && (
+                {isMovieReleased && movie.scores.length > 0 && (
+                  <div className="hidden md:flex md:items-end md:justify-between gap-4">
                     <div className="flex flex-col gap-2 w-full">
                       <span className="text-base-bg font-bold">Rating</span>
                       <div className="grid grid-cols-2 lg:flex lg:items-center gap-4 xl:gap-10">
@@ -106,8 +126,8 @@ export default async function MovieDetailPage({
                         ))}
                       </div>
                     </div>
-                  )}
-                </div>
+                  </div>
+                )}
                 {movie.trailer?.key && (
                   <TrailerModal trailerKey={movie.trailer.key} />
                 )}
@@ -117,10 +137,22 @@ export default async function MovieDetailPage({
                     {isMovieReleased && (
                       <p>Release Date: {movie.release_date}</p>
                     )}
-                    <p>
-                      Genres:{" "}
-                      {movie.genres.map((genre) => genre.name).join(", ")}
-                    </p>
+                    {movie.genres.length > 0 && (
+                      <div>
+                        <span>Genres: </span>
+                        {movie.genres.map((genre, idx) => (
+                          <span key={genre.id}>
+                            <Link
+                              href={`/movie/genre/${genre.id}`}
+                              className="hover:underline"
+                            >
+                              {genre.name}
+                            </Link>
+                            {idx < movie.genres.length - 1 && ", "}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
                 {movie.overview && (
@@ -132,7 +164,9 @@ export default async function MovieDetailPage({
               </div>
             </div>
           </div>
-          <CastsList cast={movie.credits.cast} />
+          {movie.credits.cast.length > 0 && (
+            <CastsList cast={movie.credits.cast} />
+          )}
         </Container>
       </div>
     </div>

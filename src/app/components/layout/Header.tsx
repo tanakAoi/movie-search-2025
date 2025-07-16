@@ -7,8 +7,8 @@ import { LinkIcon } from "../ui/LinkIcon";
 
 export const Header = () => {
   return (
-    <header>
-      <div className="bg-accent-bg text-base-bg h-16 flex items-center justify-between px-4 relative">
+    <header className="relative">
+      <div className="bg-accent-bg text-base-bg h-16 flex items-center justify-between px-4">
         <Link className="font-lobster text-3xl" href={"/"}>
           <span>{siteConfig.siteName}</span>
         </Link>

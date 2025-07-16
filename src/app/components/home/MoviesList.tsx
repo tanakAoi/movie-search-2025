@@ -36,10 +36,10 @@ export const MoviesList = ({ movies, type }: MoviesListProps) => {
           slides: { perView: 4, spacing: 10 },
         },
         "(max-width: 1024px)": {
-          slides: { perView: 3, spacing: 8 },
+          slides: { perView: 4, spacing: 8 },
         },
         "(max-width: 768px)": {
-          slides: { perView: 2, spacing: 5 },
+          slides: { perView: 2, spacing: 10 },
         },
         "(max-width: 640px)": {
           slides: { perView: 1, spacing: 0 },
@@ -56,37 +56,47 @@ export const MoviesList = ({ movies, type }: MoviesListProps) => {
       <div ref={sliderRef} className="keen-slider relative">
         {movies.map((movie) => (
           <Link key={movie.id} href={`/movie/${movie.id}`}>
-            <div className="keen-slider__slide flex flex-col items-center bg-accent-bg/90 p-4 rounded-lg">
-              <Image
-                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                alt={movie.title}
-                className="rounded-lg"
-                width={300}
-                height={400}
-              />
-              <h3 className="text-xl font-semibold text-center mt-4 line-clamp-2">
-                {movie.title}
-              </h3>
+            <div className="keen-slider__slide flex flex-col items-center bg-accent-bg/90 p-4 rounded-lg w-[300px] h-full">
+              <figure className="mb-4 w-full h-[300px] flex items-center justify-center">
+                {movie.poster_path ? (
+                  <Image
+                    width={300}
+                    height={400}
+                    src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                    alt={movie.title || "Movie Poster"}
+                    className="rounded-lg object-cover w-full h-full"
+                  />
+                ) : (
+                  <div className=" text-base-bg w-full h-full flex items-center justify-center rounded-lg">
+                    No Image
+                  </div>
+                )}
+              </figure>
+              <div className="flex-1 flex items-center justify-center">
+                <h3 className="text-xl font-semibold text-center px-2 line-clamp-2">
+                  {movie.title}
+                </h3>
+              </div>
             </div>
           </Link>
         ))}
         <div className="w-full flex justify-between absolute top-1/2 -translate-y-1/2 z-99">
           <button
             onClick={() => instanceRef.current?.prev()}
-            className="bg-base-bg/75 rounded-full p-4 relative"
+            className="bg-base-bg/75 rounded-full p-2.5 relative"
           >
-            <ChevronLeft
-              width={20}
-              height={20}
-              fill={"var(--color-base-fg)"}
-              className="rotate-180"
-            />
+            <ChevronLeft width={32} height={32} fill={"var(--color-base-fg)"} />
           </button>
           <button
             onClick={() => instanceRef.current?.next()}
-            className="bg-base-bg/75 rounded-full p-4 relative"
+            className="bg-base-bg/75 rounded-full p-2.5 relative"
           >
-            <ChevronLeft width={20} height={20} fill={"var(--color-base-fg)"} />
+            <ChevronLeft
+              width={32}
+              height={32}
+              fill={"var(--color-base-fg)"}
+              className="rotate-180"
+            />
           </button>
         </div>
       </div>

@@ -4,10 +4,18 @@ import { IconWrapper } from "./IconWrapper";
 const ChevronLeft = (props: IconWrapperProps) => {
   return (
     <IconWrapper viewBox="0 -960 960 960" {...props}>
-      <path d="m321-80-71-71 329-329-329-329 71-71 400 400L321-80Z" />
+      <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z" />
     </IconWrapper>
   );
 };
+
+const ChevronLeftDouble = (props: IconWrapperProps) => {
+  return (
+    <IconWrapper viewBox="0 -960 960 960" {...props}>
+      <path d="M440-240 200-480l240-240 56 56-183 184 183 184-56 56Zm264 0L464-480l240-240 56 56-183 184 183 184-56 56Z" />
+    </IconWrapper>
+  );
+}
 
 const Video = (props: IconWrapperProps) => {
   return (
@@ -49,4 +57,4 @@ const Globe = (props: IconWrapperProps) => {
   );
 };
 
-export { ChevronLeft, Video, Close, Search, AccountCircle, Globe };
+export { ChevronLeft, ChevronLeftDouble, Video, Close, Search, AccountCircle, Globe };

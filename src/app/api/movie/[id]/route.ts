@@ -11,15 +11,25 @@ export async function GET(
   const id = (await params).id;
   const { searchParams } = new URL(req.url);
   const lang = searchParams.get("lang") || "en-US";
+
   const tmdb = await getMovieDetailsFromTmdb(id, lang);
-  if (!tmdb || !tmdb.imdb_id) {
+
+  if (!tmdb) {
     return NextResponse.json(
       { error: "Movie details not found or IMDb ID is missing" },
       { status: 404 }
     );
   }
 
+  if (!tmdb.imdb_id) {
+    return NextResponse.json(tmdb);
+  }
+
   const omdb = await getMovieDetailsFromOmdb(tmdb.imdb_id);
+  if (!omdb) {
+    return NextResponse.json(tmdb);
+  }
+
   const scores = [
     ...(omdb?.Ratings ?? []),
     {

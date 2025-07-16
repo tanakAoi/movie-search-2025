@@ -13,6 +13,7 @@ export interface IMovie {
   video: boolean;
   vote_average: number;
   vote_count: number;
+  error?: string;
 }
 
 export interface IMovieDetails extends IMovie {
@@ -99,5 +100,10 @@ export interface ICountry {
 export interface ILanguage {
   iso_639_1: string;
   english_name: string;
+  name: string;
+}
+
+export interface IGenre {
+  id: number;
   name: string;
 }

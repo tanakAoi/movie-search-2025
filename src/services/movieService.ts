@@ -68,10 +68,14 @@ export const getMovieCredits = async (id: number, lang: string) => {
   }
 };
 
-export const getMoviesByKeyword = async (query: string, page: number) => {
+export const getMoviesByKeyword = async (
+  query: string,
+  page: number,
+  lang: string
+) => {
   try {
     const response = await fetch(
-      `${BASE_URL}/movie/search?q=${query}&page=${page}`,
+      `${BASE_URL}/movie/search?q=${query}&page=${page}&lang=${lang}`,
       {
         next: { revalidate: 300 },
       }
@@ -79,6 +83,43 @@ export const getMoviesByKeyword = async (query: string, page: number) => {
     return await response.json();
   } catch (error) {
     console.error(`Error searching movies with query "${query}":`, error);
+    throw error;
+  }
+};
+
+export const getDiscoverMovies = async (id: string, lang: string, page: number) => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/movie/discover?genre=${id}&lang=${lang}&page=${page}`,
+      {
+        next: { revalidate: 300 },
+      }
+    );
+    if (!response.ok) {
+      const text = await response.text();
+      console.error("Failed to fetch discover movies:", response.status, text);
+      throw new Error("Failed to fetch discover movies");
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching discover movies:", error);
+    throw error;
+  }
+};
+
+export const getGenres = async (lang: string) => {
+  try {
+    const response = await fetch(`${BASE_URL}/movie/genres?lang=${lang}`, {
+      next: { revalidate: 1800 },
+    });
+    if (!response.ok) {
+      const text = await response.text();
+      console.error("Failed to fetch genres:", response.status, text);
+      throw new Error("Failed to fetch genres");
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching genres:", error);
     throw error;
   }
 };

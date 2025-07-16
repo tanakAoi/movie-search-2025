@@ -1,5 +1,5 @@
+import { getMoviesByKeyword } from "@/lib/controllers/searchController";
 import { NextRequest, NextResponse } from "next/server";
-import { getMoviesByKeyword } from "@/lib/controllers/movieController";
 
 export async function GET(req: NextRequest) {
   try {
@@ -8,6 +8,7 @@ export async function GET(req: NextRequest) {
     const page = searchParams.get("page")
       ? parseInt(searchParams.get("page") as string, 10)
       : 1;
+    const language = searchParams.get("lang") || "";
 
     if (!query) {
       return NextResponse.json(
@@ -16,8 +17,9 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    const movies = await getMoviesByKeyword(query, page);
-    return NextResponse.json(movies);
+    const results = await getMoviesByKeyword(query, page, language);
+    
+    return NextResponse.json(results);
   } catch (error) {
     console.error(error);
     return NextResponse.json(

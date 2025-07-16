@@ -92,19 +92,29 @@ export const getMovieCredits = async (id: number, lang: string) => {
   }
 };
 
-export const getMoviesByKeyword = async (query: string, page: number) => {
+export const getDiscoverMovies = async (genre: string, lang: string, page: number) => {
   try {
-    const movies = await tmdbFetch("/search/movie", {
-      query,
+    const movies = await tmdbFetch("/discover/movie", {
+      with_genres: genre,
+      language: lang,
       page,
     });
-    if (movies && movies.results) {
-      return movies;
-    } else {
-      throw new Error("No results found in the response");
-    }
+    
+    return movies;
   } catch (error) {
-    console.error("Error fetching movies by keyword:", error);
+    console.error("Error fetching discover movies:", error);
+    throw error;
+  }
+};
+
+export const getGenres = async (lang: string) => {
+  try {
+    const results = await tmdbFetch("/genre/movie/list", {
+      language: lang,
+    });
+    return results.genres;
+  } catch (error) {
+    console.error("Error fetching genres:", error);
     throw error;
   }
 };
