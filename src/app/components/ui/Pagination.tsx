@@ -22,7 +22,7 @@ export const Pagination = ({
 
   const getPageButtonClass = (i: number) => {
     const baseClass =
-      "w-11 h-11 flex items-center justify-center rounded-full text-sm border-2 transition-colors duration-200 cursor-pointer";
+      "w-11 h-11 flex items-center justify-center rounded-full text-md border-2 transition-colors duration-200 cursor-pointer font-lobster";
     const activeClass =
       "sm:bg-accent-bg text-accent-bg sm:text-base-bg font-bold border-accent-bg";
     const inactiveClass =

@@ -92,14 +92,18 @@ export const getMovieCredits = async (id: number, lang: string) => {
   }
 };
 
-export const getDiscoverMovies = async (genre: string, lang: string, page: number) => {
+export const getDiscoverMovies = async (
+  genre: string,
+  lang: string,
+  page: number
+) => {
   try {
     const movies = await tmdbFetch("/discover/movie", {
       with_genres: genre,
       language: lang,
       page,
     });
-    
+
     return movies;
   } catch (error) {
     console.error("Error fetching discover movies:", error);
@@ -124,6 +128,12 @@ export const getSimilarMovies = async (id: number, lang: string) => {
     const similarMovies = await tmdbFetch(`/movie/${id}/similar`, {
       language: lang,
     });
+
+    similarMovies.results.sort(
+      (a: { vote_count: number }, b: { vote_count: number }) =>
+        b.vote_count - a.vote_count
+    );
+
     return similarMovies.results;
   } catch (error) {
     console.error("Error fetching similar movies:", error);
