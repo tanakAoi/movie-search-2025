@@ -87,14 +87,24 @@ export const getMoviesByKeyword = async (
   }
 };
 
-export const getDiscoverMovies = async (
-  id: string,
-  lang: string,
+/* export const getDiscoverMovies = async (
+  options: DiscoverMovieOptions,
+  language: string,
   page: number
 ) => {
   try {
+    const query = new URLSearchParams();
+    console.log(query);
+
+    for (const key in options) {
+      const value = options[key];
+      if (value !== undefined) {
+        query.append(key === "lang" ? "language" : key, String(value));
+      }
+    }
+
     const response = await fetch(
-      `${BASE_URL}/movie/discover?genre=${id}&lang=${lang}&page=${page}`,
+      `${BASE_URL}/movie/discover?${query.toString()}`,
       {
         next: { revalidate: 300 },
       }
@@ -109,7 +119,7 @@ export const getDiscoverMovies = async (
     console.error("Error fetching discover movies:", error);
     throw error;
   }
-};
+}; */
 
 export const getGenres = async (lang: string) => {
   try {
@@ -144,6 +154,62 @@ export const getSimilarMovies = async (id: number, lang: string) => {
     return await response.json();
   } catch (error) {
     console.error(`Error fetching similar movies for id ${id}:`, error);
+    throw error;
+  }
+};
+
+export const getMoviesByGenre = async (
+  genreId: string,
+  lang: string,
+  page: number
+) => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/movie/discover?genre=${genreId}&lang=${lang}&page=${page}`,
+      {
+        next: { revalidate: 300 },
+      }
+    );
+    if (!response.ok) {
+      const text = await response.text();
+      console.error(
+        `Failed to fetch movies with genre ${genreId}:`,
+        response.status,
+        text
+      );
+      throw new Error(`Failed to fetch movies with genre ${genreId}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error(`Error fetching movies with genre ${genreId}:`, error);
+    throw error;
+  }
+};
+
+export const getMoviesByPerson = async (
+  personId: string,
+  lang: string,
+  page: number
+) => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/movie/discover?person=${personId}&lang=${lang}&page=${page}`,
+      {
+        next: { revalidate: 300 },
+      }
+    );
+    if (!response.ok) {
+      const text = await response.text();
+      console.error(
+        `Failed to fetch movies with person ${personId}:`,
+        response.status,
+        text
+      );
+      throw new Error(`Failed to fetch movies with person ${personId}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error(`Error fetching movies with person ${personId}:`, error);
     throw error;
   }
 };

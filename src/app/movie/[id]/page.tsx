@@ -12,7 +12,7 @@ import { MainSection } from "@/app/components/movie-details/MainSection";
 import { BackdropImage } from "@/app/components/movie-details/BackdropImage";
 import { isReleased } from "@/utils/date";
 
-interface MovieDetailPageProps {
+type MovieDetailPageProps = {
   params: Promise<{ id: string }>;
 }
 

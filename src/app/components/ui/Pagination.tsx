@@ -7,8 +7,8 @@ interface PaginationProps {
   page: number;
   totalPages: number;
   query?: string;
-  type?: "search" | "discover";
-  genreId?: string;
+  type?: "search" | "discover" | "person";
+  id?: string;
 }
 
 export const Pagination = ({
@@ -16,7 +16,7 @@ export const Pagination = ({
   totalPages,
   query,
   type,
-  genreId,
+  id,
 }: PaginationProps) => {
   const router = useRouter();
 
@@ -39,7 +39,10 @@ export const Pagination = ({
         router.push(`/search?query=${query}&page=${newPage}`);
       }
       if (type === "discover") {
-        router.push(`/movie/genre/${genreId}?page=${newPage}`);
+        router.push(`/movie/genre/${id}?page=${newPage}`);
+      }
+      if (type === "person") {
+        router.push(`/person/${id}?page=${newPage}`);
       }
     }
   };

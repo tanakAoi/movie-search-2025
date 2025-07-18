@@ -1,13 +1,15 @@
 import { Quote } from "@/app/components/movie-details/Quote";
 import StarryBackground from "@/app/components/decor/StarryBackground";
+import Image from "next/image";
 
 interface PageHeadingProps {
   title: string;
+  type: "movie" | "search" | "genre" | "person" | "no-results";
   tagline?: string;
-  type: "movie" | "search" | "genre" | "no-results";
   subtitle?: string;
   description?: string;
   pageInfo?: { page: number; totalPages: number };
+  imageUrl?: string;
 }
 
 export const PageHeading = ({
@@ -17,6 +19,7 @@ export const PageHeading = ({
   subtitle,
   description,
   pageInfo,
+  imageUrl,
 }: PageHeadingProps) => {
   return (
     <div
@@ -27,6 +30,16 @@ export const PageHeading = ({
       <StarryBackground />
 
       {subtitle && <span className="text-xl">{subtitle}</span>}
+
+      {imageUrl && (
+        <Image
+          width={150}
+          height={150}
+          src={imageUrl}
+          alt={title}
+          className="aspect-square rounded-full object-cover mb-4"
+        />
+      )}
 
       <h1 className="text-5xl font-bold text-center">
         {type === "search" || type === "no-results" ? `"${title}"` : title}

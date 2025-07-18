@@ -1,3 +1,4 @@
+import { DiscoverMovieOptions } from "@/types/discoverParams";
 import { tmdbFetch } from "../tmdbFetcher";
 
 export const getPopularMovies = async (lang: string, country: string) => {
@@ -92,18 +93,17 @@ export const getMovieCredits = async (id: number, lang: string) => {
   }
 };
 
-export const getDiscoverMovies = async (
-  genre: string,
-  lang: string,
-  page: number
-) => {
+export const getDiscoverMovies = async (options: DiscoverMovieOptions) => {
   try {
-    const movies = await tmdbFetch("/discover/movie", {
-      with_genres: genre,
+    const { lang, page, ...rest } = options;
+
+    const queryParams: Record<string, string | number> = {
       language: lang,
       page,
-    });
+      ...rest,
+    };
 
+    const movies = await tmdbFetch("/discover/movie", queryParams);
     return movies;
   } catch (error) {
     console.error("Error fetching discover movies:", error);

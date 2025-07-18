@@ -109,3 +109,23 @@ export interface IGenre {
   id: number;
   name: string;
 }
+
+export interface IPerson {
+  adult: boolean;
+  also_known_as: string[];
+  biography: string;
+  birthday: string;
+  deathday: string | null;
+  gender: number;
+  homepage: string | null;
+  id: number;
+  known_for_department: string;
+  movie_credits: {
+    cast: IMovie[];
+    crew: IMovie[];
+  };
+  name: string;
+  place_of_birth: string;
+  popularity: number;
+  profile_path: string | null;
+}

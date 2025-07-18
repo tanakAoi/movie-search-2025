@@ -8,7 +8,7 @@ export const BackdropImage = ({ backdropPath }: BackdropImageProps) => {
   return (
     <div
       style={{ backgroundImage: `url(${imageUrl})` }}
-      className="absolute inset-0 bg-cover bg-center bg-no-repeat saturate-50 brightness-25 -z-10 bg-base-fg/75"
+      className="absolute inset-0 bg-cover bg-center bg-no-repeat saturate-50 brightness-30 -z-10 bg-base-fg/75"
     />
   );
 };
