@@ -12,7 +12,7 @@ export const PersonCard = ({ name, imagePath, label }: PersonCardProps) => {
       <figure className="w-[90px] h-[90px] md:w-[120px] md:h-[120px] *:rounded-full flex-shrink-0 overflow-hidden">
         {imagePath ? (
           <Image
-            src={`https://image.tmdb.org/t/p/w500${imagePath}`}
+            src={`https://image.tmdb.org/t/p/original${imagePath}`}
             alt={name}
             width={120}
             height={120}

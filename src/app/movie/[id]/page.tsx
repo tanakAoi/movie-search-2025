@@ -39,7 +39,7 @@ export default async function MovieDetailPage({
       <div className="relative">
         <div
           style={{
-            backgroundImage: `url(https://image.tmdb.org/t/p/w1280${movie.backdrop_path})`,
+            backgroundImage: `url(https://image.tmdb.org/t/p/original${movie.backdrop_path})`,
           }}
           className="absolute inset-0 bg-cover bg-center bg-no-repeat saturate-50 brightness-40 -z-10 bg-base-fg/75"
         />
@@ -48,7 +48,7 @@ export default async function MovieDetailPage({
             <figure className="hidden md:block">
               {movie.poster_path ? (
                 <Image
-                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                  src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
                   alt={movie.title || "Movie Poster"}
                   className="rounded-lg"
                   width={400}
@@ -65,7 +65,7 @@ export default async function MovieDetailPage({
                 <figure className="sm:col-span-2">
                   {movie.poster_path ? (
                     <Image
-                      src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                      src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
                       alt={movie.title || "Movie Poster"}
                       className="rounded-lg"
                       width={400}
