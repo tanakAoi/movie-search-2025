@@ -1,7 +1,7 @@
 import { Container } from "@/app/components/layout/Container";
 import { Pagination } from "@/app/components/ui/Pagination";
 import { getRegionFromCookies } from "@/lib/getRegionFromCookies";
-import { getDiscoverMovies, getGenres } from "@/services/movieService";
+import { getGenres, getMoviesByGenre } from "@/services/movieService";
 import { IGenre } from "@/types/tmdb";
 import notFound from "@/app/not-found";
 import { MovieGrid } from "@/app/components/ui/MovieGrid";
@@ -30,7 +30,7 @@ export default async function MovieGenrePage({
     notFound();
   }
 
-  const { results, total_pages: totalPages } = await getDiscoverMovies(
+  const { results, total_pages: totalPages } = await getMoviesByGenre(
     id,
     language,
     page
@@ -45,7 +45,7 @@ export default async function MovieGenrePage({
           page={page}
           totalPages={totalPages}
           type="discover"
-          genreId={id}
+          id={id}
         />
       </Container>
     </div>

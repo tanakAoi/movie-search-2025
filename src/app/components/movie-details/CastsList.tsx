@@ -31,9 +31,14 @@ export const CastsList = ({ cast }: { cast: ICredit["cast"] }) => {
             }}
           >
             {cast.slice(0, 8).map((cast) => (
-              <div
+              <motion.a
+                href={`/person/${cast.id}`}
                 key={cast.id}
                 className="text-center text-base-bg w-full max-w-[150px] mx-auto"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                whileHover={{ scale: 1.05 }}
               >
                 <figure className="w-full aspect-[2/3] relative">
                   {cast.profile_path ? (
@@ -56,7 +61,7 @@ export const CastsList = ({ cast }: { cast: ICredit["cast"] }) => {
                 <p className="text-xs text-gray-300 mt-1 break-words">
                   {cast.character}
                 </p>
-              </div>
+              </motion.a>
             ))}
           </div>
           <motion.a
