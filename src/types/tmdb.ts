@@ -40,12 +40,14 @@ export interface IMovieDetails extends IMovie {
   spoken_languages: { iso_639_1: string; name: string }[];
   status: string;
   tagline: string;
-  scores: {
-    source: string;
-    value: string;
-  }[];
+  scores: IScores[];
   trailer: IVideo;
   credits: ICredit;
+}
+
+export interface IScores {
+  source: string;
+  value: string;
 }
 
 export interface ICredit {

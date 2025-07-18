@@ -5,12 +5,12 @@ import { getDiscoverMovies, getGenres } from "@/services/movieService";
 import { IGenre } from "@/types/tmdb";
 import notFound from "@/app/not-found";
 import { MovieGrid } from "@/app/components/ui/MovieGrid";
-import { PageHeading } from "@/app/components/movie-details/PageHeading";
+import { PageHeading } from "@/app/components/ui/PageHeading";
 
-interface MovieGenrePageProps {
+type MovieGenrePageProps = {
   params: Promise<{ id: string }>;
   searchParams: Promise<{ page?: string }>;
-}
+};
 
 export default async function MovieGenrePage({
   params,

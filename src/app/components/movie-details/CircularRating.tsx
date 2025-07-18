@@ -1,3 +1,7 @@
+"use client";
+
+import { motion } from "motion/react";
+
 interface CircularRatingProps {
   source: string;
   value: string;
@@ -14,7 +18,13 @@ export const CircularRating = ({
   const r = size / 2 - strokeWidth / 2; // Radius of the circle
   const circumference = 2 * Math.PI * r; // Circumference of the circle
   const stroke =
-    percentage >= 75 ? "#4caf50" : percentage >= 50 ? "#ff9800" : "#f44336"; // Color based on percentage
+    percentage >= 75
+      ? "#4caf50"
+      : percentage >= 50
+      ? "#ffe52c"
+      : percentage >= 25
+      ? "#ff9800"
+      : "#f44336"; // Color based on percentage
 
   return (
     <div className="flex flex-col items-center gap-2">
@@ -28,7 +38,7 @@ export const CircularRating = ({
           fill="var(--color-base-fg)"
           opacity={0.4}
         />
-        <circle
+        <motion.circle
           cx={size / 2}
           cy={size / 2}
           r={r}
@@ -37,7 +47,12 @@ export const CircularRating = ({
           strokeLinecap="round"
           fill="none"
           strokeDasharray={circumference}
-          strokeDashoffset={circumference - (circumference * percentage) / 100}
+          initial={{ strokeDashoffset: circumference }}
+          animate={{
+            strokeDashoffset:
+              circumference - (circumference * percentage) / 100,
+          }}
+          transition={{ duration: 1.5, ease: "easeOut", delay: 1 }}
           transform={`rotate(-90 ${size / 2} ${size / 2})`}
         />
         <text

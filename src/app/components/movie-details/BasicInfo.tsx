@@ -5,21 +5,21 @@ interface BasicInfoProps {
   runtime: number;
   language: string;
   countries: string[];
-  type: "mobile" | "desktop";
+  variant: "mobile" | "desktop";
 }
 
 export const BasicInfo = ({
   runtime,
   language,
   countries,
-  type,
+  variant,
 }: BasicInfoProps) => {
   const { languagesList, countriesList } = useRegion();
 
   return (
     <div
       className={`text-sm bg-base-bg/80 p-4 rounded-sm *:col-span-1 *:flex *:flex-col *:items-center *:gap-2 **:[span]:font-bold ${
-        type === "mobile"
+        variant === "mobile"
           ? "md:hidden flex flex-row sm:flex-col justify-between w-full h-full"
           : "hidden md:grid grid-cols-3 h-fit"
       }`}

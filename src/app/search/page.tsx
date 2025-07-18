@@ -3,7 +3,7 @@ import { Container } from "../components/layout/Container";
 import { MovieGrid } from "../components/ui/MovieGrid";
 import { Pagination } from "../components/ui/Pagination";
 import { getRegionFromCookies } from "@/lib/getRegionFromCookies";
-import { PageHeading } from "../components/movie-details/PageHeading";
+import { PageHeading } from "../components/ui/PageHeading";
 
 interface SearchPageProps {
   searchParams: Promise<{ query?: string; page?: string }>;
