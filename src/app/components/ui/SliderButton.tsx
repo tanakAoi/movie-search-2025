@@ -5,6 +5,7 @@ type SliderButtonProps = {
   direction: "left" | "right";
   className?: string;
 };
+
 export const SliderButton = ({
   onClick,
   direction,

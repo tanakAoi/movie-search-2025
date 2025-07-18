@@ -3,7 +3,6 @@
 import { IMovie } from "@/types/tmdb";
 import { useKeenSlider } from "keen-slider/react";
 import Link from "next/link";
-import { ChevronLeft } from "./icons/MaterialSymbols";
 import Image from "next/image";
 import { SliderButton } from "./SliderButton";
 
