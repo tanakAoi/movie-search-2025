@@ -25,7 +25,7 @@ export const MoviesList = ({ movies, type }: MoviesListProps) => {
       <p className="text-md">{contentMap[type].description}</p>
       <MovieSlider
         movies={movies}
-        type={"home"}
+        type="large"
       />
     </div>
   );

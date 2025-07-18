@@ -17,7 +17,7 @@ export const MovieGrid = ({ movies }: { movies: IMovie[] }) => {
               <Image
                 width={300}
                 height={400}
-                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
                 alt={movie.title || "Movie Poster"}
                 className="rounded-lg"
               />

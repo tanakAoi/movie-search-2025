@@ -11,7 +11,7 @@ export const SimilarMovies = async ({ movieId }: { movieId: number }) => {
     movies.length > 0 && (
       <div className="flex flex-col gap-4">
         <h3 className="text-3xl font-semibold text-base-bg">Similar Movies</h3>
-        <MovieSlider movies={movies} type="similar" />
+        <MovieSlider movies={movies} type="small" />
       </div>
     )
   );

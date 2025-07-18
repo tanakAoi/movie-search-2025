@@ -25,9 +25,9 @@ export const CastsList = ({ cast }: { cast: ICredit["cast"] }) => {
       {isOpen && (
         <>
           <div
-            className="grid gap-3 sm:gap-4 justify-center grid-cols-[repeat(auto-fill,minmax(120px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(136px,1fr))]"
+            className="grid gap-4 justify-center grid-cols-[repeat(auto-fill,minmax(136px,1fr))]"
             style={{
-              gridTemplateColumns: "repeat(auto-fill, minmax(120px, 1fr))",
+              gridTemplateColumns: "repeat(auto-fill, minmax(136px, 1fr))",
             }}
           >
             {cast.slice(0, 8).map((cast) => (
@@ -38,7 +38,7 @@ export const CastsList = ({ cast }: { cast: ICredit["cast"] }) => {
                 <figure className="w-full aspect-[2/3] relative">
                   {cast.profile_path ? (
                     <Image
-                      src={`https://image.tmdb.org/t/p/w500${cast.profile_path}`}
+                      src={`https://image.tmdb.org/t/p/original${cast.profile_path}`}
                       alt={cast.name}
                       fill
                       sizes="(max-width: 640px) 100vw, 150px"

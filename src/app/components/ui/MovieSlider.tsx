@@ -3,38 +3,39 @@
 import { IMovie } from "@/types/tmdb";
 import { useKeenSlider } from "keen-slider/react";
 import Link from "next/link";
-import { ChevronLeft } from "./icons/MaterialSymbols";
 import Image from "next/image";
+import { SliderButton } from "./SliderButton";
 
 type MovieSliderProps = {
   movies: IMovie[];
   perView?: number;
   spacing?: number;
-  type: "home" | "similar";
+  type: "large" | "small";
 };
 
 export const MovieSlider = ({ movies, type }: MovieSliderProps) => {
-  const computedPerView = type === "home" ? 5 : 8;
-
   const [sliderRef, instanceRef] = useKeenSlider(
     {
       loop: true,
       slides: {
-        perView: computedPerView,
-        spacing: 15,
+        perView: type === "large" ? 5 : 7,
+        spacing: type === "large" ? 15 : 12,
       },
       breakpoints: {
         "(max-width: 1280px)": {
-          slides: { perView: computedPerView - 1, spacing: 10 },
+          slides: { perView: type === "large" ? 4 : 6, spacing: 10 },
         },
         "(max-width: 1024px)": {
-          slides: { perView: computedPerView - 1, spacing: 8 },
+          slides: { perView: type === "large" ? 4 : 5, spacing: 8 },
         },
         "(max-width: 768px)": {
-          slides: { perView: computedPerView - 2, spacing: 10 },
+          slides: { perView: type === "large" ? 3 : 4, spacing: 10 },
         },
         "(max-width: 640px)": {
-          slides: { perView: computedPerView - 4, spacing: 2 },
+          slides: { perView: type === "large" ? 2 : 3, spacing: 4 },
+        },
+        "(max-width: 480px)": {
+          slides: { perView: type === "large" ? 1 : 2, spacing: 4 },
         },
       },
     },
@@ -42,19 +43,32 @@ export const MovieSlider = ({ movies, type }: MovieSliderProps) => {
   );
 
   return (
-    <div ref={sliderRef} className="keen-slider relative">
-      {movies.map((movie) => (
-        <Link key={movie.id} href={`/movie/${movie.id}`}>
-          {type === "home" ? (
-            <div className="keen-slider__slide flex flex-col items-center bg-accent-bg/90 p-4 rounded-lg w-[300px] h-full">
-              <figure className="mb-4 w-full h-[300px] flex items-center justify-center">
+    <div className="relative w-full">
+      <SliderButton
+        onClick={() => instanceRef.current?.prev()}
+        direction="left"
+      />
+      <div ref={sliderRef} className="keen-slider relative">
+        {movies.map((movie) => (
+          <Link
+            key={movie.id}
+            href={`/movie/${movie.id}`}
+            className="keen-slider__slide"
+          >
+            <div
+              className={`flex flex-col items-center rounded-lg h-full ${
+                type === "large" && "bg-accent-bg/90 p-4 "
+              }`}
+            >
+              <figure className="mb-4 w-full aspect-[2/3] flex items-center justify-center">
                 {movie.poster_path ? (
                   <Image
-                    width={300}
-                    height={400}
-                    src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
                     alt={movie.title || "Movie Poster"}
-                    className="rounded-lg object-cover w-full h-full"
+                    className="rounded-lg object-contain w-full h-full"
                   />
                 ) : (
                   <div className=" text-base-bg w-full h-full flex items-center justify-center rounded-lg">
@@ -63,56 +77,22 @@ export const MovieSlider = ({ movies, type }: MovieSliderProps) => {
                 )}
               </figure>
               <div className="flex-1 flex items-center justify-center">
-                <h3 className="text-xl font-semibold text-center px-2 line-clamp-2">
+                <h3
+                  className={`font-semibold text-center line-clamp-2 text-base-bg ${
+                    type === "large" ? "text-xl" : "text-sm px-2"
+                  }`}
+                >
                   {movie.title}
                 </h3>
               </div>
             </div>
-          ) : type === "similar" ? (
-            <div className="keen-slider__slide flex flex-col items-center rounded-lg w-[120px] h-full">
-              <figure className="mb-4 w-full flex items-center justify-center">
-                {movie.poster_path ? (
-                  <Image
-                    width={300}
-                    height={400}
-                    src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                    alt={movie.title || "Movie Poster"}
-                    className="rounded-lg object-cover w-full h-full"
-                  />
-                ) : (
-                  <div className=" text-base-bg w-full h-full flex items-center justify-center rounded-lg">
-                    No Image
-                  </div>
-                )}
-              </figure>
-              <div className="flex-1 flex items-center justify-center">
-                <h3 className="text-sm font-semibold text-center px-2 line-clamp-2 text-base-bg">
-                  {movie.title}
-                </h3>
-              </div>
-            </div>
-          ) : null}
-        </Link>
-      ))}
-      <div className="w-full flex justify-between absolute top-1/2 -translate-y-1/2 z-99">
-        <button
-          onClick={() => instanceRef.current?.prev()}
-          className="bg-base-bg/75 rounded-full p-2.5 relative"
-        >
-          <ChevronLeft width={32} height={32} fill={"var(--color-base-fg)"} />
-        </button>
-        <button
-          onClick={() => instanceRef.current?.next()}
-          className="bg-base-bg/75 rounded-full p-2.5 relative"
-        >
-          <ChevronLeft
-            width={32}
-            height={32}
-            fill={"var(--color-base-fg)"}
-            className="rotate-180"
-          />
-        </button>
+          </Link>
+        ))}
       </div>
+      <SliderButton
+        onClick={() => instanceRef.current?.next()}
+        direction="right"
+      />
     </div>
   );
 };
