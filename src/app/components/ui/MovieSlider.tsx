@@ -13,6 +13,7 @@ type MovieSliderProps = {
   type: "large" | "small";
 };
 
+// Fix layout collapsing issue
 export const MovieSlider = ({ movies, type }: MovieSliderProps) => {
   const [sliderRef, instanceRef] = useKeenSlider(
     {

@@ -24,14 +24,14 @@ export const Pagination = ({
     const baseClass =
       "w-11 h-11 flex items-center justify-center rounded-full text-md border-2 transition-colors duration-200 cursor-pointer font-lobster";
     const activeClass =
-      "sm:bg-accent-bg text-accent-bg sm:text-base-bg font-bold border-accent-bg";
+      "bg-accent-bg text-base-bg font-bold border-accent-bg";
     const inactiveClass =
-      "bg-base-bg text-accent-bg border-accent-bg hover:bg-accent-bg hover:text-base-bg hover:border-accent-bg hidden sm:block";
+      "bg-base-bg/75 text-accent-bg border-accent-bg hover:bg-accent-bg hover:text-base-bg hover:border-accent-bg hidden sm:block";
 
     return `${baseClass} ${i === page ? activeClass : inactiveClass}`;
   };
   const iconButtonClass =
-    "p-2 text-sm  text-accent-bg disabled:opacity-50 cursor-pointer";
+    "p-2 text-sm text-accent-bg disabled:opacity-50 cursor-pointer";
 
   const handlePageChange = (newPage: number) => {
     if (newPage >= 1 && newPage <= totalPages) {
@@ -66,10 +66,7 @@ export const Pagination = ({
 
       if (startPage > 2) {
         pages.push(
-          <span
-            key="start-ellipsis"
-            className="px-2 text-accent-bg hidden sm:inline"
-          >
+          <span key="start-ellipsis" className="px-2 text-base-bg hidden sm:inline">
             ...
           </span>
         );
@@ -91,10 +88,7 @@ export const Pagination = ({
     if (endPage < totalPages) {
       if (endPage < totalPages - 1) {
         pages.push(
-          <span
-            key="end-ellipsis"
-            className="px-2 text-accent-bg hidden sm:inline"
-          >
+          <span key="end-ellipsis" className="px-2 text-base-bg hidden sm:inline">
             ...
           </span>
         );
@@ -124,7 +118,7 @@ export const Pagination = ({
           <ChevronLeftDouble
             width={20}
             height={20}
-            fill={"var(--color-accent-bg)"}
+            fill={"var(--color-base-bg)"}
           />
         </button>
         <button
@@ -132,7 +126,7 @@ export const Pagination = ({
           disabled={page <= 1}
           className={iconButtonClass}
         >
-          <ChevronLeft width={20} height={20} fill={"var(--color-accent-bg)"} />
+          <ChevronLeft width={20} height={20} fill={"var(--color-base-bg)"} />
         </button>
         <div className="flex items-center gap-3">{renderPageNumbers()}</div>
         <button
@@ -143,7 +137,7 @@ export const Pagination = ({
           <ChevronLeft
             width={20}
             height={20}
-            fill={"var(--color-accent-bg)"}
+            fill={"var(--color-base-bg)"}
             className="rotate-180"
           />
         </button>
@@ -155,7 +149,7 @@ export const Pagination = ({
           <ChevronLeftDouble
             width={20}
             height={20}
-            fill={"var(--color-accent-bg)"}
+            fill={"var(--color-base-bg)"}
             className="rotate-180"
           />
         </button>

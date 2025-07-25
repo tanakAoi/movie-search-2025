@@ -32,13 +32,15 @@ export const PageHeading = ({
       {subtitle && <span className="text-xl">{subtitle}</span>}
 
       {imageUrl && (
-        <Image
-          width={150}
-          height={150}
-          src={imageUrl}
-          alt={title}
-          className="aspect-square rounded-full object-cover mb-4"
-        />
+        <figure className="ring-4 ring-accent-bg rounded-full p-1 mb-4 shadow-[0_0_20px_rgba(256, 256, 256, 0.4)]">
+          <Image
+            width={150}
+            height={150}
+            src={imageUrl}
+            alt={title}
+            className="aspect-square rounded-full object-cover"
+          />
+        </figure>
       )}
 
       <h1 className="text-5xl font-bold text-center">
