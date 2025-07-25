@@ -129,3 +129,12 @@ export interface IPerson {
   popularity: number;
   profile_path: string | null;
 }
+
+export interface ICollection {
+  backdrop_path: string | null;
+  id: number;
+  name: string;
+  overview: string;
+  parts: IMovie[];
+  poster_path: string | null;
+}

@@ -11,10 +11,11 @@ import { MovieMobileLayout } from "@/app/components/movie-details/MovieMobileLay
 import { MainSection } from "@/app/components/movie-details/MainSection";
 import { BackdropImage } from "@/app/components/movie-details/BackdropImage";
 import { isReleased } from "@/utils/date";
+import { MovieCollectionList } from "@/app/components/movie-details/MovieCollectionList";
 
 type MovieDetailPageProps = {
   params: Promise<{ id: string }>;
-}
+};
 
 export default async function MovieDetailPage({
   params,
@@ -41,6 +42,9 @@ export default async function MovieDetailPage({
           <MainSection movie={movie} isMovieReleased={isMovieReleased} />
           {movie.credits.cast.length > 0 && (
             <CastsList cast={movie.credits.cast} />
+          )}
+          {movie.belongs_to_collection && (
+            <MovieCollectionList id={movie.belongs_to_collection.id} />
           )}
           <SimilarMovies movieId={movie.id} />
         </Container>

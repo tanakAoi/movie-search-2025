@@ -25,7 +25,7 @@ export default async function PersonPage({
   const { results, total_pages } = await getMoviesByPerson(id, language, page);
 
   return (
-    <div>
+    <div className="bg-base-fg/90 text-base-bg">
       <PageHeading
         title={person.name}
         type={"person"}

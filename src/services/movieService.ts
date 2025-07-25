@@ -87,40 +87,6 @@ export const getMoviesByKeyword = async (
   }
 };
 
-/* export const getDiscoverMovies = async (
-  options: DiscoverMovieOptions,
-  language: string,
-  page: number
-) => {
-  try {
-    const query = new URLSearchParams();
-    console.log(query);
-
-    for (const key in options) {
-      const value = options[key];
-      if (value !== undefined) {
-        query.append(key === "lang" ? "language" : key, String(value));
-      }
-    }
-
-    const response = await fetch(
-      `${BASE_URL}/movie/discover?${query.toString()}`,
-      {
-        next: { revalidate: 300 },
-      }
-    );
-    if (!response.ok) {
-      const text = await response.text();
-      console.error("Failed to fetch discover movies:", response.status, text);
-      throw new Error("Failed to fetch discover movies");
-    }
-    return await response.json();
-  } catch (error) {
-    console.error("Error fetching discover movies:", error);
-    throw error;
-  }
-}; */
-
 export const getGenres = async (lang: string) => {
   try {
     const response = await fetch(`${BASE_URL}/movie/genres?lang=${lang}`, {
@@ -210,6 +176,36 @@ export const getMoviesByPerson = async (
     return await response.json();
   } catch (error) {
     console.error(`Error fetching movies with person ${personId}:`, error);
+    throw error;
+  }
+};
+
+export const getCollectionMovies = async (
+  id: number,
+  lang: string
+) => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/movie/collection/${id}?lang=${lang}`,
+      {
+        next: { revalidate: 300 },
+      }
+    );
+    if (!response.ok) {
+      const text = await response.text();
+      console.error(
+        `Failed to fetch movies for collection ${id}:`,
+        response.status,
+        text
+      );
+      throw new Error(`Failed to fetch movies for collection ${id}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error(
+      `Error fetching movies for collection ${id}:`,
+      error
+    );
     throw error;
   }
 };

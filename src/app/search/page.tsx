@@ -32,7 +32,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
           description="Please try a different search term or check your spelling."
         />
       ) : (
-        <>
+        <div className="bg-base-fg/90 text-base-bg">
           <PageHeading
             type="search"
             title={query}
@@ -54,7 +54,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
               type="search"
             />
           </Container>
-        </>
+        </div>
       )}
     </>
   );

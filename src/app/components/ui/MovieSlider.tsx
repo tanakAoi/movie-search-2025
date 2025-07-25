@@ -1,24 +1,32 @@
 "use client";
 
+import "keen-slider/keen-slider.min.css";
 import { IMovie } from "@/types/tmdb";
 import { useKeenSlider } from "keen-slider/react";
-import Link from "next/link";
 import Image from "next/image";
 import { SliderButton } from "./SliderButton";
+import { MotionLink } from "./MotionLink";
+import { motion } from "framer-motion";
 
 type MovieSliderProps = {
   movies: IMovie[];
   perView?: number;
   spacing?: number;
   type: "large" | "small";
+  sortedByDate?: boolean;
 };
 
-export const MovieSlider = ({ movies, type }: MovieSliderProps) => {
+export const MovieSlider = ({
+  movies,
+  type,
+  sortedByDate,
+}: MovieSliderProps) => {
+  const perView = type === "large" ? 5 : 7;
   const [sliderRef, instanceRef] = useKeenSlider(
     {
       loop: true,
       slides: {
-        perView: type === "large" ? 5 : 7,
+        perView,
         spacing: type === "large" ? 15 : 12,
       },
       breakpoints: {
@@ -44,23 +52,44 @@ export const MovieSlider = ({ movies, type }: MovieSliderProps) => {
 
   return (
     <div className="relative w-full">
-      <SliderButton
-        onClick={() => instanceRef.current?.prev()}
-        direction="left"
-      />
+      {movies.length > perView && (
+        <SliderButton
+          onClick={() => instanceRef.current?.prev()}
+          direction="left"
+        />
+      )}
       <div ref={sliderRef} className="keen-slider relative">
-        {movies.map((movie) => (
-          <Link
+        {(sortedByDate
+          ? [...movies].sort(
+              (a, b) =>
+                new Date(a.release_date || "").getTime() -
+                new Date(b.release_date || "").getTime()
+            )
+          : movies
+        ).map((movie) => (
+          <MotionLink
             key={movie.id}
             href={`/movie/${movie.id}`}
-            className="keen-slider__slide"
+            className="keen-slider__slide block"
           >
-            <div
-              className={`flex flex-col items-center rounded-lg h-full ${
-                type === "large" && "bg-accent-bg/90 p-4 "
+            <motion.div
+              whileHover="hover"
+              initial="rest"
+              animate="rest"
+              variants={{
+                rest: {
+                  filter: "brightness(0.95)",
+                },
+                hover: {
+                  filter: "brightness(1.1)",
+                  transition: { duration: 0.4, ease: "easeOut" },
+                },
+              }}
+              className={`flex flex-col items-center rounded-lg h-full overflow-hidden transition-all duration-300 ${
+                type === "large" ? "bg-accent-bg/90 p-4" : ""
               }`}
             >
-              <figure className="mb-4 w-full aspect-[2/3] flex items-center justify-center">
+              <figure className="w-full aspect-[2/3] flex items-center justify-center">
                 {movie.poster_path ? (
                   <Image
                     width={0}
@@ -71,28 +100,30 @@ export const MovieSlider = ({ movies, type }: MovieSliderProps) => {
                     className="rounded-lg object-contain w-full h-full"
                   />
                 ) : (
-                  <div className=" text-base-bg w-full h-full flex items-center justify-center rounded-lg">
+                  <div
+                    className={`text-base-bg w-full h-full flex items-center justify-center rounded-lg ${
+                      type === "small" && "bg-accent-bg/90"
+                    }`}
+                  >
                     No Image
                   </div>
                 )}
               </figure>
-              <div className="flex-1 flex items-center justify-center">
-                <h3
-                  className={`font-semibold text-center line-clamp-2 text-base-bg ${
-                    type === "large" ? "text-xl" : "text-sm px-2"
-                  }`}
-                >
+              {type === "large" && (
+                <h3 className="mt-4 font-semibold text-center line-clamp-2 text-base-bg text-xl">
                   {movie.title}
                 </h3>
-              </div>
-            </div>
-          </Link>
+              )}
+            </motion.div>
+          </MotionLink>
         ))}
       </div>
-      <SliderButton
-        onClick={() => instanceRef.current?.next()}
-        direction="right"
-      />
+      {movies.length > perView && (
+        <SliderButton
+          onClick={() => instanceRef.current?.next()}
+          direction="right"
+        />
+      )}
     </div>
   );
 };
