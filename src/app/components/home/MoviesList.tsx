@@ -1,5 +1,4 @@
 import { IMovie } from "@/types/tmdb";
-import "keen-slider/keen-slider.min.css";
 import { MovieSlider } from "../ui/MovieSlider";
 
 interface MoviesListProps {

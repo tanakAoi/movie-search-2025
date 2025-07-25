@@ -140,3 +140,15 @@ export const getSimilarMovies = async (id: number, lang: string) => {
     throw error;
   }
 };
+
+export const getCollectionMovies = async (id: number, lang: string) => {
+  try {
+    const collection = await tmdbFetch(`/collection/${id}`, {
+      language: lang,
+    });
+    return collection;
+  } catch (error) {
+    console.error("Error fetching collection movies:", error);
+    throw error;
+  }
+};
