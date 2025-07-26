@@ -43,7 +43,7 @@ export const MovieSlider = ({
           slides: { perView: type === "large" ? 2 : 3, spacing: 4 },
         },
         "(max-width: 480px)": {
-          slides: { perView: type === "large" ? 1 : 2, spacing: 4 },
+          slides: { perView: type === "large" ? 1 : 3, spacing: 4 },
         },
       },
     },
