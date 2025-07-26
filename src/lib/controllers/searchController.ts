@@ -1,6 +1,6 @@
 import { tmdbFetch } from "../tmdbFetcher";
 
-export const getMoviesByKeyword = async (
+export const getMoviesByQuery = async (
   query: string,
   page: number,
   language: string
@@ -18,7 +18,7 @@ export const getMoviesByKeyword = async (
 
     return movies;
   } catch (error) {
-    console.error("Error fetching movies by keyword:", error);
+    console.error("Error fetching movies by query:", error);
     throw error;
   }
 };

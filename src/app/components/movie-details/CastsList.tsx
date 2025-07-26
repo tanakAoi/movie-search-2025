@@ -14,7 +14,7 @@ export const CastsList = ({ cast }: { cast: ICredit["cast"] }) => {
   return (
     <div className="w-full flex flex-col gap-4 mt-8">
       <div className="flex items-center justify-between">
-        <h3 className="text-3xl font-semibold text-base-bg">Cast</h3>
+        <h3 className="text-2xl md:text-3xl font-semibold text-base-bg">Cast</h3>
         <motion.button
           onClick={() => setIsOpen(!isOpen)}
           className={`md:hidden ${isOpen ? "rotate-270 " : "rotate-90"}`}

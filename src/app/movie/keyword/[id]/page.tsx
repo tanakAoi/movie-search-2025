@@ -1,37 +1,28 @@
 import { Container } from "@/app/components/layout/Container";
 import { Pagination } from "@/app/components/ui/Pagination";
 import { getRegionFromCookies } from "@/lib/getRegionFromCookies";
-import { IGenre } from "@/types/tmdb";
-import notFound from "@/app/not-found";
 import { MovieGrid } from "@/app/components/ui/MovieGrid";
 import { PageHeading } from "@/app/components/ui/PageHeading";
-import { getGenres } from "@/services/moviesService";
-import { getMoviesByGenre } from "@/services/discoverService";
+import { getMoviesByKeyword } from "@/services/discoverService";
+import { getKeywordDetails } from "@/services/moviesService";
 
-type MovieGenrePageProps = {
+type MovieKeywordPageProps = {
   params: Promise<{ id: string }>;
   searchParams: Promise<{ page?: string }>;
 };
 
-export default async function MovieGenrePage({
+export default async function MovieKeywordPage({
   params,
   searchParams,
-}: MovieGenrePageProps) {
+}: MovieKeywordPageProps) {
   const { language } = await getRegionFromCookies();
   const { id } = await params;
   const searchParamsObj = await searchParams;
   const page = parseInt(searchParamsObj.page ?? "1", 10);
 
-  const genreMap = new Map<number, IGenre>(
-    (await getGenres(language)).map((g: IGenre) => [g.id, g])
-  );
-  const currentGenre = genreMap.get(Number(id));
+  const currentKeyword = await getKeywordDetails(id, language);
 
-  if (!currentGenre) {
-    notFound();
-  }
-
-  const { results, total_pages: totalPages } = await getMoviesByGenre(
+  const { results, total_pages: totalPages } = await getMoviesByKeyword(
     id,
     language,
     page
@@ -39,10 +30,15 @@ export default async function MovieGenrePage({
 
   return (
     <div className="bg-base-fg text-base-bg">
-      <PageHeading type="genre" title={currentGenre?.name || id} />
+      <PageHeading type="keyword" title={currentKeyword?.name || id} />
       <Container>
         <MovieGrid movies={results} />
-        <Pagination page={page} totalPages={totalPages} type="genre" id={id} />
+        <Pagination
+          page={page}
+          totalPages={totalPages}
+          type="keyword"
+          id={id}
+        />
       </Container>
     </div>
   );

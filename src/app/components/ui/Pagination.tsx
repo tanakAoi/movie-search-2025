@@ -7,7 +7,7 @@ interface PaginationProps {
   page: number;
   totalPages: number;
   query?: string;
-  type?: "search" | "discover" | "person";
+  type?: "search" | "genre" | "keyword" | "person";
   id?: string;
 }
 
@@ -23,8 +23,7 @@ export const Pagination = ({
   const getPageButtonClass = (i: number) => {
     const baseClass =
       "w-11 h-11 flex items-center justify-center rounded-full text-md border-2 transition-colors duration-200 cursor-pointer font-lobster";
-    const activeClass =
-      "bg-accent-bg text-base-bg font-bold border-accent-bg";
+    const activeClass = "bg-accent-bg text-base-bg font-bold border-accent-bg";
     const inactiveClass =
       "bg-base-bg/75 text-accent-bg border-accent-bg hover:bg-accent-bg hover:text-base-bg hover:border-accent-bg hidden sm:block";
 
@@ -38,8 +37,11 @@ export const Pagination = ({
       if (type === "search") {
         router.push(`/search?query=${query}&page=${newPage}`);
       }
-      if (type === "discover") {
+      if (type === "genre") {
         router.push(`/movie/genre/${id}?page=${newPage}`);
+      }
+      if (type === "keyword") {
+        router.push(`/movie/keyword/${id}?page=${newPage}`);
       }
       if (type === "person") {
         router.push(`/person/${id}?page=${newPage}`);
@@ -66,7 +68,10 @@ export const Pagination = ({
 
       if (startPage > 2) {
         pages.push(
-          <span key="start-ellipsis" className="px-2 text-base-bg hidden sm:inline">
+          <span
+            key="start-ellipsis"
+            className="px-2 text-base-bg hidden sm:inline"
+          >
             ...
           </span>
         );
@@ -88,7 +93,10 @@ export const Pagination = ({
     if (endPage < totalPages) {
       if (endPage < totalPages - 1) {
         pages.push(
-          <span key="end-ellipsis" className="px-2 text-base-bg hidden sm:inline">
+          <span
+            key="end-ellipsis"
+            className="px-2 text-base-bg hidden sm:inline"
+          >
             ...
           </span>
         );

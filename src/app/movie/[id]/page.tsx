@@ -1,5 +1,4 @@
 import { Container } from "@/app/components/layout/Container";
-import { getMovieDetails } from "@/services/movieService";
 import { IMovieDetails } from "@/types/tmdb";
 import { ReleaseDateBar } from "@/app/components/movie-details/ReleaseDateBar";
 import { CastsList } from "@/app/components/movie-details/CastsList";
@@ -12,6 +11,7 @@ import { MainSection } from "@/app/components/movie-details/MainSection";
 import { BackdropImage } from "@/app/components/movie-details/BackdropImage";
 import { isReleased } from "@/utils/date";
 import { MovieCollectionList } from "@/app/components/movie-details/MovieCollectionList";
+import { getMovieDetails } from "@/services/specificMovieService";
 
 type MovieDetailPageProps = {
   params: Promise<{ id: string }>;
