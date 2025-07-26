@@ -1,4 +1,4 @@
-import { getMoviesByKeyword } from "@/services/movieService";
+import { getMoviesByQuery } from "@/services/moviesService";
 import { Container } from "../components/layout/Container";
 import { MovieGrid } from "../components/ui/MovieGrid";
 import { Pagination } from "../components/ui/Pagination";
@@ -19,7 +19,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
   }
 
   const { results, total_pages: totalPages } = query
-    ? await getMoviesByKeyword(query, page, language)
+    ? await getMoviesByQuery(query, page, language)
     : [];
 
   return (

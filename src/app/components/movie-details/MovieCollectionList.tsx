@@ -1,7 +1,7 @@
 import { getRegionFromCookies } from "@/lib/getRegionFromCookies";
-import { getCollectionMovies } from "@/services/movieService";
 import { ICollection } from "@/types/tmdb";
 import { MovieSlider } from "../ui/MovieSlider";
+import { getCollectionMovies } from "@/services/specificMovieService";
 
 type MovieCollectionListProps = {
   id: number;

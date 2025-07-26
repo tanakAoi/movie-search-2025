@@ -1,11 +1,12 @@
 import { Container } from "@/app/components/layout/Container";
 import { Pagination } from "@/app/components/ui/Pagination";
 import { getRegionFromCookies } from "@/lib/getRegionFromCookies";
-import { getGenres, getMoviesByGenre } from "@/services/movieService";
 import { IGenre } from "@/types/tmdb";
 import notFound from "@/app/not-found";
 import { MovieGrid } from "@/app/components/ui/MovieGrid";
 import { PageHeading } from "@/app/components/ui/PageHeading";
+import { getGenres } from "@/services/moviesService";
+import { getMoviesByGenre } from "@/services/discoverService";
 
 type MovieGenrePageProps = {
   params: Promise<{ id: string }>;
@@ -37,7 +38,7 @@ export default async function MovieGenrePage({
   );
 
   return (
-    <div>
+    <div className="bg-base-fg text-base-bg">
       <PageHeading type="genre" title={currentGenre?.name || id} />
       <Container>
         <MovieGrid movies={results} />

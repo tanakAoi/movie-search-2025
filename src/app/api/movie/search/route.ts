@@ -1,4 +1,4 @@
-import { getMoviesByKeyword } from "@/lib/controllers/searchController";
+import { getMoviesByQuery } from "@/lib/controllers/searchController";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -17,8 +17,7 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    const results = await getMoviesByKeyword(query, page, language);
-    
+    const results = await getMoviesByQuery(query, page, language);
     return NextResponse.json(results);
   } catch (error) {
     console.error(error);

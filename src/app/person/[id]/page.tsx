@@ -3,7 +3,7 @@ import { MovieGrid } from "@/app/components/ui/MovieGrid";
 import { PageHeading } from "@/app/components/ui/PageHeading";
 import { Pagination } from "@/app/components/ui/Pagination";
 import { getRegionFromCookies } from "@/lib/getRegionFromCookies";
-import { getMoviesByPerson } from "@/services/movieService";
+import { getMoviesByPerson } from "@/services/discoverService";
 import { getPersonDetails } from "@/services/personService";
 import { IPerson } from "@/types/tmdb";
 

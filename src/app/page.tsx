@@ -3,7 +3,7 @@ import { Hero } from "@/app/components/home/Hero";
 import { MoviesList } from "@/app/components/home/MoviesList";
 import { Container } from "@/app/components/layout/Container";
 import { getRegionFromCookies } from "@/lib/getRegionFromCookies";
-import { getPopularMovies, getUpcomingMovies } from "@/services/movieService";
+import { getPopularMovies, getUpcomingMovies } from "@/services/moviesService";
 
 export default async function Home() {
   const { country, language } = await getRegionFromCookies();

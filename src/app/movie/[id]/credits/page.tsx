@@ -1,7 +1,7 @@
 import { Container } from "@/app/components/layout/Container";
 import { CreditMembers } from "@/app/components/movie-details/credits/CreditMembers";
 import { getRegionFromCookies } from "@/lib/getRegionFromCookies";
-import { getMovieCredits } from "@/services/movieService";
+import { getMovieCredits } from "@/services/specificMovieService";
 import { ICredit } from "@/types/tmdb";
 
 export default async function CastPage({
