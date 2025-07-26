@@ -4,7 +4,7 @@ import Image from "next/image";
 
 interface PageHeadingProps {
   title: string;
-  type: "movie" | "search" | "genre" | "person" | "no-results";
+  type: "movie" | "search" | "genre" | "keyword" | "person" | "no-results";
   tagline?: string;
   subtitle?: string;
   description?: string;
@@ -43,7 +43,7 @@ export const PageHeading = ({
         </figure>
       )}
 
-      <h1 className="text-5xl font-bold text-center">
+      <h1 className="text-6xl font-bold text-center">
         {type === "search" || type === "no-results" ? `"${title}"` : title}
       </h1>
 

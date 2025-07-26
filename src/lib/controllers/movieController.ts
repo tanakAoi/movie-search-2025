@@ -152,3 +152,27 @@ export const getCollectionMovies = async (id: number, lang: string) => {
     throw error;
   }
 };
+
+export const getMovieKeywords = async (id: number, lang: string) => {
+  try {
+    const keywords = await tmdbFetch(`/movie/${id}/keywords`, {
+      language: lang,
+    });
+    return keywords;
+  } catch (error) {
+    console.error("Error fetching movie keywords:", error);
+    throw error;
+  }
+};
+
+export const getKeywordDetails = async (id: string, lang: string) => {
+  try {
+    const keywordDetails = await tmdbFetch(`/keyword/${id}`, {
+      language: lang,
+    });
+    return keywordDetails;
+  } catch (error) {
+    console.error("Error fetching keyword details:", error);
+    throw error;
+  }
+};

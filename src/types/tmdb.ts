@@ -138,3 +138,11 @@ export interface ICollection {
   parts: IMovie[];
   poster_path: string | null;
 }
+
+export interface IMovieKeywords {
+  id: number;
+  keywords: {
+    id: number;
+    name: string;
+  }[];
+}
