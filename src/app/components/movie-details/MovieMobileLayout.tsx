@@ -16,7 +16,7 @@ export const MovieMobileLayout = ({
     <div className="md:hidden sm:grid sm:grid-cols-3 flex flex-col gap-4 sm:gap-8">
       <figure className="sm:col-span-2">
         <PosterImage
-          src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
+          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
           title={movie.title}
         />
       </figure>

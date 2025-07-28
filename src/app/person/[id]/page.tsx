@@ -31,7 +31,7 @@ export default async function PersonPage({
         type={"person"}
         imageUrl={
           person.profile_path
-            ? `https://image.tmdb.org/t/p/original${person.profile_path}`
+            ? `https://image.tmdb.org/t/p/w185${person.profile_path}`
             : undefined
         }
         description={[

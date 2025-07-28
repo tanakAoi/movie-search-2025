@@ -12,8 +12,8 @@ export const Avatar = ({ name, image, size }: AvatarProps) => {
       <Image
         src={image.replace("s96-c", "s256-c")}
         alt={name}
-        width={size}
-        height={size}
+        width={96}
+        height={96}
         className="rounded-full object-cover"
       />
     );

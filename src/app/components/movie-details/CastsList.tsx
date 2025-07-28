@@ -14,7 +14,9 @@ export const CastsList = ({ cast }: { cast: ICredit["cast"] }) => {
   return (
     <div className="w-full flex flex-col gap-4 mt-8">
       <div className="flex items-center justify-between">
-        <h3 className="text-2xl md:text-3xl font-semibold text-base-bg">Cast</h3>
+        <h3 className="text-2xl md:text-3xl font-semibold text-base-bg">
+          Cast
+        </h3>
         <motion.button
           onClick={() => setIsOpen(!isOpen)}
           className={`md:hidden ${isOpen ? "rotate-270 " : "rotate-90"}`}
@@ -25,29 +27,28 @@ export const CastsList = ({ cast }: { cast: ICredit["cast"] }) => {
       {isOpen && (
         <>
           <div
-            className="grid gap-4 justify-center grid-cols-[repeat(auto-fill,minmax(136px,1fr))]"
+            className="grid gap-4 justify-center grid-cols-[repeat(auto-fill,minmax(90px,1fr))]"
             style={{
-              gridTemplateColumns: "repeat(auto-fill, minmax(136px, 1fr))",
+              gridTemplateColumns: "repeat(auto-fill, minmax(90px, 1fr))",
             }}
           >
             {cast.slice(0, 8).map((cast) => (
               <motion.a
                 href={`/person/${cast.id}`}
                 key={cast.id}
-                className="text-center text-base-bg w-full max-w-[150px] mx-auto"
+                className="text-center text-base-bg w-full max-w-[185px] mx-auto"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
                 whileHover={{ scale: 1.05 }}
               >
-                <figure className="w-full aspect-[2/3] relative">
+                <figure className="aspect-[2/3] relative">
                   {cast.profile_path ? (
                     <Image
-                      src={`https://image.tmdb.org/t/p/original${cast.profile_path}`}
+                      src={`https://image.tmdb.org/t/p/w185${cast.profile_path}`}
                       alt={cast.name}
-                      fill
-                      sizes="(max-width: 640px) 100vw, 150px"
-                      style={{ objectFit: "cover" }}
+                      width={185}
+                      height={278}
                     />
                   ) : (
                     <span className="bg-base-fg/75 flex items-center justify-center w-full h-full text-base-bg">

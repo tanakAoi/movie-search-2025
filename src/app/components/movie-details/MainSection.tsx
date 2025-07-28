@@ -17,7 +17,7 @@ export const MainSection = ({ movie, isMovieReleased }: MainSectionProps) => {
       <div className="flex flex-col gap-8 max-w-[400px] w-full">
         <figure className="hidden md:block">
           <PosterImage
-            src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
+            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
             title={movie.title}
           />
         </figure>
