@@ -27,16 +27,16 @@ export const CastsList = ({ cast }: { cast: ICredit["cast"] }) => {
       {isOpen && (
         <>
           <div
-            className="grid gap-4 justify-center grid-cols-[repeat(auto-fill,minmax(90px,1fr))]"
+            className="grid gap-4"
             style={{
-              gridTemplateColumns: "repeat(auto-fill, minmax(90px, 1fr))",
+              gridTemplateColumns: "repeat(auto-fit, minmax(91px, 1fr))",
             }}
           >
             {cast.slice(0, 8).map((cast) => (
               <motion.a
                 href={`/person/${cast.id}`}
                 key={cast.id}
-                className="text-center text-base-bg w-full max-w-[185px] mx-auto"
+                className="text-center text-base-bg w-full mx-auto"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
