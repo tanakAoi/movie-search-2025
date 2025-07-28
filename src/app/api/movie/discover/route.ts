@@ -13,13 +13,17 @@ export async function GET(req: NextRequest) {
       page,
     };
 
-    const optionalKeys = ["genre", "person", "keyword"];
+    const optionalKeys = ["genre", "cast", "crew", "keyword"];
     for (const key of optionalKeys) {
       const value = searchParams.get(key);
       if (value) {
         if (key === "genre") query.with_genres = value;
-        if (key === "person") {
+        if (key === "cast") {
           query.with_cast = value;
+          query.sort_by = "primary_release_date.desc";
+        }
+        if (key === "crew") {
+          query.with_crew = value;
           query.sort_by = "primary_release_date.desc";
         }
         if (key === "keyword") query.with_keywords = value;

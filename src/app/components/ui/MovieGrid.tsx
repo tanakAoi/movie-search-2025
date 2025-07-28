@@ -49,10 +49,11 @@ export const MovieGrid = ({ movies }: { movies: IMovie[] }) => {
               variants={imageVariants}
             >
               <Image
-                fill
                 src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                 alt={movie.title || "Movie Poster"}
                 className="object-cover"
+                width={500}
+                height={750}
               />
             </motion.div>
           ) : (

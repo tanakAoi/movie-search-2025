@@ -1,7 +1,6 @@
 import { Container } from "@/app/components/layout/Container";
-import { MovieGrid } from "@/app/components/ui/MovieGrid";
+import { MovieSwitcher } from "@/app/components/ui/MovieSwitcher";
 import { PageHeading } from "@/app/components/ui/PageHeading";
-import { Pagination } from "@/app/components/ui/Pagination";
 import { getRegionFromCookies } from "@/lib/getRegionFromCookies";
 import { getMoviesByPerson } from "@/services/discoverService";
 import { getPersonDetails } from "@/services/personService";
@@ -22,7 +21,7 @@ export default async function PersonPage({
   const page = parseInt(searchParamsObj.page ?? "1", 10);
 
   const person: IPerson = await getPersonDetails(id, language);
-  const { results, total_pages } = await getMoviesByPerson(id, language, page);
+  const { cast, crew } = await getMoviesByPerson(id, language, page);
 
   return (
     <div className="bg-base-fg/90 text-base-bg">
@@ -37,17 +36,20 @@ export default async function PersonPage({
         description={[
           person.birthday || "",
           person.deathday ? ` - ${person.deathday}` : "",
-          person.place_of_birth ? ` / ${person.place_of_birth}` : "",
+          person.birthday && " / ",
+          person.place_of_birth ? `${person.place_of_birth}` : "",
         ]
           .filter(Boolean)
           .join("")}
       />
       <Container>
-        <MovieGrid movies={results} />
-        <Pagination
-          page={page}
-          totalPages={total_pages}
-          type="person"
+        <MovieSwitcher
+          cast={cast.results}
+          crew={crew.results}
+          castPage={cast.page}
+          crewPage={crew.page}
+          castTotalPages={cast.total_pages}
+          crewTotalPages={crew.total_pages}
           id={id}
         />
       </Container>
