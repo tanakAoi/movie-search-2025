@@ -25,6 +25,7 @@ export const MovieMobileLayout = ({
           runtime={movie.runtime}
           language={movie.original_language}
           countries={movie.production_countries.map((c) => c.iso_3166_1)}
+          releaseDate={movie.release_date}
           variant="mobile"
         />
         <RatingList

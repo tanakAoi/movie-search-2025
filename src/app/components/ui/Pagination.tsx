@@ -7,7 +7,7 @@ interface PaginationProps {
   page: number;
   totalPages: number;
   query?: string;
-  type?: "search" | "genre" | "keyword" | "person";
+  type?: "search" | "genre" | "keyword" | "person" | "company";
   id?: string;
 }
 
@@ -45,6 +45,9 @@ export const Pagination = ({
       }
       if (type === "person") {
         router.push(`/person/${id}?page=${newPage}`);
+      }
+      if (type === "company") {
+        router.push(`/company/${id}?page=${newPage}`);
       }
     }
   };

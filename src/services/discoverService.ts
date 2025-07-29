@@ -102,3 +102,31 @@ export const getMoviesByKeyword = async (
     throw error;
   }
 };
+
+export const getMoviesByCompany = async (
+  companyId: string,
+  lang: string,
+  page: number
+) => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/movie/discover?company=${companyId}&lang=${lang}&page=${page}`,
+      {
+        next: { revalidate: 300 },
+      }
+    );
+    if (!response.ok) {
+      const text = await response.text();
+      console.error(
+        `Failed to fetch movies with company ${companyId}:`,
+        response.status,
+        text
+      );
+      throw new Error(`Failed to fetch movies with company ${companyId}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error(`Error fetching movies with company ${companyId}:`, error);
+    throw error;
+  }
+};

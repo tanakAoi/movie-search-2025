@@ -1,17 +1,25 @@
-import { IMovieDetails } from "@/types/tmdb";
+import { IMovieDetails, IMovieKeywords } from "@/types/tmdb";
 import { PosterImage } from "./PosterImage";
 import { BasicInfo } from "./BasicInfo";
 import { MovieDescription } from "./MovieDescription";
 import { TrailerModal } from "./TrailerModal";
 import { RatingList } from "./RatingList";
 import { MovieKeywords } from "./MovieKeywords";
+import { getRegionFromCookies } from "@/lib/getRegionFromCookies";
+import { getMovieKeywords } from "@/services/specificMovieService";
 
 type MainSectionProps = {
   movie: IMovieDetails;
   isMovieReleased: boolean;
 };
 
-export const MainSection = ({ movie, isMovieReleased }: MainSectionProps) => {
+export const MainSection = async ({
+  movie,
+  isMovieReleased,
+}: MainSectionProps) => {
+  const { language } = await getRegionFromCookies();
+  const keywords: IMovieKeywords = await getMovieKeywords(movie.id, language);
+
   return (
     <div className="grid md:grid-cols-2 gap-10 lg:gap-0">
       <div className="flex flex-col gap-8 max-w-[400px] w-full">
@@ -21,7 +29,7 @@ export const MainSection = ({ movie, isMovieReleased }: MainSectionProps) => {
             title={movie.title}
           />
         </figure>
-        <MovieKeywords movieId={movie.id} />
+        <MovieKeywords keywords={keywords} />
       </div>
       <div className="flex flex-col gap-10">
         <BasicInfo
@@ -32,6 +40,7 @@ export const MainSection = ({ movie, isMovieReleased }: MainSectionProps) => {
               : movie.spoken_languages[0]?.iso_639_1
           }
           countries={movie.production_countries.map((c) => c.iso_3166_1)}
+          releaseDate={movie.release_date}
           variant="desktop"
         />
         <RatingList
@@ -40,7 +49,7 @@ export const MainSection = ({ movie, isMovieReleased }: MainSectionProps) => {
           variant="desktop"
         />
         {movie.trailer?.key && <TrailerModal trailerKey={movie.trailer.key} />}
-        <MovieDescription movie={movie} isMovieReleased={isMovieReleased} />
+        <MovieDescription movie={movie} />
       </div>
     </div>
   );

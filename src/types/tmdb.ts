@@ -24,10 +24,10 @@ export interface IMovieDetails extends IMovie {
     backdrop_path: string | null;
   };
   budget: number;
-  genres: { id: number; name: string }[];
+  genres: IGenre[];
   homepage: string;
   imdb_id: string;
-  origin_counrty: string[];
+  origin_country: string[];
   production_companies: {
     id: number;
     logo_path: string | null;
@@ -145,4 +145,15 @@ export interface IMovieKeywords {
     id: number;
     name: string;
   }[];
+}
+
+export interface ICompany {
+  description: string;
+  headquarters: string;
+  homepage: string;
+  id: number;
+  logo_path: string;
+  name: string;
+  origin_country: string;
+  parent_company: string;
 }
