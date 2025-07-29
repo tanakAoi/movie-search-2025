@@ -13,7 +13,14 @@ export async function GET(req: NextRequest) {
       page,
     };
 
-    const optionalKeys = ["genre", "cast", "crew", "keyword", "company"];
+    const optionalKeys = [
+      "genre",
+      "cast",
+      "crew",
+      "keyword",
+      "company",
+      "country",
+    ];
     for (const key of optionalKeys) {
       const value = searchParams.get(key);
       if (value) {
@@ -29,6 +36,10 @@ export async function GET(req: NextRequest) {
         if (key === "keyword") query.with_keywords = value;
         if (key === "company") {
           query.with_companies = value;
+          query.sort_by = "vote_count.desc";
+        }
+        if (key === "country") {
+          query.with_origin_country = value;
           query.sort_by = "vote_count.desc";
         }
       }
