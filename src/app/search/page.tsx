@@ -33,12 +33,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
         />
       ) : (
         <div className="bg-base-fg/90 text-base-bg">
-          <PageHeading
-            type="search"
-            title={query}
-            subtitle="Results for:"
-            pageInfo={{ page, totalPages }}
-          />
+          <PageHeading type="search" title={query} subtitle="Results for:" />
           <Container>
             <Pagination
               page={page}

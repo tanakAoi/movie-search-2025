@@ -100,11 +100,11 @@ export const MovieSlider = ({
                   />
                 ) : (
                   <div
-                    className={`text-base-bg w-full h-full flex items-center justify-center rounded-lg ${
+                    className={`text-base-bg w-full h-full flex items-center justify-center rounded-lg text-center ${
                       type === "small" && "bg-accent-bg/90"
                     }`}
                   >
-                    No Image
+                    {movie.title || "No Poster Available"}
                   </div>
                 )}
               </figure>
