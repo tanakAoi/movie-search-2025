@@ -92,12 +92,11 @@ export const MovieSlider = ({
               <figure className="w-full aspect-[2/3] flex items-center justify-center">
                 {movie.poster_path ? (
                   <Image
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
+                    width={300}
+                    height={450}
+                    src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                     alt={movie.title || "Movie Poster"}
-                    className="rounded-lg object-contain w-full h-full"
+                    className="rounded-lg object-contain"
                   />
                 ) : (
                   <div

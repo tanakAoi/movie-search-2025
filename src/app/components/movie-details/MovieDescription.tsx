@@ -1,45 +1,30 @@
+"use client";
+
 import { IMovieDetails } from "@/types/tmdb";
-import Link from "next/link";
+import { ProductionCompanies } from "./movie-description/ProductionCompanies";
+import { MainCrews } from "./movie-description/MainCrews";
+import { MovieGenres } from "./movie-description/MovieGenres";
+import { ProductionCountries } from "./movie-description/ProductionCountries";
+import { Overview } from "./movie-description/Overview";
 
 type MovieDescriptionProps = {
   movie: IMovieDetails;
-  isMovieReleased: boolean;
 };
 
-export const MovieDescription = ({
-  movie,
-  isMovieReleased,
-}: MovieDescriptionProps) => {
+export const MovieDescription = ({ movie }: MovieDescriptionProps) => {
   return (
     <div className="flex flex-col gap-10">
-      <div className="text-base-bg flex flex-col gap-2">
-        <span className="font-bold">Movie info</span>
-        <div className="flex flex-col gap-1">
-          {isMovieReleased && <p>Release Date: {movie.release_date}</p>}
-          {movie.genres.length > 0 && (
-            <div>
-              <span>Genres: </span>
-              {movie.genres.map((genre, idx) => (
-                <span key={genre.id}>
-                  <Link
-                    href={`/movie/genre/${genre.id}`}
-                    className="hover:underline"
-                  >
-                    {genre.name}
-                  </Link>
-                  {idx < movie.genres.length - 1 && ", "}
-                </span>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-      {movie.overview && (
-        <div className="text-base-bg flex flex-col gap-2">
-          <span className="font-bold">Overview</span>
-          <p>{movie.overview}</p>
-        </div>
+      {movie.credits.crew.length > 0 && (
+        <MainCrews crews={movie.credits.crew} />
       )}
+      {movie.genres.length > 0 && <MovieGenres genres={movie.genres} />}
+      {movie.production_countries.length > 0 && (
+        <ProductionCountries countries={movie.production_countries} />
+      )}
+      {movie.production_companies.length > 0 && (
+        <ProductionCompanies companies={movie.production_companies} />
+      )}
+      {movie.overview && <Overview overview={movie.overview} />}
     </div>
   );
 };

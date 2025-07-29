@@ -34,22 +34,41 @@ export const getMoviesByPerson = async (
   page: number
 ) => {
   try {
-    const response = await fetch(
-      `${BASE_URL}/movie/discover?person=${personId}&lang=${lang}&page=${page}`,
+    const castRes = await fetch(
+      `${BASE_URL}/movie/discover?cast=${personId}&lang=${lang}&page=${page}`,
       {
         next: { revalidate: 300 },
       }
     );
-    if (!response.ok) {
-      const text = await response.text();
+    if (!castRes.ok) {
+      const text = await castRes.text();
       console.error(
-        `Failed to fetch movies with person ${personId}:`,
-        response.status,
+        `Failed to fetch movies with cast ${personId}:`,
+        castRes.status,
         text
       );
-      throw new Error(`Failed to fetch movies with person ${personId}`);
+      throw new Error(`Failed to fetch movies with cast ${personId}`);
     }
-    return await response.json();
+
+    const crewRes = await fetch(
+      `${BASE_URL}/movie/discover?crew=${personId}&lang=${lang}&page=${page}`,
+      {
+        next: { revalidate: 300 },
+      }
+    );
+    if (!crewRes.ok) {
+      const text = await crewRes.text();
+      console.error(
+        `Failed to fetch movies with crew ${personId}:`,
+        crewRes.status,
+        text
+      );
+      throw new Error(`Failed to fetch movies with crew ${personId}`);
+    }
+    return {
+      cast: await castRes.json(),
+      crew: await crewRes.json(),
+    };
   } catch (error) {
     console.error(`Error fetching movies with person ${personId}:`, error);
     throw error;
@@ -80,6 +99,34 @@ export const getMoviesByKeyword = async (
     return await response.json();
   } catch (error) {
     console.error(`Error fetching movies with keyword ${keywordId}:`, error);
+    throw error;
+  }
+};
+
+export const getMoviesByCompany = async (
+  companyId: string,
+  lang: string,
+  page: number
+) => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/movie/discover?company=${companyId}&lang=${lang}&page=${page}`,
+      {
+        next: { revalidate: 300 },
+      }
+    );
+    if (!response.ok) {
+      const text = await response.text();
+      console.error(
+        `Failed to fetch movies with company ${companyId}:`,
+        response.status,
+        text
+      );
+      throw new Error(`Failed to fetch movies with company ${companyId}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error(`Error fetching movies with company ${companyId}:`, error);
     throw error;
   }
 };

@@ -25,7 +25,7 @@ export const RatingList = ({
   return (
     <div className={wrapperClass}>
       <div className="flex flex-col gap-2 w-full">
-        <span className="text-base-bg font-bold">Rating</span>
+        <h3 className="text-xl font-bold mb-2 text-base-bg">Rating</h3>
         <div
           className={
             isMobile
