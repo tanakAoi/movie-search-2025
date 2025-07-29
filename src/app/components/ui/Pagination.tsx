@@ -7,7 +7,7 @@ interface PaginationProps {
   page: number;
   totalPages: number;
   query?: string;
-  type?: "search" | "genre" | "keyword" | "person" | "company";
+  type?: "search" | "genre" | "keyword" | "person" | "company" | "country";
   id?: string;
 }
 
@@ -48,6 +48,9 @@ export const Pagination = ({
       }
       if (type === "company") {
         router.push(`/company/${id}?page=${newPage}`);
+      }
+      if (type === "country") {
+        router.push(`/movie/country/${id}?page=${newPage}`);
       }
     }
   };
@@ -164,6 +167,9 @@ export const Pagination = ({
             className="rotate-180"
           />
         </button>
+      </div>
+      <div className="sm:hidden block text-center text-xs text-base-bg/60 mt-2">
+        (Total: {totalPages} pages)
       </div>
     </div>
   );

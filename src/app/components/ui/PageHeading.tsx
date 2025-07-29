@@ -3,6 +3,8 @@
 import { Quote } from "@/app/components/movie-details/Quote";
 import StarryBackground from "@/app/components/decor/StarryBackground";
 import Image from "next/image";
+import { useRegion } from "@/context/RegionContext";
+import { CountryFlag } from "./icons/CountryFlag";
 
 interface PageHeadingProps {
   title: string;
@@ -13,11 +15,11 @@ interface PageHeadingProps {
     | "keyword"
     | "person"
     | "company"
+    | "country"
     | "no-results";
   tagline?: string;
   subtitle?: string;
   description?: string;
-  pageInfo?: { page: number; totalPages: number };
   imageUrl?: string;
 }
 
@@ -27,9 +29,10 @@ export const PageHeading = ({
   type,
   subtitle,
   description,
-  pageInfo,
   imageUrl,
 }: PageHeadingProps) => {
+  const { countriesList } = useRegion();
+
   return (
     <div
       className={`px-8 py-18 md:py-24 relative w-full flex flex-col items-center justify-center text-base-bg z-10 gap-4 ${
@@ -66,15 +69,21 @@ export const PageHeading = ({
         </div>
       )}
 
-      <h1 className="text-4xl md:text-6xl font-bold text-center capitalize">
-        {type === "search" || type === "no-results" ? `"${title}"` : title}
-      </h1>
+      {type === "country" && <CountryFlag code={title} size={80} />}
 
-      {pageInfo && (
-        <p className="text-lg">
-          (page {pageInfo.page} of {pageInfo.totalPages})
-        </p>
-      )}
+      <h1
+        className={`text-4xl md:text-6xl font-bold text-center capitalize ${
+          type === "country" ? "uppercase" : ""
+        }`}
+      >
+        {type === "search" || type === "no-results"
+          ? `"${title}"`
+          : type === "country"
+          ? countriesList?.find((c) => c.iso_3166_1 === title)?.native_name ||
+            countriesList?.find((c) => c.iso_3166_1 === title)?.english_name ||
+            title
+          : title}
+      </h1>
 
       {description && (
         <p className="text-base text-center max-w-xl">{description}</p>

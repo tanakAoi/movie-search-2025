@@ -130,3 +130,31 @@ export const getMoviesByCompany = async (
     throw error;
   }
 };
+
+export const getMoviesByCountry = async (
+  countryCode: string,
+  lang: string,
+  page: number
+) => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/movie/discover?country=${countryCode}&lang=${lang}&page=${page}`,
+      {
+        next: { revalidate: 300 },
+      }
+    );
+    if (!response.ok) {
+      const text = await response.text();
+      console.error(
+        `Failed to fetch movies with country ${countryCode}:`,
+        response.status,
+        text
+      );
+      throw new Error(`Failed to fetch movies with country ${countryCode}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error(`Error fetching movies with country ${countryCode}:`, error);
+    throw error;
+  }
+};
