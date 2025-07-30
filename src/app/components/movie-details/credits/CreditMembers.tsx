@@ -5,6 +5,7 @@ import { PersonCard } from "./PersonCard";
 import { useState } from "react";
 import { ChevronLeft } from "@/app/components/ui/icons/MaterialSymbols";
 import { motion } from "motion/react";
+import { MotionLink } from "../../ui/MotionLink";
 
 interface CreditMembersProps {
   type: "cast" | "crew";
@@ -32,7 +33,8 @@ export const CreditMembers = ({ type, members }: CreditMembersProps) => {
       {isOpen && (
         <div className="flex flex-col gap-5">
           {members.map((member, index) => (
-            <motion.div
+            <MotionLink
+              href={`/person/${member.id}`}
               key={`${type}-${member.id}-${member.name}`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -47,7 +49,7 @@ export const CreditMembers = ({ type, members }: CreditMembersProps) => {
                     : (member as { job: string }).job
                 }
               />
-            </motion.div>
+            </MotionLink>
           ))}
         </div>
       )}

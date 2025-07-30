@@ -26,12 +26,7 @@ export const CastsList = ({ cast }: { cast: ICredit["cast"] }) => {
       </div>
       {isOpen && (
         <>
-          <div
-            className="grid gap-4"
-            style={{
-              gridTemplateColumns: "repeat(auto-fit, minmax(91px, 1fr))",
-            }}
-          >
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(91px,1fr))] gap-4">
             {cast.slice(0, 8).map((cast) => (
               <motion.a
                 href={`/person/${cast.id}`}
