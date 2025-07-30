@@ -157,7 +157,7 @@ export const ModalEditor = ({
         </form>
       </div>
       {activeSelector && (
-        <div className="bg-base-bg px-6 py-8 w-[300px] max-h-[90vh] overflow-auto animate-fade-in">
+        <div className="bg-base-bg px-6 py-8 w-full h-full md:w-[300px] md:max-h-[90vh] overflow-auto animate-fade-in">
           {activeSelector === "country" ? (
             <CountrySelector
               countriesList={countriesList ?? []}
