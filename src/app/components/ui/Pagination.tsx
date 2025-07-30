@@ -53,6 +53,8 @@ export const Pagination = ({
         router.push(`/movie/country/${id}?page=${newPage}`);
       }
     }
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const renderPageNumbers = () => {
