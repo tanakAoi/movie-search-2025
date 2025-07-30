@@ -17,6 +17,7 @@ const nextConfig: NextConfig = {
     minimumCacheTTL: 259200,
     unoptimized: true,
   },
+  allowedDevOrigins: ["http://192.168.10.103:3000"],
 };
 
 export default nextConfig;

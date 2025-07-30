@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 type CountryFlagProps = {
   code: string;
   name?: string;
@@ -14,11 +16,14 @@ export const CountryFlag = ({ code, name, size = 50 }: CountryFlagProps) => {
         className="rounded-sm overflow-hidden aspect-[5/3]"
         style={{ width: `${size}px` }}
       >
-        <img
+        <Image
+          width={size}
+          height={size}
           src={flagUrl}
           alt={`${code} flag`}
           className="w-full h-full object-cover"
           loading="lazy"
+          unoptimized
         />
       </div>
       {name && (

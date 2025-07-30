@@ -21,11 +21,7 @@ export const ProductionCountries = ({
         {countries.map((country) => {
           const code = country.iso_3166_1;
           const countryName =
-            code === "US"
-              ? "USA"
-              : code === "GB"
-              ? "UK"
-              : countriesList?.find((c) => c.iso_3166_1 === code)
+             countriesList?.find((c) => c.iso_3166_1 === code)
                   ?.native_name ||
                 countriesList?.find((c) => c.iso_3166_1 === code)?.english_name;
           if (!countryName) return null;

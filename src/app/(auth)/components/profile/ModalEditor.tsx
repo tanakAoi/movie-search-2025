@@ -3,10 +3,13 @@ import { DefaultButton } from "../../../components/ui/DefaultButton";
 import { Close } from "@/app/components/ui/icons/MaterialSymbols";
 import { Avatar } from "../ui/Avatar";
 import { useRegion } from "@/context/RegionContext";
-import { ICountry, ILanguage } from "@/types/tmdb";
+import { ICountry } from "@/types/tmdb";
 import { useState } from "react";
 import { fetchCountries, updateProfile } from "@/services/profileService";
 import Cookies from "js-cookie";
+import { CountrySelector } from "./CountrySelector";
+import { LanguageSelector } from "./LanguageSelector";
+import { SelectedItem } from "./SelectedItem";
 
 export const ModalEditor = ({
   userData,
@@ -24,9 +27,12 @@ export const ModalEditor = ({
     languagesList,
     setCurrentCountry,
     setCurrentLanguage,
+    setCountriesList,
   } = useRegion();
   const [newUserData, setNewUserData] = useState<UserProfile>(userData);
-  const { setCountriesList } = useRegion();
+  const [activeSelector, setActiveSelector] = useState<
+    "country" | "language" | null
+  >(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -35,16 +41,6 @@ export const ModalEditor = ({
 
     if (name === "username") {
       setNewUserData((prev) => ({ ...prev, username: value }));
-    } else if (name === "language") {
-      const selectedLang = languagesList?.find(
-        (lang) => lang.name === value || lang.english_name === value
-      );
-      setNewUserData((prev) => ({ ...prev, language: selectedLang }));
-    } else if (name === "country") {
-      const selectedCountry = countriesList?.find(
-        (c) => c.native_name === value || c.english_name === value
-      );
-      setNewUserData((prev) => ({ ...prev, country: selectedCountry }));
     }
   };
 
@@ -99,7 +95,7 @@ export const ModalEditor = ({
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-      <div className="bg-base-bg rounded-lg px-10 py-12 shadow-lg max-w-2xl w-full max-h-[90vh] overflow-auto relative">
+      <div className="bg-base-bg rounded-lg px-10 py-12 shadow-lg max-w-2xl w-full max-h-[90vh] overflow-auto relative transition-all duration-300">
         <button
           aria-label="Close"
           onClick={onClose}
@@ -140,60 +136,19 @@ export const ModalEditor = ({
               onChange={(e) => handleChange(e)}
             />
           </div>
-          <div>
-            <label htmlFor="country">Country</label>
-            <select
-              id="country"
-              name="country"
-              defaultValue={
-                userData?.country?.native_name
-                  ? userData.country.native_name
-                  : userData.country?.english_name
-              }
-              className="w-full p-2 rounded-md text-base-fg/80"
-              onChange={(e) => handleChange(e)}
-            >
-              <option value="">Select country</option>
-              {countriesList?.map((country: ICountry) => (
-                <option
-                  key={country.iso_3166_1}
-                  value={
-                    country.native_name
-                      ? country.native_name
-                      : country.english_name
-                  }
-                >
-                  {country.native_name
-                    ? country.native_name
-                    : country.english_name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label htmlFor="language">Language</label>
-            <select
-              id="language"
-              name="language"
-              defaultValue={
-                userData?.language?.name
-                  ? userData.language.name
-                  : userData?.language?.english_name
-              }
-              className="w-full p-2 rounded-md text-base-fg/80"
-              onChange={(e) => handleChange(e)}
-            >
-              <option value="">Select language</option>
-              {languagesList?.map((language: ILanguage) => (
-                <option
-                  key={language.iso_639_1}
-                  value={language.name ? language.name : language.english_name}
-                >
-                  {language.name ? language.name : language.english_name}
-                </option>
-              ))}
-            </select>
-          </div>
+          <SelectedItem
+            label="Country"
+            value={
+              newUserData?.country?.native_name ||
+              newUserData?.country?.english_name
+            }
+            onClick={() => setActiveSelector("country")}
+          />
+          <SelectedItem
+            label="Language"
+            value={newUserData?.language?.english_name}
+            onClick={() => setActiveSelector("language")}
+          />
           <DefaultButton
             text="Save"
             onClick={() => handleSubmit()}
@@ -201,6 +156,32 @@ export const ModalEditor = ({
           />
         </form>
       </div>
+      {activeSelector && (
+        <div className="bg-base-bg px-6 py-8 w-[300px] max-h-[90vh] overflow-auto animate-fade-in">
+          {activeSelector === "country" ? (
+            <CountrySelector
+              countriesList={countriesList ?? []}
+              onSelect={(country) => {
+                setNewUserData((prev) => ({
+                  ...prev,
+                  country,
+                }));
+                setActiveSelector(null);
+              }}
+              onCancel={() => setActiveSelector(null)}
+            />
+          ) : (
+            <LanguageSelector
+              languagesList={languagesList ?? []}
+              onSelect={(language) => {
+                setNewUserData((prev) => ({ ...prev, language }));
+                setActiveSelector(null);
+              }}
+              onCancel={() => setActiveSelector(null)}
+            />
+          )}
+        </div>
+      )}
     </div>
   );
 };

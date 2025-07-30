@@ -38,7 +38,7 @@ export const MainCrews = ({ crews }: MainCrewsProps) => {
                         className="rounded-full object-cover aspect-square"
                       />
                     ) : (
-                      <div className="w-[50px] h-[50px] bg-accent-bg rounded-full flex items-center justify-center">
+                      <div className="w-[50px] h-[50px] aspect-square bg-accent-bg rounded-full flex items-center justify-center">
                         <span className="text-xs">{person.name.charAt(0)}</span>
                       </div>
                     )}
