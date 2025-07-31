@@ -20,7 +20,7 @@ export const Favorites = () => {
         {favorites.length > 0 ? (
           <MovieGrid movies={favorites.map((item) => item.Movie)} />
         ) : (
-          <div className="flex flex-col items-center justify-center h-64">
+          <div className="flex flex-col items-center justify-center h-screen">
             <p>Your favorites list is empty.</p>
           </div>
         )}
