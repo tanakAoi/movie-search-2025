@@ -1,6 +1,10 @@
 import { siteConfig } from "@/lib/config";
 import Link from "next/link";
-import { AccountCircle } from "../ui/icons/MaterialSymbols";
+import {
+  AccountCircle,
+  Favorite,
+  Watchlist,
+} from "../ui/icons/MaterialSymbols";
 import { SearchForm } from "../search/SearchForm";
 import { RegionModal } from "@/app/components/ui/RegionModal";
 import { LinkIcon } from "../ui/LinkIcon";
@@ -15,6 +19,12 @@ export const Header = () => {
         <div className="flex items-center gap-4">
           <SearchForm isHeader />
           <RegionModal />
+          <LinkIcon href="/watchlist" srText="Watchlist">
+            <Watchlist width={24} height={24} fill={"var(--color-base-bg)"} />
+          </LinkIcon>
+          <LinkIcon href="/favorites" srText="Favorites">
+            <Favorite width={24} height={24} fill={"var(--color-base-bg)"} />
+          </LinkIcon>
           <LinkIcon href="/profile" srText="Profile">
             <AccountCircle
               width={24}

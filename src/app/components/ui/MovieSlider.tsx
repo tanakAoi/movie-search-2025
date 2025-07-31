@@ -100,7 +100,7 @@ export const MovieSlider = ({
                   />
                 ) : (
                   <div
-                    className={`text-base-bg w-full h-full flex items-center justify-center rounded-lg text-center ${
+                    className={`text-base-bg w-full h-full flex items-center justify-center rounded-lg text-center px-4 ${
                       type === "small" && "bg-accent-bg/90"
                     }`}
                   >

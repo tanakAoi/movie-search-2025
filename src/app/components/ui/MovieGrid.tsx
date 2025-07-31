@@ -1,11 +1,12 @@
 "use client";
 
 import { IMovie } from "@/types/tmdb";
+import { IListMovie } from "@/types/list-item";
 import Image from "next/image";
 import { MotionLink } from "./MotionLink";
 import { motion } from "motion/react";
 
-export const MovieGrid = ({ movies }: { movies: IMovie[] }) => {
+export const MovieGrid = ({ movies }: { movies: IMovie[] | IListMovie[] }) => {
   const titleVariants = {
     initial: { scale: 1, fontWeight: "400" },
     hover: {
@@ -69,7 +70,8 @@ export const MovieGrid = ({ movies }: { movies: IMovie[] }) => {
             variants={titleVariants}
           >
             {movie.title}
-            {movie.release_date &&
+            {"release_date" in movie &&
+              movie.release_date &&
               ` (${new Date(movie.release_date).getFullYear()})`}
           </motion.h3>
         </MotionLink>

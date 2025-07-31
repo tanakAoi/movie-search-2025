@@ -7,6 +7,8 @@ import { RatingList } from "./RatingList";
 import { MovieKeywords } from "./MovieKeywords";
 import { getRegionFromCookies } from "@/lib/getRegionFromCookies";
 import { getMovieKeywords } from "@/services/specificMovieService";
+import { WatchlistButton } from "../ui/WatchlistButton";
+import { FavoriteButton } from "../ui/FavoriteButton";
 
 type MainSectionProps = {
   movie: IMovieDetails;
@@ -48,7 +50,21 @@ export const MainSection = async ({
           isReleased={isMovieReleased}
           variant="desktop"
         />
-        {movie.trailer?.key && <TrailerModal trailerKey={movie.trailer.key} />}
+        <div className="flex items-center gap-6">
+          {movie.trailer?.key && (
+            <TrailerModal trailerKey={movie.trailer.key} />
+          )}
+          <WatchlistButton
+            movieId={movie.id.toString()}
+            title={movie.title}
+            posterPath={movie.poster_path ?? ""}
+          />
+          <FavoriteButton
+            movieId={movie.id.toString()}
+            title={movie.title}
+            posterPath={movie.poster_path ?? ""}
+          />
+        </div>
         <MovieDescription movie={movie} />
       </div>
     </div>

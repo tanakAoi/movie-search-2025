@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDiscoverMovies } from "@/lib/controllers/movieController";
-import { DiscoverMovieOptions } from "@/types/discoverParams";
+import { DiscoverMovieOptions } from "@/types/discover-params";
 
 export async function GET(req: NextRequest) {
   try {
