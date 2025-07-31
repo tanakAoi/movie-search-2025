@@ -1,4 +1,4 @@
-import { DiscoverMovieOptions } from "@/types/discoverParams";
+import { DiscoverMovieOptions } from "@/types/discover-params";
 import { tmdbFetch } from "../tmdbFetcher";
 
 export const getPopularMovies = async (lang: string, country: string) => {

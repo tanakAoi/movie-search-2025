@@ -95,7 +95,7 @@ export const ModalEditor = ({
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-      <div className="bg-base-bg rounded-lg px-10 py-12 shadow-lg max-w-2xl w-full max-h-[90vh] overflow-auto relative transition-all duration-300">
+      <div className="bg-base-bg px-10 py-12 shadow-lg max-w-2xl w-full h-full md:max-h-[90vh] overflow-auto relative transition-all duration-300">
         <button
           aria-label="Close"
           onClick={onClose}
@@ -157,7 +157,7 @@ export const ModalEditor = ({
         </form>
       </div>
       {activeSelector && (
-        <div className="bg-base-bg px-6 py-8 w-full h-full md:w-[300px] md:max-h-[90vh] overflow-auto animate-fade-in">
+        <div className="bg-base-bg px-6 py-8 w-full h-full md:w-[300px] md:max-h-[90vh] overflow-auto animate-fade-in absolute md:relative">
           {activeSelector === "country" ? (
             <CountrySelector
               countriesList={countriesList ?? []}
