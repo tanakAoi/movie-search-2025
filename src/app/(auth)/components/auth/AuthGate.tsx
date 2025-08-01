@@ -23,11 +23,18 @@ export default function AuthGate() {
         <li>Profile Settings</li>
         <li>Your Watchlist</li>
       </ul>
-      <DefaultButton
-        text="Login with Google"
-        onClick={() => signIn("google")}
-        className="mt-4"
-      />
+      <div>
+        <DefaultButton
+          text="Login with Google"
+          onClick={() => signIn("google")}
+          className="mt-4"
+        />
+        <DefaultButton
+          text="Login with Email"
+          onClick={() => signIn("email")}
+          className="mt-4"
+        />
+      </div>
     </div>
   );
 }

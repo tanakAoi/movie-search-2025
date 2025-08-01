@@ -15,12 +15,18 @@ export function useAuthToast() {
     }
 
     if (status === "unauthenticated") {
-      toast.info("You have logged out.");
-      Object.keys(localStorage).forEach((key) => {
-        if (key.startsWith("login-toast-shown-")) {
-          localStorage.removeItem(key);
-        }
-      });
+      const logoutToastKey = "logout-toast-shown";
+      if (!localStorage.getItem(logoutToastKey)) {
+        toast.info("You have logged out.");
+        localStorage.setItem(logoutToastKey, "true");
+        Object.keys(localStorage).forEach((key) => {
+          if (key.startsWith("login-toast-shown-")) {
+            localStorage.removeItem(key);
+          }
+        });
+      }
+    } else {
+      localStorage.removeItem("logout-toast-shown");
     }
   }, [session, status]);
 }
