@@ -31,10 +31,8 @@ export const AddMovieToWatchlist = async (movieData: {
     const data = await response.json();
 
     if (!response.ok) {
-      throw {
-        status: response.status,
-        message: data?.error ?? "Unknown error",
-      };
+      const errorMsg = data?.error ?? "Unknown error";
+      throw new Error(`${response.status}: ${errorMsg}`);
     }
 
     return data;
@@ -100,12 +98,10 @@ export const AddMovieToFavorites = async (movieData: {
     const data = await response.json();
 
     if (!response.ok) {
-      throw {
-        status: response.status,
-        message: data?.error ?? "Unknown error",
-      };
+      const errorMsg = data?.error ?? "Unknown error";
+      throw new Error(`${response.status}: ${errorMsg}`);
     }
-
+    
     return data;
   } catch (error) {
     console.error(`Error updating watchlist:`, error);
