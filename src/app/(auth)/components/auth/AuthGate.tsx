@@ -1,21 +1,13 @@
 "use client";
 
 import { signIn, useSession } from "next-auth/react";
-import { UserSettings } from "../profile/UserSettings";
 import { DefaultButton } from "../../../components/ui/DefaultButton";
-import { useEffect, useRef } from "react";
-import { toast } from "sonner";
+import { UserSettings } from "../profile/UserSettings";
+import { useAuthToast } from "@/hooks/useAuthToast";
 
 export default function AuthGate() {
-  const { data: session, status } = useSession();
-  const hasShownToast = useRef(false);
-
-  useEffect(() => {
-    if (status === "authenticated" && session?.user && !hasShownToast.current) {
-      toast.success(`Welcome, ${session.user.username ?? "user"}!`);
-      hasShownToast.current = true;
-    }
-  }, [session, status]);
+  const { data: session } = useSession();
+  useAuthToast();
 
   if (session && session.user.id) {
     return <UserSettings userId={session.user.id} />;
