@@ -1,9 +1,10 @@
 "use client";
 
+import { LoginForm } from "@/app/components/login/LoginForm";
 import { Watchlist } from "../components/ui/Watchlist";
-import { DefaultButton } from "@/app/components/ui/DefaultButton";
 import { useAuthToast } from "@/hooks/useAuthToast";
-import { signIn, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
+import StarryBackground from "@/app/components/decor/StarryBackground";
 
 export default function WatchlistPage() {
   const { data: session } = useSession();
@@ -11,13 +12,10 @@ export default function WatchlistPage() {
 
   if (!session || !session.user?.id) {
     return (
-      <div className="flex flex-col items-center justify-center gap-4 min-h-screen">
-        <p>Please login to view your watchlist 🎬</p>
-        <DefaultButton
-          text="Login with Google"
-          onClick={() => signIn("google")}
-          className="mt-4"
-        />
+      <div className="flex flex-col items-center justify-center gap-4 min-h-screen relative text-base-bg">
+        <StarryBackground />
+        <p className="font-semibold">Please login to view your watchlist 🎬</p>
+        <LoginForm />
       </div>
     );
   }

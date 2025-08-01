@@ -23,6 +23,10 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
+  pages: {
+    signIn: "/auth/signin",
+    verifyRequest: "/auth/verify",
+  },
   events: {
     async createUser({ user }) {
       await prisma.user.update({

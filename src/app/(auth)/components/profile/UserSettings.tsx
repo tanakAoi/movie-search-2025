@@ -65,9 +65,9 @@ export const UserSettings = ({ userId }: { userId: string }) => {
           onClose={() => setShowModal(false)}
         />
       )}
-      <div className="flex flex-col w-fit h-full justify-center gap-12">
+      <div className="flex flex-col h-full justify-center gap-12 bg-base-bg md:p-10 px-6 py-10 rounded-lg shadow-2xl shadow-base-bg/20 text-base-fg md:w-xl w-[90vw]">
         <h1 className="text-4xl font-lobster">User Settings</h1>
-        <div className="flex flex-col md:flex-row items-start justify-between gap-12">
+        <div className="flex flex-col md:flex-row items-start justify-center gap-12">
           <Avatar name={user.username} image={user.avatar} size={96} />
           <div className="flex flex-col gap-6 **:[h3]:text-lg **:[h3]:font-semibold">
             <div>

@@ -1,4 +1,5 @@
 import { Resend } from "resend";
+import { magicLinkEmail } from "./templates/magicLinkEmail";
 
 export const sendVerificationRequest = async ({
   identifier,
@@ -11,14 +12,15 @@ export const sendVerificationRequest = async ({
 }) => {
   const resend = new Resend(process.env.RESEND_API_KEY!);
 
+  const html = magicLinkEmail({
+    url,
+  });
+
   const response = await resend.emails.send({
     from,
     to: identifier,
     subject: "Sign in to your account",
-    html: `
-      <p>Click the link below to sign in:</p>
-      <p><a href="${url}"><b>Sign in</b></a></p>
-    `,
+    html,
   });
 
   if (response.error) {
