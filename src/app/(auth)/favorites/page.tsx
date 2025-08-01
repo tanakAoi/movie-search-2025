@@ -10,7 +10,7 @@ export default function FavoritesPage() {
   useAuthToast();
   if (!session || !session.user?.id) {
     return (
-      <div className="flex flex-col items-center justify-center gap-4 h-screen">
+      <div className="flex flex-col items-center justify-center gap-4 min-h-screen">
         <p>Please login to view your favorites 📌</p>
         <DefaultButton
           text="Login with Google"
