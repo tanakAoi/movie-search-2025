@@ -2,6 +2,8 @@ import GoogleProvider from "next-auth/providers/google";
 import type { NextAuthOptions } from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "../db/prisma";
+import EmailProvider from "next-auth/providers/email";
+import { sendVerificationRequest } from "./sendVerificationRequest";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -9,6 +11,16 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
+    EmailProvider({
+      from: process.env.EMAIL_FROM!,
+      sendVerificationRequest: async ({ identifier, url }) => {
+        await sendVerificationRequest({
+          identifier,
+          url,
+          from: process.env.EMAIL_FROM!,
+        });
+      },
     }),
   ],
   events: {
