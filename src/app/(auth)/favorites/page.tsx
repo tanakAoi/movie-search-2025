@@ -3,10 +3,11 @@
 import { DefaultButton } from "@/app/components/ui/DefaultButton";
 import { signIn, useSession } from "next-auth/react";
 import { Favorites } from "../components/ui/Favorites";
+import { useAuthToast } from "@/hooks/useAuthToast";
 
 export default function FavoritesPage() {
   const { data: session } = useSession();
-
+  useAuthToast();
   if (!session || !session.user?.id) {
     return (
       <div className="flex flex-col items-center justify-center gap-4 h-screen">

@@ -2,10 +2,12 @@
 
 import { Watchlist } from "../components/ui/Watchlist";
 import { DefaultButton } from "@/app/components/ui/DefaultButton";
+import { useAuthToast } from "@/hooks/useAuthToast";
 import { signIn, useSession } from "next-auth/react";
 
 export default function WatchlistPage() {
   const { data: session } = useSession();
+  useAuthToast();
 
   if (!session || !session.user?.id) {
     return (
