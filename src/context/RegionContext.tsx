@@ -57,6 +57,8 @@ export const RegionProvider: FC<{ children: ReactNode }> = ({ children }) => {
   useEffect(() => {
     const langCookie = Cookies.get("userLanguage");
     const countryCookie = Cookies.get("userCountry");
+    console.log("Language Cookie:", langCookie);
+    console.log("Country Cookie:", countryCookie);
 
     const fetchAndSetLanguages = async () => {
       try {

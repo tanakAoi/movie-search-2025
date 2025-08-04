@@ -26,6 +26,7 @@ export const LoginForm = () => {
       toast.error("Failed to send login link.");
     }
   };
+
   return (
     <div className="bg-base-bg text-base-fg px-5 py-12 md:p-10 rounded-lg shadow-2xl shadow-base-bg/20 text-center my-10">
       <span className="text-4xl inline-block font-bold mb-4 font-lobster">
@@ -48,6 +49,12 @@ export const LoginForm = () => {
           />
           <DefaultButton text="Login with Email" onClick={handleEmailSignIn} />
         </div>
+        <span>or</span>
+        <DefaultButton
+          text="Login as Guest"
+          onClick={() => signIn("guest")}
+          className="w-full"
+        />
       </div>
     </div>
   );

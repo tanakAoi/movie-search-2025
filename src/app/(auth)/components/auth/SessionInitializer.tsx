@@ -14,22 +14,23 @@ export function SessionInitializer() {
 
   useEffect(() => {
     const run = async () => {
+      const hasRequiredProfile =
+        session?.user?.country && session?.user?.language;
+
       if (!ranOnce.current && session?.user) {
-        if (!session.user.country || !session.user.language) {
-          if (session.user.id) {
-            await updateProfile(session.user.id, {
-              country: currentCountry ?? undefined,
-              language: currentLanguage ?? undefined,
-            });
-          }
+        if (!hasRequiredProfile && session.user.id) {
+          await updateProfile(session.user.id, {
+            country: currentCountry ?? undefined,
+            language: currentLanguage ?? undefined,
+          });
         }
+
         ranOnce.current = true;
         setProfileReady(true);
       } else if (session?.user) {
         setProfileReady(true);
       }
     };
-
     run();
   }, [session, currentCountry, currentLanguage, setProfileReady]);
 

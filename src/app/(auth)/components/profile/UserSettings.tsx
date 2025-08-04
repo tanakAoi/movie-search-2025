@@ -48,7 +48,11 @@ export const UserSettings = ({ userId }: { userId: string }) => {
   }, [userId, profileReady, sessionStatus]);
 
   if (loading) {
-    return <Loading />;
+    return (
+      <div className="rounded-lg md:w-xl w-[90vw]">
+        <Loading />
+      </div>
+    );
   }
 
   if (!user) {

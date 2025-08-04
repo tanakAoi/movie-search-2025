@@ -4,6 +4,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "../db/prisma";
 import EmailProvider from "next-auth/providers/email";
 import { sendVerificationRequest } from "./sendVerificationRequest";
+import CredentialsProvider from "next-auth/providers/credentials";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -22,10 +23,40 @@ export const authOptions: NextAuthOptions = {
         });
       },
     }),
+    CredentialsProvider({
+      id: "guest",
+      name: "Guest Login",
+      credentials: {},
+      async authorize() {
+        const guestEmail = "guest@example.com";
+
+        let user = await prisma.user.findUnique({
+          where: { email: guestEmail },
+        });
+
+        if (!user) {
+          user = await prisma.user.create({
+            data: {
+              email: guestEmail,
+              name: "Guest User",
+              username: "guest",
+              avatar: null,
+            },
+          });
+        }
+
+        return {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          image: user.image ?? null,
+        };
+      },
+    }),
   ],
   pages: {
     signIn: "/auth/signin",
-    verifyRequest: "/auth/verify",
+    verifyRequest: "/verify",
   },
   events: {
     async createUser({ user }) {
@@ -38,14 +69,27 @@ export const authOptions: NextAuthOptions = {
       });
     },
   },
+  session: {
+    strategy: "jwt",
+  },
   callbacks: {
-    async session({ session, user }) {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.username = user.username ?? null;
+        token.country = user.country ?? null;
+        token.avatar = user.avatar ?? user.image ?? null;
+        token.language = user.language ?? null;
+      }
+      return token;
+    },
+    async session({ session, token }) {
       if (session.user) {
-        session.user.id = user.id;
-        session.user.username = user.username ?? null;
-        session.user.country = user.country ?? null;
-        session.user.avatar = user.avatar ?? user.image ?? null;
-        session.user.language = user.language ?? null;
+        session.user.id = token.id as string;
+        session.user.username = token.username as string | null;
+        session.user.country = token.country as string | null;
+        session.user.avatar = token.avatar as string | null;
+        session.user.language = token.language as string | null;
       }
       return session;
     },

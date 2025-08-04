@@ -4,12 +4,17 @@ import { useSession } from "next-auth/react";
 import { UserSettings } from "../profile/UserSettings";
 import { useAuthToast } from "@/hooks/useAuthToast";
 import { LoginForm } from "@/app/components/login/LoginForm";
+import Loading from "@/app/loading";
 
 export default function AuthGate() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   useAuthToast();
 
-  if (session && session.user.id) {
+  if (status === "loading") {
+    return <Loading />;
+  }
+
+  if (session?.user?.id) {
     return <UserSettings userId={session.user.id} />;
   }
 
