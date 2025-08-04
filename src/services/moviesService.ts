@@ -93,3 +93,20 @@ export const getKeywordDetails = async (id: string, lang: string) => {
     throw error;
   }
 }
+
+export const getMovieProviders = async (id: number, country: string) => {
+  try {
+    const response = await fetch(`${BASE_URL}/movie/${id}/providers?country=${country}`, {
+      next: { revalidate: 300 },
+    });
+    if (!response.ok) {
+      const text = await response.text();
+      console.error(`Failed to fetch providers for movie ${id}:`, response.status, text);
+      throw new Error(`Failed to fetch providers for movie ${id}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error(`Error fetching providers for movie ${id}:`, error);
+    throw error;
+  }
+}

@@ -1,4 +1,4 @@
-import { IMovieDetails, IMovieKeywords } from "@/types/tmdb";
+import { IMovieDetails, IMovieKeywords, IMovieProvider } from "@/types/tmdb";
 import { PosterImage } from "./PosterImage";
 import { BasicInfo } from "./BasicInfo";
 import { MovieDescription } from "./MovieDescription";
@@ -9,6 +9,7 @@ import { getRegionFromCookies } from "@/lib/getRegionFromCookies";
 import { getMovieKeywords } from "@/services/specificMovieService";
 import { WatchlistButton } from "../ui/WatchlistButton";
 import { FavoriteButton } from "../ui/FavoriteButton";
+import { getMovieProviders } from "@/services/moviesService";
 
 type MainSectionProps = {
   movie: IMovieDetails;
@@ -19,8 +20,10 @@ export const MainSection = async ({
   movie,
   isMovieReleased,
 }: MainSectionProps) => {
-  const { language } = await getRegionFromCookies();
+  const { language, country } = await getRegionFromCookies();
+
   const keywords: IMovieKeywords = await getMovieKeywords(movie.id, language);
+  const providers: IMovieProvider = await getMovieProviders(movie.id, country);
 
   return (
     <div className="grid md:grid-cols-2 gap-10 lg:gap-0">
@@ -65,7 +68,7 @@ export const MainSection = async ({
             posterPath={movie.poster_path ?? ""}
           />
         </div>
-        <MovieDescription movie={movie} />
+        <MovieDescription movie={movie} providers={providers} />
       </div>
     </div>
   );

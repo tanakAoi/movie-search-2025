@@ -1,17 +1,22 @@
 "use client";
 
-import { IMovieDetails } from "@/types/tmdb";
+import { IMovieDetails, IMovieProvider } from "@/types/tmdb";
 import { ProductionCompanies } from "./movie-description/ProductionCompanies";
 import { MainCrews } from "./movie-description/MainCrews";
 import { MovieGenres } from "./movie-description/MovieGenres";
 import { ProductionCountries } from "./movie-description/ProductionCountries";
 import { Overview } from "./movie-description/Overview";
+import { MovieProviders } from "./MovieProviders";
 
 type MovieDescriptionProps = {
   movie: IMovieDetails;
+  providers?: IMovieProvider;
 };
 
-export const MovieDescription = ({ movie }: MovieDescriptionProps) => {
+export const MovieDescription = ({
+  movie,
+  providers,
+}: MovieDescriptionProps) => {
   return (
     <div className="flex flex-col gap-10">
       {movie.credits.crew.length > 0 && (
@@ -24,6 +29,7 @@ export const MovieDescription = ({ movie }: MovieDescriptionProps) => {
       {movie.production_companies.length > 0 && (
         <ProductionCompanies companies={movie.production_companies} />
       )}
+      {providers && <MovieProviders providers={providers} />}
       {movie.overview && <Overview overview={movie.overview} />}
     </div>
   );

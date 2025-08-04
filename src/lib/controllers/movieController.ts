@@ -176,3 +176,19 @@ export const getKeywordDetails = async (id: string, lang: string) => {
     throw error;
   }
 };
+
+export const getMovieProviders = async (id: number, country: string) => {
+  try {
+    const providers = await tmdbFetch(`/movie/${id}/watch/providers`);
+    const countryProviders = providers.results?.[country];
+
+    if (countryProviders) {
+      return countryProviders;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.error("Error fetching movie providers:", error);
+    throw error;
+  }
+};

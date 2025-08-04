@@ -157,3 +157,17 @@ export interface ICompany {
   origin_country: string;
   parent_company: string;
 }
+
+export interface IMovieProvider {
+  buy?: IProviderDetails[];
+  link: string;
+  flatrate?: IProviderDetails[];
+  rent?: IProviderDetails[];
+}
+
+export interface IProviderDetails {
+  logo_path: string;
+  provider_id: number;
+  provider_name: string;
+  display_priority: number;
+}
