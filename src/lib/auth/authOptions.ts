@@ -74,13 +74,29 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     async jwt({ token, user }) {
-      if (user) {
-        token.id = user.id;
-        token.username = user.username ?? null;
-        token.country = user.country ?? null;
-        token.avatar = user.avatar ?? user.image ?? null;
-        token.language = user.language ?? null;
+      const userId = user?.id ?? token.id;
+
+      if (!userId) return token;
+
+      const dbUser = await prisma.user.findUnique({
+        where: { id: userId },
+        select: {
+          id: true,
+          username: true,
+          country: true,
+          language: true,
+          avatar: true,
+        },
+      });
+
+      if (dbUser) {
+        token.id = dbUser.id;
+        token.username = dbUser.username ?? null;
+        token.country = dbUser.country ?? null;
+        token.language = dbUser.language ?? null;
+        token.avatar = dbUser.avatar ?? null;
       }
+
       return token;
     },
     async session({ session, token }) {

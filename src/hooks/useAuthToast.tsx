@@ -9,7 +9,9 @@ export function useAuthToast() {
     if (status === "authenticated" && session?.user) {
       const toastKey = `login-toast-shown-${session.user.id}`;
       if (!localStorage.getItem(toastKey)) {
-        toast.success(`Welcome, ${session.user.username ?? "user"}!`);
+        toast.success(
+          `Welcome, ${session.user.username ?? session.user.name ?? "user"}!`
+        );
         localStorage.setItem(toastKey, "true");
       }
     }
