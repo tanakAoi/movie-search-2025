@@ -14,7 +14,9 @@ export default function WatchlistPage() {
     return (
       <div className="flex flex-col items-center justify-center gap-4 min-h-screen relative text-base-bg">
         <StarryBackground />
-        <p className="font-semibold">Please login to view your watchlist 🎬</p>
+        <p className="font-semibold mt-0 md:mt-18">
+          Please login to view your watchlist 🎬
+        </p>
         <LoginForm />
       </div>
     );

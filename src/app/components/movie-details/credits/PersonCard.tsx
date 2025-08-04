@@ -9,7 +9,7 @@ type PersonCardProps = {
 export const PersonCard = ({ name, imagePath, label }: PersonCardProps) => {
   return (
     <div className="flex items-center w-full">
-      <figure className="w-[90px] h-[90px] md:w-[120px] md:h-[120px] *:rounded-full flex-shrink-0 overflow-hidden">
+      <figure className="w-[90px] h-[90px] md:w-[120px] md:h-[120px] *:rounded-full p-1 flex-shrink-0 overflow-hidden ring-2 ring-transparent group-hover:ring-base-bg/75 rounded-full transition-all duration-300">
         {imagePath ? (
           <Image
             src={`https://image.tmdb.org/t/p/w185${imagePath}`}
@@ -26,7 +26,7 @@ export const PersonCard = ({ name, imagePath, label }: PersonCardProps) => {
       </figure>
       <div className="ml-4">
         <p className="font-semibold">{name}</p>
-        <p className="text-sm text-gray-500">{label}</p>
+        <p className="text-sm text-base-bg/75">{label}</p>
       </div>
     </div>
   );

@@ -1,3 +1,4 @@
+import StarryBackground from "@/app/components/decor/StarryBackground";
 import { Container } from "@/app/components/layout/Container";
 import { CreditMembers } from "@/app/components/movie-details/credits/CreditMembers";
 import { getRegionFromCookies } from "@/lib/getRegionFromCookies";
@@ -37,12 +38,15 @@ export default async function CastPage({
   }
 
   return (
-    <Container className="flex flex-col gap-16 items-center justify-center">
-      <h1 className="text-5xl md:text-6xl font-lobster mt-4">Cast & Crew</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 w-full">
-        <CreditMembers type="cast" members={credits ? credits.cast : []} />
-        <CreditMembers type="crew" members={uniqueCrew} />
-      </div>
-    </Container>
+    <div className="relative">
+      <StarryBackground />
+      <Container className="flex flex-col gap-16 items-center justify-center text-base-bg">
+        <h1 className="text-5xl md:text-6xl font-lobster mt-4">Cast & Crew</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 w-full">
+          <CreditMembers type="cast" members={credits ? credits.cast : []} />
+          <CreditMembers type="crew" members={uniqueCrew} />
+        </div>
+      </Container>
+    </div>
   );
 }
