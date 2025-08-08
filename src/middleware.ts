@@ -4,8 +4,8 @@ import type { NextRequest } from "next/server";
 export default function middleware(req: NextRequest) {
   const res = NextResponse.next();
 
-  let country = "SE";
-  let language = "sv";
+  let country = "US";
+  let language = "en";
 
   if (process.env.VERCEL === "1") {
     country = req.headers.get("x-vercel-ip-country") || country;

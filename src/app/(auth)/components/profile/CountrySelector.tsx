@@ -1,19 +1,14 @@
-import { Close } from "@/app/components/ui/icons/MaterialSymbols";
 import { ICountry } from "@/types/tmdb";
 import { useState } from "react";
 import Image from "next/image";
+import { useRegion } from "@/context/RegionContext";
 
 type CountrySelectorProps = {
-  countriesList: ICountry[];
   onSelect: (country: ICountry) => void;
-  onCancel: () => void;
 };
 
-export const CountrySelector = ({
-  countriesList,
-  onSelect,
-  onCancel,
-}: CountrySelectorProps) => {
+export const CountrySelector = ({ onSelect }: CountrySelectorProps) => {
+  const { countriesList } = useRegion();
   const [errorMap, setErrorMap] = useState<Record<string, boolean>>({});
   const handleImageError = (code: string) => {
     setErrorMap((prev) => ({ ...prev, [code]: true }));
@@ -21,17 +16,9 @@ export const CountrySelector = ({
 
   return (
     <div className="flex flex-col gap-4 relative">
-      <button
-        aria-label="Close"
-        onClick={onCancel}
-        className="absolute -right-4 -top-4"
-        type="button"
-      >
-        <Close width={18} height={18} fill={"var(--color-base-fg)"} />
-      </button>
       <h3 className="text-lg font-semibold">Select Country</h3>
       <div className="grid grid-cols-3 gap-2">
-        {countriesList.map((country) => {
+        {countriesList?.map((country) => {
           const code = country.iso_3166_1.toLowerCase();
           const flagUrl = `https://flagcdn.com/${code}.svg`;
           const hasError = errorMap[code];
@@ -64,9 +51,6 @@ export const CountrySelector = ({
           );
         })}
       </div>
-      <button onClick={onCancel} className="text-sm mt-4 underline text-right">
-        Cancel
-      </button>
     </div>
   );
 };

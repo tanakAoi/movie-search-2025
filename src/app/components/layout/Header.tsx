@@ -6,7 +6,7 @@ import {
   Watchlist,
 } from "../ui/icons/MaterialSymbols";
 import { SearchForm } from "../search/SearchForm";
-import { RegionModal } from "@/app/components/ui/RegionModal";
+import { RegionModal } from "@/app/components/header/RegionModal";
 import { LinkIcon } from "../ui/LinkIcon";
 
 export const Header = () => {

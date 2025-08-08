@@ -2,34 +2,20 @@ import { UserProfile } from "@/types/profile";
 import { DefaultButton } from "../../../components/ui/DefaultButton";
 import { Close } from "@/app/components/ui/icons/MaterialSymbols";
 import { Avatar } from "../ui/Avatar";
-import { useRegion } from "@/context/RegionContext";
-import { ICountry } from "@/types/tmdb";
 import { useState } from "react";
-import { fetchCountries, updateProfile } from "@/services/profileService";
-import Cookies from "js-cookie";
 import { CountrySelector } from "./CountrySelector";
 import { LanguageSelector } from "./LanguageSelector";
 import { SelectedItem } from "./SelectedItem";
+import { useUserProfile } from "@/context/UserProfileContext";
+import { toast } from "sonner";
 
-export const ModalEditor = ({
-  userData,
-  setUserData,
-  setLoading,
-  onClose,
-}: {
-  userData: UserProfile;
-  setUserData: React.Dispatch<React.SetStateAction<UserProfile | null>>;
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+type ModalEditorProps = {
   onClose: () => void;
-}) => {
-  const {
-    countriesList,
-    languagesList,
-    setCurrentCountry,
-    setCurrentLanguage,
-    setCountriesList,
-  } = useRegion();
-  const [newUserData, setNewUserData] = useState<UserProfile>(userData);
+};
+
+export const ModalEditor = ({ onClose }: ModalEditorProps) => {
+  const { updateUserProfile, userData, setUserData } = useUserProfile();
+  const [newUserData, setNewUserData] = useState<UserProfile | null>(userData);
   const [activeSelector, setActiveSelector] = useState<
     "country" | "language" | null
   >(null);
@@ -40,57 +26,38 @@ export const ModalEditor = ({
     const { name, value } = e.target;
 
     if (name === "username") {
-      setNewUserData((prev) => ({ ...prev, username: value }));
+      setNewUserData((prev) => (prev ? { ...prev, username: value } : prev));
     }
   };
 
   const handleSubmit = async () => {
+    if (!userData) {
+      toast.error("User data is not available.");
+      return;
+    }
     try {
-      setLoading(true);
-
-      // Get new countryList before saving data in DB
-      if (newUserData.language?.iso_639_1) {
-        const newCountriesList = await fetchCountries(
-          newUserData.language?.iso_639_1
-        );
-        setCountriesList(newCountriesList);
-        newUserData.country = newCountriesList.find(
-          (c: ICountry) => c.iso_3166_1 === newUserData.country?.iso_3166_1
-        );
+      const success = await updateUserProfile(userData.id, newUserData ?? {});
+      if (!success) {
+        console.error("Failed to update user profile");
+        return;
       }
-
-      // Update profile in DB
-      const res = await updateProfile(userData.id, newUserData);
-
-      if (res.status === 200) {
-        // Update cookie & context
-        Cookies.set("userLanguage", newUserData.language?.iso_639_1 || "");
-        Cookies.set("userCountry", newUserData.country?.iso_3166_1 || "");
-        if (newUserData.country) {
-          setCurrentCountry(newUserData.country);
-        }
-        if (newUserData.language) {
-          setCurrentLanguage(newUserData.language);
-        }
-
-        // Update user data in state
-        setUserData((prev) =>
-          prev
-            ? {
-                ...prev,
-                username: newUserData.username,
-                country: newUserData.country,
-                language: newUserData.language,
-              }
-            : null
-        );
-      }
+      setUserData((prev) =>
+        prev && newUserData
+          ? {
+              ...prev,
+              username: newUserData.username,
+              country: newUserData.country,
+              language: newUserData.language,
+            }
+          : prev
+      );
+      toast.success("Profile updated successfully!");
     } catch (error) {
       console.error("Failed to update profile:", error);
+      toast.error("Failed to update profile");
     } finally {
-      setLoading(false);
+      onClose();
     }
-    onClose();
   };
 
   return (
@@ -107,31 +74,43 @@ export const ModalEditor = ({
         <h2 className="font-lobster text-3xl text-center">Edit Profile</h2>
         <form className="**:[input]:w-full **:[input]:outline-1 **:[input]:outline-base-fg **:[input]:p-2 **:[input]:rounded-md **:[input]:text-base-fg/80 flex flex-col gap-6 mt-4 **:[label]:inline-block **:[label]:mb-2 ">
           <div>
-            <label htmlFor="username">Avatar</label>
+            <label
+              htmlFor="username"
+              className="mb-1 block text-sm font-medium"
+            >
+              Avatar
+            </label>
             <Avatar
-              name={userData.username}
-              image={userData.avatar}
+              name={userData?.username ?? ""}
+              image={userData?.avatar}
               size={96}
             />
           </div>
           <div>
-            <label htmlFor="username">Username</label>
+            <label
+              htmlFor="username"
+              className="mb-1 block text-sm font-medium"
+            >
+              Username
+            </label>
             <input
               type="text"
               id="username"
               name="username"
-              defaultValue={userData.username}
+              defaultValue={userData?.username ?? ""}
               onChange={(e) => handleChange(e)}
             />
           </div>
           <div>
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email" className="mb-1 block text-sm font-medium">
+              Email
+            </label>
             <input
               type="email"
               id="email"
               name="email"
               disabled
-              defaultValue={userData.email}
+              defaultValue={userData?.email ?? ""}
               className="outline-none text-base-fg/80"
               onChange={(e) => handleChange(e)}
             />
@@ -146,7 +125,12 @@ export const ModalEditor = ({
           />
           <SelectedItem
             label="Language"
-            value={newUserData?.language?.english_name}
+            value={
+              newUserData?.language?.name === "?????"
+                ? newUserData?.language?.english_name
+                : newUserData?.language?.name ||
+                  newUserData?.language?.english_name
+            }
             onClick={() => setActiveSelector("language")}
           />
           <DefaultButton
@@ -158,26 +142,27 @@ export const ModalEditor = ({
       </div>
       {activeSelector && (
         <div className="bg-base-bg px-6 py-8 w-full h-full md:w-[300px] md:max-h-[90vh] overflow-auto animate-fade-in absolute md:relative">
+          <button
+            aria-label="Close"
+            onClick={() => setActiveSelector(null)}
+            className="absolute right-4 top-4"
+            type="button"
+          >
+            <Close width={18} height={18} fill={"var(--color-base-fg)"} />
+          </button>
           {activeSelector === "country" ? (
             <CountrySelector
-              countriesList={countriesList ?? []}
               onSelect={(country) => {
-                setNewUserData((prev) => ({
-                  ...prev,
-                  country,
-                }));
+                setNewUserData((prev) => (prev ? { ...prev, country } : prev));
                 setActiveSelector(null);
               }}
-              onCancel={() => setActiveSelector(null)}
             />
           ) : (
             <LanguageSelector
-              languagesList={languagesList ?? []}
               onSelect={(language) => {
-                setNewUserData((prev) => ({ ...prev, language }));
+                setNewUserData((prev) => (prev ? { ...prev, language } : prev));
                 setActiveSelector(null);
               }}
-              onCancel={() => setActiveSelector(null)}
             />
           )}
         </div>

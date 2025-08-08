@@ -4,6 +4,7 @@ import { siteConfig } from "../lib/config";
 import { RegionProvider } from "@/context/RegionContext";
 import { Providers } from "./providers";
 import { Toaster } from "sonner";
+import { UserProfileProvider } from "@/context/UserProfileContext";
 
 export const metadata: Metadata = {
   title: siteConfig.siteName,
@@ -19,7 +20,9 @@ export default function RootLayout({
     <html lang="en">
       <body className="antialiased">
         <Providers>
-          <RegionProvider>{children}</RegionProvider>
+          <RegionProvider>
+            <UserProfileProvider>{children}</UserProfileProvider>
+          </RegionProvider>
           <Toaster
             position="top-center"
             richColors

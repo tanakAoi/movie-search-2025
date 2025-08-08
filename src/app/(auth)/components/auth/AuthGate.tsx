@@ -14,8 +14,8 @@ export default function AuthGate() {
     return <Loading />;
   }
 
-  if (session?.user?.id) {
-    return <UserSettings userId={session.user.id} />;
+  if (status === "authenticated" && session?.user) {
+    return <UserSettings />;
   }
 
   return (

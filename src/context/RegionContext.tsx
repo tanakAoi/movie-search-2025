@@ -76,7 +76,13 @@ export const RegionProvider: FC<{ children: ReactNode }> = ({ children }) => {
           (l: ILanguage) => l.iso_639_1 === langCookie
         );
 
-        setCurrentLanguage(currentLang || null);
+        setCurrentLanguage(
+          currentLang || {
+            iso_639_1: "en",
+            english_name: "English",
+            name: "English",
+          }
+        );
       } catch (error) {
         console.error("Failed to load languages data", error);
       }
@@ -99,7 +105,13 @@ export const RegionProvider: FC<{ children: ReactNode }> = ({ children }) => {
         const countryData = countries.find(
           (c: ICountry) => c.iso_3166_1 === countryCookie
         );
-        setCurrentCountry(countryData || null);
+        setCurrentCountry(
+          countryData || {
+            iso_3166_1: "US",
+            english_name: "United States of America",
+            native_name: "United States",
+          }
+        );
       } catch (error) {
         console.error("Error fetching countries:", error);
       }

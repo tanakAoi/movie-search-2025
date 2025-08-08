@@ -18,6 +18,7 @@ export const LoginForm = () => {
     const result = await signIn("email", {
       email,
       redirect: false,
+      callbackUrl: window.location.href,
     });
 
     if (result?.ok) {
