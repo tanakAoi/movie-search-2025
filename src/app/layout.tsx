@@ -5,6 +5,7 @@ import { RegionProvider } from "@/context/RegionContext";
 import { Providers } from "./providers";
 import { Toaster } from "sonner";
 import { UserProfileProvider } from "@/context/UserProfileContext";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
   title: siteConfig.siteName,
@@ -19,6 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased">
+        <Analytics />
         <Providers>
           <RegionProvider>
             <UserProfileProvider>{children}</UserProfileProvider>
