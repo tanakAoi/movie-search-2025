@@ -9,7 +9,7 @@ export const getMoviesByGenre = async (
     const response = await fetch(
       `${BASE_URL}/movie/discover?genre=${genreId}&lang=${lang}&page=${page}`,
       {
-        next: { revalidate: 300 },
+        next: { revalidate: 86400 },
       }
     );
     if (!response.ok) {
@@ -37,7 +37,7 @@ export const getMoviesByPerson = async (
     const castRes = await fetch(
       `${BASE_URL}/movie/discover?cast=${personId}&lang=${lang}&page=${page}`,
       {
-        next: { revalidate: 300 },
+        next: { revalidate: 86400 },
       }
     );
     if (!castRes.ok) {
@@ -53,7 +53,7 @@ export const getMoviesByPerson = async (
     const crewRes = await fetch(
       `${BASE_URL}/movie/discover?crew=${personId}&lang=${lang}&page=${page}`,
       {
-        next: { revalidate: 300 },
+        next: { revalidate: 86400 },
       }
     );
     if (!crewRes.ok) {
@@ -84,7 +84,7 @@ export const getMoviesByKeyword = async (
     const response = await fetch(
       `${BASE_URL}/movie/discover?keyword=${keywordId}&lang=${lang}&page=${page}`,
       {
-        next: { revalidate: 300 },
+        next: { revalidate: 86400 },
       }
     );
     if (!response.ok) {
@@ -112,7 +112,7 @@ export const getMoviesByCompany = async (
     const response = await fetch(
       `${BASE_URL}/movie/discover?company=${companyId}&lang=${lang}&page=${page}`,
       {
-        next: { revalidate: 300 },
+        next: { revalidate: 86400 },
       }
     );
     if (!response.ok) {
@@ -140,7 +140,7 @@ export const getMoviesByCountry = async (
     const response = await fetch(
       `${BASE_URL}/movie/discover?country=${countryCode}&lang=${lang}&page=${page}`,
       {
-        next: { revalidate: 300 },
+        next: { revalidate: 86400 },
       }
     );
     if (!response.ok) {

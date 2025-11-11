@@ -5,7 +5,7 @@ export const getPopularMovies = async (lang: string, country: string) => {
     const response = await fetch(
       `${BASE_URL}/movie/popular?lang=${lang}&country=${country}`,
       {
-        next: { revalidate: 300 },
+        next: { revalidate: 86400 },
       }
     );
 
@@ -26,7 +26,7 @@ export const getUpcomingMovies = async (lang: string, country: string) => {
     const response = await fetch(
       `${BASE_URL}/movie/upcoming?lang=${lang}&country=${country}`,
       {
-        next: { revalidate: 300 },
+        next: { revalidate: 86400 },
       }
     );
     if (!response.ok) {
@@ -50,7 +50,7 @@ export const getMoviesByQuery = async (
     const response = await fetch(
       `${BASE_URL}/movie/search?q=${query}&page=${page}&lang=${lang}`,
       {
-        next: { revalidate: 300 },
+        next: { revalidate: 86400 },
       }
     );
     return await response.json();
@@ -79,12 +79,19 @@ export const getGenres = async (lang: string) => {
 
 export const getKeywordDetails = async (id: string, lang: string) => {
   try {
-    const response = await fetch(`${BASE_URL}/movie/keyword/${id}?lang=${lang}`, {
-      next: { revalidate: 300 },
-    });
+    const response = await fetch(
+      `${BASE_URL}/movie/keyword/${id}?lang=${lang}`,
+      {
+        next: { revalidate: 86400 },
+      }
+    );
     if (!response.ok) {
       const text = await response.text();
-      console.error(`Failed to fetch keyword details for ${id}:`, response.status, text);
+      console.error(
+        `Failed to fetch keyword details for ${id}:`,
+        response.status,
+        text
+      );
       throw new Error(`Failed to fetch keyword details for ${id}`);
     }
     return await response.json();
@@ -92,16 +99,23 @@ export const getKeywordDetails = async (id: string, lang: string) => {
     console.error(`Error fetching keyword details for ${id}:`, error);
     throw error;
   }
-}
+};
 
 export const getMovieProviders = async (id: number, country: string) => {
   try {
-    const response = await fetch(`${BASE_URL}/movie/${id}/providers?country=${country}`, {
-      next: { revalidate: 300 },
-    });
+    const response = await fetch(
+      `${BASE_URL}/movie/${id}/providers?country=${country}`,
+      {
+        next: { revalidate: 86400 },
+      }
+    );
     if (!response.ok) {
       const text = await response.text();
-      console.error(`Failed to fetch providers for movie ${id}:`, response.status, text);
+      console.error(
+        `Failed to fetch providers for movie ${id}:`,
+        response.status,
+        text
+      );
       throw new Error(`Failed to fetch providers for movie ${id}`);
     }
     return await response.json();
@@ -109,4 +123,4 @@ export const getMovieProviders = async (id: number, country: string) => {
     console.error(`Error fetching providers for movie ${id}:`, error);
     throw error;
   }
-}
+};

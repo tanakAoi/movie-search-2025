@@ -3,7 +3,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 export const getCompanyDetails = async (id: string, lang: string) => {
   try {
     const response = await fetch(`${BASE_URL}/company/${id}?lang=${lang}`, {
-      next: { revalidate: 300 },
+      next: { revalidate: 86400 },
     });
     if (!response.ok) {
       const text = await response.text();

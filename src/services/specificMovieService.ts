@@ -3,7 +3,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 export const getMovieDetails = async (id: string, lang: string) => {
   try {
     const response = await fetch(`${BASE_URL}/movie/${id}?lang=${lang}`, {
-      next: { revalidate: 300 },
+      next: { revalidate: 86400 },
     });
     return await response.json();
   } catch (error) {
@@ -17,7 +17,7 @@ export const getMovieCredits = async (id: number, lang: string) => {
     const response = await fetch(
       `${BASE_URL}/movie/${id}/credits?lang=${lang}`,
       {
-        next: { revalidate: 300 },
+        next: { revalidate: 86400 },
       }
     );
     return await response.json();
@@ -32,7 +32,7 @@ export const getSimilarMovies = async (id: number, lang: string) => {
     const response = await fetch(
       `${BASE_URL}/movie/${id}/similar?lang=${lang}`,
       {
-        next: { revalidate: 300 },
+        next: { revalidate: 86400 },
       }
     );
     if (!response.ok) {
@@ -52,7 +52,7 @@ export const getCollectionMovies = async (id: number, lang: string) => {
     const response = await fetch(
       `${BASE_URL}/movie/collection/${id}?lang=${lang}`,
       {
-        next: { revalidate: 300 },
+        next: { revalidate: 86400 },
       }
     );
     if (!response.ok) {
@@ -76,7 +76,7 @@ export const getMovieKeywords = async (id: number, lang: string) => {
     const response = await fetch(
       `${BASE_URL}/movie/${id}/keywords?lang=${lang}`,
       {
-        next: { revalidate: 300 },
+        next: { revalidate: 86400 },
       }
     );
     if (!response.ok) {
