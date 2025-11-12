@@ -1,2 +1,47 @@
+# ============================
+# General AI crawler blocking
+# ============================
+
+# OpenAI (ChatGPT, GPTBot)
+User-agent: GPTBot
+Disallow: /
+
+# Perplexity AI
+User-agent: PerplexityBot
+Disallow: /
+
+# Common Crawl (AI学習用に使用されることが多い)
+User-agent: CCBot
+Disallow: /
+
+# Google-Extended (GeminiなどGoogle AI学習用)
+User-agent: Google-Extended
+Disallow: /
+
+# Facebook / Meta AI (Llamaなど)
+User-agent: FacebookBot
+Disallow: /
+
+# Twitter / X bot
+User-agent: Twitterbot
+Disallow: /
+
+# Amazon Bot (AI系のデータ収集に使われることあり)
+User-agent: Amazonbot
+Disallow: /
+
+# ByteDance / TikTok
+User-agent: Bytespider
+Disallow: /
+
+# 🦾 Applebot (AppleのAI系サービス用)
+User-agent: Applebot
+Disallow: /
+
+# ============================
+# その他、一般クローラーの制御
+# ============================
+
+# 通常の検索エンジン（Google, Bingなど）は許可
 User-agent: *
-Disallow: /movie/
+Allow: /
